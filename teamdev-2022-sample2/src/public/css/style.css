@@ -1,0 +1,168 @@
+li {
+  list-style: none;
+}
+
+/* -----------------------------------ヘッダー共通部分------------------------------------ */
+#header {
+  background-color: rgb(64, 193, 176);
+}
+
+.corporation-link {
+  text-decoration: none;
+
+}
+
+.navbar-dark .navbar-toggler-icon {
+  /* 三本線 */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgb(236, 243, 243)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+.keep-star {
+  text-decoration: none;
+  /* display: inline-block; */
+}
+
+.circle {
+  display: inline-block;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.8rem;
+}
+
+/* ----------------------------------ヘッダー部分（fin)-------------------------------------------- */
+
+
+/* --------------------------------------------------TOPページ--------------------------------------------------*/
+/* ---------------コンテンツ部分----------------- */
+
+/* コンテンツを囲う箱クラスwrapper */
+.wrapper {
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  padding-top: 120px;
+}
+
+/* レスポンシブな文字サイズを3種類用意 */
+
+/* 大デバイス（デスクトップ, 1200px 未満） */
+@media (min-width: 992px) {
+  .wrapper {
+    padding: 0 6rem;
+    padding-top: 140px;
+  }
+  .first-size {
+    font-size: 2.4rem;
+  }
+
+  .second-size {
+    font-size: 2.0rem;
+  }
+
+  .third-size {
+    font-size: 1.6rem;
+  }
+}
+
+/* 中デバイス（タブレット, 992px 未満） */
+@media (max-width: 991.98px) {
+  .first-size {
+    font-size: 1.8rem;
+  }
+
+  .second-size {
+    font-size: 1.5rem;
+  }
+
+  .third-size {
+    font-size: 1.2rem;
+  }
+}
+
+/* 小デバイス（横向きモバイル, 768px 未満） */
+@media (max-width: 767.98px) {
+  .first-size {
+    font-size: 1.5rem;
+  }
+
+  .second-size {
+    font-size: 1.25rem;
+  }
+
+  .third-size {
+    font-size: 1.0rem;
+  }
+}
+
+/* @include media-breakpoint-up(sm) { */
+/*  極小デバイス（縦向きモバイル, 576px 未満） */
+@media (max-width: 575.98px) {
+  .first-size {
+    font-size: 1.2rem;
+  }
+
+  .second-size {
+    font-size: 1.0rem;
+  }
+
+  .third-size {
+    font-size: 0.8rem;
+  }
+}
+
+/* SCROLLボタンをふわふわ動かす */
+.updown {
+  animation: updown 1s infinite ease-in-out alternate;
+}
+
+@keyframes updown {
+  0% {
+    transform: translateY(-5px)
+  }
+
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+/* タグのレイアウト */
+.tags {
+  --bs-gutter-x: 0;
+  padding: 0;
+  height: 161px;
+  /* 4行分の高さ+borderの1px */
+    border-top : solid 1px #e0e0e0 ;
+    border-left: solid 1px gray;
+    box-shadow : 0 2px 6px rgba(100, 100, 100, 0.3) ;
+  flex-direction: column;
+  /* 並び順を縦方向に変更 */
+  flex-wrap: wrap;
+  /* box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22); */
+  /* 折返し */
+}
+
+ul .tag {
+  height: 40px;
+  border-bottom: solid 1px gray;
+  border-right: solid 1px gray;
+  box-sizing: border-box;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  /* 文字を上下中央にする */
+}
+
+.tag input {
+  box-sizing: border-box;
+  display: none;
+}
+
+.btnx--outline {
+  color: var(--bs-orange);
+  background: var(--bs-white);
+  border: 2px solid #FFCC80;
+}
+/* --------------------------------------------------TOPページ(fin)--------------------------------------------------*/
+
+/*------------------------------------- 検索結果ページ------------------------------- */
