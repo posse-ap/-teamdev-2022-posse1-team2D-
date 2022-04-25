@@ -91,7 +91,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </a>
             </div>
         </div>
-        <div class="row justify-content-around my-4">
+        <div class="row justify-content-around my-3">
             <div class="col-md-4 mb-4">
                 <form action="/result.php">
                     <p class="second-size fw-bold">タグで絞り込む<i class="bi bi-check-all"></i></p>
@@ -134,8 +134,13 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
             <div class="col-md-4">
                 <p class="second-size fw-bold">お困りのあなたへ（仮）</p>
-                <div class="card">
-                    <p>診断</p>
+                <div class="card recommend-function">
+                    <p class="third-size text-light text-center fw-bold">自分にピッタリのエージェントを診断！</p>
+                    <div class="row px-3 my-2 g-3">
+                        <img class="col-4" src="public/img/feature5.jpg" alt="">
+                        <img class="col-4" src="public/img/feature6.jpg" alt="">
+                        <img class="col-4" src="public/img/feature7.jpg" alt="">
+                    </div>
                 </div>
             </div>
         </div>
