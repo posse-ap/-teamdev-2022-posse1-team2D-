@@ -65,6 +65,9 @@ img {
   .third-size {
     font-size: 1.6rem;
   }
+  .fourth-size {
+    font-size: 1.0rem;
+  }
 }
 
 /* 中デバイス（タブレット, 992px 未満） */
@@ -79,6 +82,9 @@ img {
 
   .third-size {
     font-size: 1.2rem;
+  }
+  .fourth-size {
+    font-size: 0.75rem;
   }
 }
 
@@ -95,6 +101,9 @@ img {
   .third-size {
     font-size: 1.0rem;
   }
+  .fourth-size {
+    font-size: 0.63rem;
+  }
 }
 
 /* @include media-breakpoint-up(sm) { */
@@ -110,6 +119,9 @@ img {
 
   .third-size {
     font-size: 0.8rem;
+  }
+  .fourth-size {
+    font-size: 0.5rem;
   }
 }
 
@@ -163,6 +175,23 @@ ul .tag {
 
 .recommend-function {
   background-color: rgb(64, 193, 176);
+}
+.service-circle{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: blue;/*背景色*/
+}
+@media (max-width: 768px) {
+  .service-circle{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: blue;/*背景色*/
+  }
+  .wrapper {
+    padding-top: 100px;
+  }
 }
 .btnx--outline {
   color: var(--bs-orange);
