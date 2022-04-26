@@ -55,22 +55,22 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="collapse navbar-collapse bg-light navbar-expand-lg" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 ps-3 py-2 mb-lg-0 row">
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link active text-dark" aria-current="page" href="index.html">トップページ</a>
+                            <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="index2.html">エージェント一覧</a>
+                            <a class="h6 nav-link text-dark" href="#">エージェント一覧</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="index2.html">CRAFTを利用した就活の流れ</a>
+                            <a class="h6 nav-link text-dark" href="#">CRAFTを利用した就活の流れ</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="index2.html">就活エージェントとは</a>
+                            <a class="h6 nav-link text-dark" href="#">就活エージェントとは</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="index2.html">よくあるご質問</a>
+                            <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="index2.html">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
+                            <a class="h6 nav-link text-dark" href="#">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
                         </li>
                     </ul>
                 </div>
