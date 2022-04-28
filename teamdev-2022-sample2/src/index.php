@@ -124,9 +124,18 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <input type="checkbox">
                             文系
                         </li>
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
+                        <li class="other-tag dropdown col-6">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                その他のタグ
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
+                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
+                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
+                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
+                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
+                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
+                            </ul>
                         </li>
                     </ul>
                     <button type="submit" class="btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>

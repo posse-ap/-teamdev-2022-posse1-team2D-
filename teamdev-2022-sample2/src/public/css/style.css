@@ -1,9 +1,11 @@
 li {
   list-style: none;
 }
+
 img {
   max-width: 100%;
 }
+
 /* -----------------------------------ヘッダー共通部分------------------------------------ */
 #header {
   background-color: rgb(64, 193, 176);
@@ -54,6 +56,7 @@ img {
     padding: 0 6rem;
     padding-top: 140px;
   }
+
   .first-size {
     font-size: 2.4rem;
   }
@@ -65,6 +68,7 @@ img {
   .third-size {
     font-size: 1.6rem;
   }
+
   .fourth-size {
     font-size: 1.0rem;
   }
@@ -83,6 +87,7 @@ img {
   .third-size {
     font-size: 1.2rem;
   }
+
   .fourth-size {
     font-size: 0.75rem;
   }
@@ -101,6 +106,7 @@ img {
   .third-size {
     font-size: 1.0rem;
   }
+
   .fourth-size {
     font-size: 0.63rem;
   }
@@ -120,6 +126,7 @@ img {
   .third-size {
     font-size: 0.8rem;
   }
+
   .fourth-size {
     font-size: 0.5rem;
   }
@@ -146,10 +153,10 @@ img {
   padding: 0;
   height: 161px;
   /* 4行分の高さ+borderの1px */
-    border-top : solid 1px gray ;
-    border-left: solid 1px gray;
-    box-shadow : 0 2px 6px rgba(100, 100, 100, 0.3);
-    /* box-shadow: 0 0 8px 4px #ccc; */
+  border-top: solid 1px gray;
+  border-left: solid 1px gray;
+  box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+  /* box-shadow: 0 0 8px 4px #ccc; */
   flex-direction: column;
   /* 並び順を縦方向に変更 */
   flex-wrap: wrap;
@@ -168,6 +175,26 @@ ul .tag {
   /* 文字を上下中央にする */
 }
 
+ul .other-tag {
+  height: 40px;
+  border-bottom: solid 1px gray;
+  border-right: solid 1px gray;
+  box-sizing: border-box;
+  /* padding: 0 10px; */
+  display: flex;
+  align-items: center;
+  /* 文字を上下中央にする */
+}
+
+.dropdown .btn {
+  padding: 0 10px;
+}
+
+.dropdown-menu {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
 .tag input {
   box-sizing: border-box;
   display: none;
@@ -176,28 +203,35 @@ ul .tag {
 .recommend-function {
   background-color: rgb(64, 193, 176);
 }
-.service-circle{
+
+.service-circle {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: blue;/*背景色*/
+  background: blue;
+  /*背景色*/
 }
+
 @media (max-width: 768px) {
-  .service-circle{
+  .service-circle {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: blue;/*背景色*/
+    background: blue;
+    /*背景色*/
   }
+
   .wrapper {
     padding-top: 100px;
   }
 }
+
 .btnx--outline {
   color: var(--bs-orange);
   background: var(--bs-white);
   border: 2px solid #FFCC80;
 }
+
 /* --------------------------------------------------TOPページ(fin)--------------------------------------------------*/
 
 /*------------------------------------- 検索結果ページ------------------------------- */

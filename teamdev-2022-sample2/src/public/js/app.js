@@ -38,4 +38,8 @@ $(function(){
       return false;
    });
 });
+
+// ドロップダウンメニュー項目を押してもドロップダウンメニューが閉じないようにする
+$('.dropdown-item').on('click.bs.dropdown.data-api', (event) => event.stopPropagation())
+
 // ---------------Miu's area----------------------------------------------
