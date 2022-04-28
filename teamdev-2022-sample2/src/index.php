@@ -61,10 +61,10 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <a class="h6 nav-link text-dark" href="#">エージェント一覧</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="#">CRAFTを利用した就活の流れ</a>
+                            <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="#">就活エージェントとは</a>
+                            <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
                         </li>
                         <li class="nav-item col-md-6">
                             <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
@@ -83,7 +83,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="second-size fw-bold text-center mt-4">
             <p class="d-inline-block">就活エージェントってなに？</p>
             <div class="d-inline-block ms-3 updown">
-                <a href="#" class="text-danger" style="text-decoration: none;">
+                <a href="#jobHuntingSec" class="text-danger" style="text-decoration: none;">
                     <p class="mb-0 third-size">SCROLL</p>
                     <span>
                         <i class="bi bi-arrow-down-circle-fill text-danger first-size"></i>
@@ -143,6 +143,23 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             </div>
+        </div>
+        <p id="CRAFTSec" class="second-size fw-bold text-center">CRAFTを利用した就活の流れ</p>
+        <div class="d-flex align-items-center justify-content-center my-3 my-md-5 fourth-size">
+            <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
+            <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
+            <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
+            <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
+        </div>
+        <p class="second-size fw-bold text-center">CRAFTを利用するメリット</p>
+        <div class="text-center my-3 my-md-5">
+            <p class="third-size">テキストテキストテキストテキストテキスト</p>
+            <p class="third-size">テキストテキストテキストテキストテキスト</p>
+        </div>
+        <p id="jobHuntingSec" class="second-size fw-bold text-center">就活エージェントとは</p>
+        <div class="text-center my-3 my-md-5">
+            <p class="third-size">テキストテキストテキストテキストテキスト</p>
+            <p class="third-size">テキストテキストテキストテキストテキスト</p>
         </div>
         <!-- <a href="/admin/index.php">管理者ページ</a> -->
         <!-- <button type="button" class="ps-3 btn btnx--outline"><i class="bi bi-pencil-square"></i>お問い合わせはこちら</button> -->
