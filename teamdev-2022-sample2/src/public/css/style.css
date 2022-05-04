@@ -8,7 +8,7 @@ img {
 
 /* -----------------------------------ヘッダー共通部分------------------------------------ */
 #header {
-  background-color: rgb(64, 193, 176);
+  background-color: #52A49A;
 }
 
 .corporation-link {
@@ -201,7 +201,7 @@ ul .other-tag {
 }
 
 .recommend-function {
-  background-color: rgb(64, 193, 176);
+  background-color: #52A49A;
 }
 
 .service-circle {
@@ -235,3 +235,23 @@ ul .other-tag {
 /* --------------------------------------------------TOPページ(fin)--------------------------------------------------*/
 
 /*------------------------------------- 検索結果ページ------------------------------- */
+.result-contents {
+  --bs-gutter-x: 0;
+}
+.result-content {
+  background-color: #EBEDF1;
+}
+
+.keep-button {
+  background-color: #F3AF56;
+}
+
+.black-star {
+  display: none;
+}
+
+/*  極小デバイス（縦向きモバイル, 576px 未満） */
+@media (max-width: 575.98px) {
+
+
+}
