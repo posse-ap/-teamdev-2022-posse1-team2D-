@@ -43,3 +43,10 @@ $(function(){
 $('.dropdown-item').on('click.bs.dropdown.data-api', (event) => event.stopPropagation())
 
 // ---------------Miu's area----------------------------------------------
+
+
+// 検索結果画面：キープボタンクリック時の☆アイコン切り替え
+$('.keep-btn').click(function(){
+     $('.white-star').hide();
+     $('.black-star').show();
+});
