@@ -46,7 +46,7 @@ $('.dropdown-item').on('click.bs.dropdown.data-api', (event) => event.stopPropag
 
 
 // 検索結果画面：キープボタンクリック時の☆アイコン切り替え
-$('.keep-button').click(function(){
+$('.keep-btn').click(function(){
      $('.white-star').hide();
      $('.black-star').show();
 });

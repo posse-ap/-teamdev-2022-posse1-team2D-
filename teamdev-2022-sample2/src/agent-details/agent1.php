@@ -35,7 +35,7 @@
           <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
           <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
           <!-- キープマーク -->
-          <a href="#" class="keep-star ms-5">
+          <a href="../keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
             <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
           </a>

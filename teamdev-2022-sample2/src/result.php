@@ -63,7 +63,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
           <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
           <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
           <!-- キープマーク -->
-          <a href="#" class="keep-star ms-5">
+          <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
             <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
           </a>
@@ -121,7 +121,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
             <input type="hidden" name="name" value="リクルート">
             <input type="hidden" name="tags" value="理系">
             <!-- <input type="text" value="1" name="count"> -->
-            <button class="keep-button" type="submit">
+            <button class="keep-btn" type="submit">
               <i class="bi bi-star-fill black-star"></i>
               <i class="bi bi-star white-star"></i>キープする</button>
           </form>
@@ -146,7 +146,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
             <input type="hidden" name="name" value="リクナビ">
             <input type="hidden" name="tags" value="エントリーシート">
             <!-- <input type="text" value="1" name="count"> -->
-            <button class="keep-button" type="submit">
+            <button class="keep-btn" type="submit">
               <i class="bi bi-star-fill black-star"></i>
               <i class="bi bi-star white-star"></i>キープする</button>
           </form>
@@ -167,7 +167,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
           <a href="./agent-details/agent3.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <button class="keep-button"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button>
+          <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button>
         </div>
       </div>
       <div class="col-md-6 my-5 d-flex flex-row">
@@ -184,7 +184,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
           <a href="http://agent-datails/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <button class="keep-button"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button>
+          <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button>
         </div>
       </div>
       <div class="col-md-6 my-5 d-flex flex-row">
@@ -201,7 +201,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
           <a href="http://agent-datails/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <button class="keep-button"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button>
+          <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button>
         </div>
       </div>
     </div>

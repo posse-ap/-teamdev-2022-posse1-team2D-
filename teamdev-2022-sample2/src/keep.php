@@ -38,7 +38,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
           <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
           <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
           <!-- キープマーク -->
-          <a href="#" class="keep-star ms-5">
+          <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
             <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
           </a>
@@ -95,7 +95,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
             <input type="hidden" name="name" value="リクルート">
             <input type="hidden" name="tags" value="理系">
             <!-- <input type="text" value="1" name="count"> -->
-            <button class="keep-button" type="submit">
+            <button class="keep-btn" type="submit">
               <i class="bi bi-star-fill black-star"></i>
               <i class="bi bi-star white-star"></i>削除する</button>
           </form>
@@ -120,7 +120,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
             <input type="hidden" name="name" value="リクナビ">
             <input type="hidden" name="tags" value="エントリーシート">
             <!-- <input type="text" value="1" name="count"> -->
-            <button class="keep-button" type="submit">
+            <button class="keep-btn" type="submit">
               <i class="bi bi-star-fill black-star"></i>
               <i class="bi bi-star white-star"></i>削除する</button>
           </form>
@@ -130,7 +130,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
     </div>
     <div class="d-flex flex-column">
       <button type="button" class="">フォームでお問い合わせ</button>
-      <button type="button" class="">企業探しを続ける</button>
+      <button type="button" class="continue-btn">企業探しを続ける</button>
     </div>
   </div>
 </body>
