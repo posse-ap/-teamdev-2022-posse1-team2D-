@@ -95,7 +95,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
             <input type="hidden" name="name" value="リクルート">
             <input type="hidden" name="tags" value="理系">
             <!-- <input type="text" value="1" name="count"> -->
-            <button class="keep-btn" type="submit">
+            <button class="delete-btn" type="submit">
               <i class="bi bi-star-fill black-star"></i>
               <i class="bi bi-star white-star"></i>削除する</button>
           </form>
@@ -120,7 +120,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
             <input type="hidden" name="name" value="リクナビ">
             <input type="hidden" name="tags" value="エントリーシート">
             <!-- <input type="text" value="1" name="count"> -->
-            <button class="keep-btn" type="submit">
+            <button class="delete-btn" type="submit">
               <i class="bi bi-star-fill black-star"></i>
               <i class="bi bi-star white-star"></i>削除する</button>
           </form>
@@ -128,9 +128,9 @@ require(dirname(__FILE__) . "/dbconnect.php");
         </div>
       </div>
     </div>
-    <div class="d-flex flex-column">
-      <button type="button" class="">フォームでお問い合わせ</button>
-      <button type="button" class="continue-btn">企業探しを続ける</button>
+    <div class="d-flex flex-column align-items-center">
+      <button type="button" class="contact-btn my-3"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</button>
+      <a href="result.php"><button type="button" class="continue-btn my-5"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</button></a>
     </div>
   </div>
 </body>

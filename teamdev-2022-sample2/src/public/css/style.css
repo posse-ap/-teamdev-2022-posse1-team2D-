@@ -255,3 +255,18 @@ ul .other-tag {
 
 
 }
+
+
+
+/*////////////////////////////////// キープ企業確認画面//////////////////////////////// */
+.delete-btn {
+  background-color: #F3AF56;
+}
+
+.contact-btn {
+  background-color: #F38456;
+}
+
+.continue-btn {
+  background-color: #6AB4AC;
+}
