@@ -10,7 +10,6 @@ require(dirname(__FILE__) . "/dbconnect.php");
     $tags = isset($_POST['tags'])? htmlspecialchars($_POST['tags'], ENT_QUOTES, 'utf-8') : '';
     // $count = isset($_POST['count'])? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
 
-    session_start();
     //配列に入れるには、変数に代入された値が取得できていることが前提なのでif文で空のデータを排除する
    if($name!=''&&$tags!=''){
        $_SESSION['products'][$name]=[
