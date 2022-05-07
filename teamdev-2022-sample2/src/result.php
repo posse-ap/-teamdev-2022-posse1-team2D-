@@ -10,7 +10,6 @@ require(dirname(__FILE__) . "/dbconnect.php");
     $tags = isset($_POST['tags'])? htmlspecialchars($_POST['tags'], ENT_QUOTES, 'utf-8') : '';
     // $count = isset($_POST['count'])? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
 
-    session_start();
     //配列に入れるには、変数に代入された値が取得できていることが前提なのでif文で空のデータを排除する
    if($name!=''&&$tags!=''){
        $_SESSION['products'][$name]=[
@@ -117,7 +116,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
           <a href="./agent-details/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <form action="keep.php" method="POST" class="item-form">
+          <form action="" method="POST" class="item-form">
             <input type="hidden" name="name" value="リクルート">
             <input type="hidden" name="tags" value="理系">
             <!-- <input type="text" value="1" name="count"> -->
@@ -142,7 +141,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
           <a href="./agent-datails/agent2.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <form action="keep.php" method="POST" class="item-form">
+          <form action="" method="POST" class="item-form">
             <input type="hidden" name="name" value="リクナビ">
             <input type="hidden" name="tags" value="エントリーシート">
             <!-- <input type="text" value="1" name="count"> -->
