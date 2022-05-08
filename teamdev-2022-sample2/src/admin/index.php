@@ -22,13 +22,12 @@ require('../dbconnect.php');
 // $stmt = $db->query('SELECT id, title FROM events');
 // $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// -------------------------------------------------------------------------------------------------------------
+// ---------------------エージェント登録の処理-------------------------------------------------------------------------------------
 if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
     $_SESSION['time'] = time();
 
+    // エージェント登録のフォームデータを受け取り、データベースにいれる
     if (!empty($_POST)) {
-        // 以下のechoは表示されない
-        // echo __LINE__ . PHP_EOL;
         try {
             // 送信された値を取得
             $agent_name = $_POST['agent_name'];
@@ -40,14 +39,13 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $phone_number = $_POST['phone_number'];
             $address = $_POST['address'];
             $post_period = $_POST['post_period'];
-            // $deleted_at = $_POST['deleted_at'];
 
             // INSERT文を変数に格納。プレスホルダーは、値を入れるための空箱
             $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period) VALUES 
         (:agent_name, :agent_url, :representative, :contractor, :department, :email, :phone_number, :address, :post_period)";
             $stmt = $db->prepare($sql); //挿入する値は空のまま、SQL実行の準備をする
 
-            //方法１
+            //送信された値を、データベースのカラムに結びつける
 
             //  
             $stmt->bindValue(":agent_name",  $agent_name, PDO::PARAM_STR);
@@ -68,8 +66,6 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             // 
             $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
             // 
-            // $stmt->bindValue(":deleted_at",  $contractor, PDO::PARAM_INT);
-
             $stmt->execute();
             header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php');
             exit();
@@ -81,9 +77,11 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/login.php');
     exit();
 }
+// ------------------エージェント登録の処理(fin)---------------------------------------
 
-// ---------------------------
-//SQL文を変数にいれる。$count_sqlはデータの件数取得に使うための変数。
+// ------------------データベースの件数に対応させた動的ページネーション-----------------------------------------
+
+//$count_sqlはデータの件数取得に使うための変数。
 $count_sql = 'SELECT COUNT(*) as cnt FROM agents';
 
 //ページ数を取得する。GETでページが渡ってこなかった時(最初のページ)のときは$pageに１を格納する。
@@ -114,10 +112,9 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
 } else {
     $to_record = $page * 10;
 }
-// ------------------------------------------------------------------------------------------------------------
-//insert処理等したagentsテーブルから、レコードを検索
+// ------------------動的ページネーション(fin)-----------------------------------------
 
-// 最初の10件
+// -----------------ページ切り替えごとに10件データ取得------------------------------------------------------------
 $page_change_record = $from_record - 1;
 $stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, deleted_at FROM agents WHERE deleted_at = 0 LIMIT ?, 10');
 $stmt->bindParam(1, $page_change_record, PDO::PARAM_INT);
@@ -151,7 +148,7 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
             <div class="container-fluid">
 
-                <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+                <a class="navbar-brand fw-bold me-md-5 text-light" href="/index.php">
                     <h1 class="mb-0">CRAFT</h1>
                     <div class="h6">by 就活.com</div>
                 </a>
@@ -172,8 +169,10 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="content">
             <a class="js-modal-open btn btn-lg btn-success" href="">エージェントの登録</a>
         </div>
+        <!--modal-->
         <div class="modal js-modal">
             <div class="modal__bg js-modal-close"></div>
+            <!--modal__inner-->
             <div class="modal__content">
                 <form action="/admin/index.php" method="POST" class="ms-3">
                     社名：<input class="d-block" type="text" name="agent_name" required>
@@ -184,15 +183,12 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     メールアドレス：<input class="d-block" type="text" name="email" required>
                     電話番号：<input class="d-block" type="text" name="phone_number" required>
                     住所：<input class="d-block" type="text" name="address" required>
-                    掲載期間：<input class="d-block" type="text" name="post_period" required>
+                    掲載期間：<input class="d-block" type="date" name="post_period" required>
                     <input class="d-block" type="submit" value="登録する">
                 </form>
                 <a class="js-modal-close" href="">閉じる</a>
             </div>
-            <!--modal__inner-->
         </div>
-        <!--modal-->
-
         <div class="row">
             <div class="col-12 mb-lg-0">
                 <div class="card">
@@ -228,12 +224,11 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?= $agent["phone_number"]; ?></td>
                                             <td><?= $agent["address"]; ?></td>
                                             <td><?= $agent["post_period"]; ?></td>
-                                            <td><a href="#" class="btn btn-sm btn-primary">更新</a></td>
                                             <td>
-                                                <!-- <form action="" method="POST">
-                                                    <button class="remove-btn btn btn-sm btn-danger">削除</button>
-                                                </form> -->
-                                                <a class="remove-btn btn btn-danger btn-sm" href="delete.php?id=<?=$agent['id']?>">削除</a>
+                                                <a href="#" class="btn btn-sm btn-primary">更新</a>
+                                            </td>
+                                            <td>
+                                                <a class="remove-btn btn btn-danger btn-sm" href="delete.php?id=<?= $agent['id'] ?>">削除</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -269,30 +264,7 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <span class="first_last_page">&raquo;</span>
             <?php endif; ?>
         </div>
-        <a href="/index.php" class="ms-5">イベント一覧</a>
     </div>
-
-    <!-- 削除する際に、confirmダイアログを表示 -->
-    <script type="text/javascript">
-        let removeButtons = document.querySelectorAll('.remove-btn');
-
-        removeButtons.forEach(removeButton => {
-            removeButton.addEventListener('click', function() {
-                let result = confirm('エージェント情報を削除しますか');
-
-                if (result) {
-                    console.log('削除されました');
-                    // phpで該当するレコードのdeleted_at = 0 を1に変更して論理削除
-                    <?php
-                    // echo $key;
-                    // $stmt = $db->query('SELECT * from agents');
-                    ?>
-                } else {
-                    console.log('削除がキャンセルされました');
-                }
-            })
-        })
-    </script>
     <!-- ログアウト機能作る -->
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
