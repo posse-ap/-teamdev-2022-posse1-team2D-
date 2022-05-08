@@ -225,10 +225,11 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?= $agent["address"]; ?></td>
                                             <td><?= $agent["post_period"]; ?></td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-primary">更新</a>
+                                                <a href="edit.php?id=<?= $agent['id'] ?>" class="btn btn-sm btn-primary">更新</a>
                                             </td>
                                             <td>
-                                                <a class="btn btn-danger btn-sm" href="delete.php?id=<?= $agent['id'] ?>" onClick="return confirmFunction()">削除</a>
+                                                <!-- 課題：/admin/index.phpで削除ボタンを押すと、confirmの確認なくデータが消えてしまう -->
+                                                <a href="delete.php?id=<?= $agent['id'] ?>" class="btn btn-sm btn-danger" onClick="return confirmFunction()">削除</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
