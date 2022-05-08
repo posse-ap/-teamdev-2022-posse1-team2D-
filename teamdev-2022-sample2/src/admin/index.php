@@ -26,61 +26,104 @@ require('../dbconnect.php');
 if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
     $_SESSION['time'] = time();
 
-if (!empty($_POST)) {
-    // 以下のechoは表示されない
-    // echo __LINE__ . PHP_EOL;
-    try {
-        // 送信された値を取得
-        $agent_name = $_POST['agent_name'];
-        $agent_url = $_POST['agent_url'];
-        $representative = $_POST['representative'];
-        $contractor = $_POST['contractor'];
-        $department = $_POST['department'];
-        $email = $_POST['email'];
-        $phone_number = $_POST['phone_number'];
-        $address = $_POST['address'];
-        $post_period = $_POST['post_period'];
-        $deleted_at = $_POST['deleted_at'];
-        // INSERT文を変数に格納。プレスホルダーは、値を入れるための空箱
-        $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period) VALUES 
+    if (!empty($_POST)) {
+        // 以下のechoは表示されない
+        // echo __LINE__ . PHP_EOL;
+        try {
+            // 送信された値を取得
+            $agent_name = $_POST['agent_name'];
+            $agent_url = $_POST['agent_url'];
+            $representative = $_POST['representative'];
+            $contractor = $_POST['contractor'];
+            $department = $_POST['department'];
+            $email = $_POST['email'];
+            $phone_number = $_POST['phone_number'];
+            $address = $_POST['address'];
+            $post_period = $_POST['post_period'];
+            // $deleted_at = $_POST['deleted_at'];
+
+            // INSERT文を変数に格納。プレスホルダーは、値を入れるための空箱
+            $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period) VALUES 
         (:agent_name, :agent_url, :representative, :contractor, :department, :email, :phone_number, :address, :post_period)";
-        $stmt = $db->prepare($sql); //挿入する値は空のまま、SQL実行の準備をする
+            $stmt = $db->prepare($sql); //挿入する値は空のまま、SQL実行の準備をする
 
-        //方法１
+            //方法１
 
-        //  
-        $stmt->bindValue(":agent_name",  $agent_name, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":agent_url",  $agent_url, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":representative",  $representative, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":contractor",  $contractor, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":department",  $department, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":email",  $email, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":phone_number",  $phone_number, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":address",  $address, PDO::PARAM_STR);
-        // 
-        $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
-        // 
-        // $stmt->bindValue(":deleted_at",  $contractor, PDO::PARAM_INT);
+            //  
+            $stmt->bindValue(":agent_name",  $agent_name, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":agent_url",  $agent_url, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":representative",  $representative, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":contractor",  $contractor, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":department",  $department, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":email",  $email, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":phone_number",  $phone_number, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":address",  $address, PDO::PARAM_STR);
+            // 
+            $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
+            // 
+            // $stmt->bindValue(":deleted_at",  $contractor, PDO::PARAM_INT);
 
-        $stmt->execute();
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php');
-        exit();
-
-    } catch (PDOException $e) {
-        exit('データベースに接続できませんでした。' . $e->getMessage());
+            $stmt->execute();
+            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php');
+            exit();
+        } catch (PDOException $e) {
+            exit('データベースに接続できませんでした。' . $e->getMessage());
+        }
     }
-}} else {
+} else {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/login.php');
     exit();
 }
+
+// ---------------------------
+//SQL文を変数にいれる。$count_sqlはデータの件数取得に使うための変数。
+$count_sql = 'SELECT COUNT(*) as cnt FROM agents';
+
+//ページ数を取得する。GETでページが渡ってこなかった時(最初のページ)のときは$pageに１を格納する。
+if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+
+//最大ページ数を取得する。
+//10件ずつ表示させているので、$count['cnt']に入っている件数を10で割って小数点は切りあげると最大ページ数になる。
+$counts = $db->query($count_sql);
+$count = $counts->fetch(PDO::FETCH_ASSOC);
+$max_page = ceil($count['cnt'] / 10);
+
+if ($page == 1 || $page == $max_page) {
+    $range = 4;
+} elseif ($page == 2 || $page == $max_page - 1) {
+    $range = 3;
+} else {
+    $range = 2;
+}
+
+$from_record = ($page - 1) * 10 + 1;
+
+if ($page == $max_page && $count['cnt'] % 10 !== 0) {
+    $to_record = ($page - 1) * 10 + $count['cnt'] % 10;
+} else {
+    $to_record = $page * 10;
+}
 // ------------------------------------------------------------------------------------------------------------
+//insert処理等したagentsテーブルから、レコードを検索
+
+// 最初の10件
+$page_change_record = $from_record - 1;
+$stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, deleted_at FROM agents WHERE deleted_at = 0 LIMIT ?, 10');
+$stmt->bindParam(1, $page_change_record, PDO::PARAM_INT);
+$stmt->execute();
+$agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// -------------------------------------------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -113,6 +156,8 @@ if (!empty($_POST)) {
                     <div class="h6">by 就活.com</div>
                 </a>
 
+                <h1 class="ms-3 text-light">管理者ページ</h1>
+
                 <div class="float-end h5 text-light">
                     <div class="d-inline mx-5">○○様</div>
                     <a>ログアウト</a>
@@ -122,22 +167,10 @@ if (!empty($_POST)) {
         </nav>
     </header>
     <!-- コンテンツ -->
-    <div class="wrapper">
-        <h1 class="ms-3">管理者ページ</h1>
-        <form action="/admin/index.php" method="POST" class="ms-3">
-            イベント名：<input class="d-block" type="text" name="title" required>
-            <input class="d-block" type="submit" value="登録する">
-        </form>
-        <ul class="ms-3">
-            <?php foreach ($events as $key => $event) : ?>
-                <li>
-                    <?= $event["id"]; ?>:<?= $event["title"]; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+    <div class="admin-wrapper">
         <!-- エージェント登録 -->
         <div class="content">
-            <a class="js-modal-open h3" href="">エージェントの登録</a>
+            <a class="js-modal-open btn btn-lg btn-success" href="">エージェントの登録</a>
         </div>
         <div class="modal js-modal">
             <div class="modal__bg js-modal-close"></div>
@@ -152,7 +185,6 @@ if (!empty($_POST)) {
                     電話番号：<input class="d-block" type="text" name="phone_number" required>
                     住所：<input class="d-block" type="text" name="address" required>
                     掲載期間：<input class="d-block" type="text" name="post_period" required>
-                    表示状態：<input class="d-block" type="text" name="deleted_at" required>
                     <input class="d-block" type="submit" value="登録する">
                 </form>
                 <a class="js-modal-close" href="">閉じる</a>
@@ -184,19 +216,27 @@ if (!empty($_POST)) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>リクナビ</td>
-                                        <td>CRAFT.com</td>
-                                        <td>田中</td>
-                                        <td>佐藤</td>
-                                        <td>サンプル</td>
-                                        <td>johndoe@gmail.com</td>
-                                        <td>サンプル</td>
-                                        <td>サンプル</td>
-                                        <td>サンプル</td>
-                                        <td><a href="#" class="btn btn-sm btn-primary">操作</a></td>
-                                    </tr>
+                                    <?php foreach ($agents as $key => $agent) : ?>
+                                        <tr>
+                                            <th scope="row"><?= $agent["id"]; ?></th>
+                                            <td><?= $agent["agent_name"]; ?></td>
+                                            <td><?= $agent["agent_url"]; ?></td>
+                                            <td><?= $agent["representative"]; ?></td>
+                                            <td><?= $agent["contractor"]; ?></td>
+                                            <td><?= $agent["department"]; ?></td>
+                                            <td><?= $agent["email"]; ?></td>
+                                            <td><?= $agent["phone_number"]; ?></td>
+                                            <td><?= $agent["address"]; ?></td>
+                                            <td><?= $agent["post_period"]; ?></td>
+                                            <td><a href="#" class="btn btn-sm btn-primary">更新</a></td>
+                                            <td>
+                                                <!-- <form action="" method="POST">
+                                                    <button class="remove-btn btn btn-sm btn-danger">削除</button>
+                                                </form> -->
+                                                <a class="remove-btn btn btn-danger btn-sm" href="delete.php?id=<?=$agent['id']?>">削除</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -204,26 +244,55 @@ if (!empty($_POST)) {
                 </div>
             </div>
         </div>
+        <!--ページネーション  -->
+        <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
+        <div class="pagination">
+            <?php if ($page >= 2) : ?>
+                <a href="index.php?page=<?php echo ($page - 1); ?>" class="page_feed">&laquo;</a>
+            <?php else :; ?>
+                <span class="first_last_page">&laquo;</span>
+            <?php endif; ?>
 
-        <nav aria-label="Page navigation example" class="mt-3">
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+            <?php for ($i = 1; $i <= $max_page; $i++) : ?>
+                <?php if ($i >= $page - $range && $i <= $page + $range) : ?>
+                    <?php if ($i == $page) : ?>
+                        <span class="now_page_number"><?php echo $i; ?></span>
+                    <?php else : ?>
+                        <a href="?page=<?php echo $i; ?>" class="page_number"><?php echo $i; ?></a>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if ($page < $max_page) : ?>
+                <a href="index.php?page=<?php echo ($page + 1); ?>" class="page_feed">&raquo;</a>
+            <?php else : ?>
+                <span class="first_last_page">&raquo;</span>
+            <?php endif; ?>
+        </div>
         <a href="/index.php" class="ms-5">イベント一覧</a>
     </div>
+
+    <!-- 削除する際に、confirmダイアログを表示 -->
+    <script type="text/javascript">
+        let removeButtons = document.querySelectorAll('.remove-btn');
+
+        removeButtons.forEach(removeButton => {
+            removeButton.addEventListener('click', function() {
+                let result = confirm('エージェント情報を削除しますか');
+
+                if (result) {
+                    console.log('削除されました');
+                    // phpで該当するレコードのdeleted_at = 0 を1に変更して論理削除
+                    <?php
+                    // echo $key;
+                    // $stmt = $db->query('SELECT * from agents');
+                    ?>
+                } else {
+                    console.log('削除がキャンセルされました');
+                }
+            })
+        })
+    </script>
     <!-- ログアウト機能作る -->
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
