@@ -228,7 +228,7 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <a href="#" class="btn btn-sm btn-primary">更新</a>
                                             </td>
                                             <td>
-                                                <a class="remove-btn btn btn-danger btn-sm" href="delete.php?id=<?= $agent['id'] ?>">削除</a>
+                                                <a class="btn btn-danger btn-sm" href="delete.php?id=<?= $agent['id'] ?>" onClick="return confirmFunction()">削除</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

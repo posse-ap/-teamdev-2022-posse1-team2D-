@@ -4,13 +4,10 @@ require('index.php');
 ?>
 <!-- confirmダイアログに応じて、データ削除イベントの実行分岐 -->
 <script type="text/javascript">
-    let removeButtons = document.querySelectorAll('.remove-btn');
-
-    removeButtons.forEach(removeButton => {
-        removeButton.addEventListener('click', function() {
-            let result = confirm('エージェント情報を削除しますか');
-
-            if (result) {
+   
+function confirmFunction(){
+    let result = confirm('エージェント情報を削除しますか');
+    if (result == true) {
                 console.log('削除されました');
                 // 現在は物理削除。（phpで該当するレコードのdeleted_at = 0 を1に変更して論理削除)
                 <?php
@@ -18,7 +15,7 @@ require('index.php');
                     $id = (int) $_GET["id"];
 
                     try {
-                        // エラー解決後、論理削除のカラム指定
+                        // 後で論理削除も試す
                         $sql = 'DELETE FROM agents WHERE id = :id';
                         $stmt = $db->prepare($sql);
                         //   $stmt->execute([":id" => $id]);
@@ -31,10 +28,11 @@ require('index.php');
                     }
                 }
                 ?>
+                return true;
             } else {
                 console.log('削除がキャンセルされました');
+                return false;
             }
-        })
-    })
+}
 </script>
 <?php
