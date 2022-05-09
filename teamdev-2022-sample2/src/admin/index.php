@@ -228,8 +228,9 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                 <a href="edit.php?id=<?= $agent['id'] ?>" class="btn btn-sm btn-primary">更新</a>
                                             </td>
                                             <td>
-                                                <!-- 課題：/admin/index.phpで削除ボタンを押すと、confirmの確認なくデータが消えてしまう -->
-                                                <a href="delete.php?id=<?= $agent['id'] ?>" class="btn btn-sm btn-danger" onClick="return confirmFunction()">削除</a>
+                                                <!-- 課題：/admin/delete.php?page=1,2 の形で削除ボタンを押さないと、confirmの確認なくデータが消えてしまう -->
+                                                <!-- 課題解決：onclickに自作関数設定してphpでjsを発火させようとscriptタグ使っていたらheader関数の文法に反していた -->
+                                                <a href="delete.php?id=<?= $agent['id'] ?>" class="btn btn-sm btn-danger" onClick="return confirm('エージェント情報を削除しますか？')">削除</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
