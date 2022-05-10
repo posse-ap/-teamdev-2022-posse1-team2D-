@@ -51,7 +51,7 @@ img {
 .admin-wrapper {
   margin: 0 auto;
   padding: 0 1.5rem;
-  padding-top: 100px;
+  padding-top: 90px;
 }
 
 /* レスポンシブな文字サイズを3種類用意 */
@@ -242,7 +242,7 @@ ul .other-tag {
 /* --------------------------------------------------boozer管理画面------------------------------------------------- */
 .content{
   margin: 0 auto;
-  padding: 40px;
+  padding: 20px;
 }
 .modal{
   display: none;

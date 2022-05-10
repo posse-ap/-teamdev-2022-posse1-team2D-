@@ -153,7 +153,7 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="h6">by 就活.com</div>
                 </a>
 
-                <h1 class="ms-3 text-light">管理者ページ</h1>
+                <h1 class="ms-3 text-light">エージェント情報管理画面</h1>
 
                 <div class="float-end h5 text-light">
                     <div class="d-inline mx-5">○○様</div>
@@ -176,12 +176,12 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="modal__content">
                 <form action="/admin/index.php" method="POST" class="ms-3">
                     社名：<input class="d-block" type="text" name="agent_name" required>
-                    会社URL：<input class="d-block" type="text" name="agent_url" required>
+                    会社URL：<input class="d-block" type="url" name="agent_url" placeholder="http://example.jp" required>
                     代表者名：<input class="d-block" type="text" name="representative" required>
                     契約担当者名：<input class="d-block" type="text" name="contractor" required>
                     部署：<input class="d-block" type="text" name="department" required>
-                    メールアドレス：<input class="d-block" type="text" name="email" required>
-                    電話番号：<input class="d-block" type="text" name="phone_number" required>
+                    メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
+                    電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                     住所：<input class="d-block" type="text" name="address" required>
                     掲載期間：<input class="d-block" type="date" name="post_period" required>
                     <input class="d-block" type="submit" value="登録する">
@@ -242,7 +242,6 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
         <!--ページネーション  -->
-        <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
         <div class="pagination">
             <?php if ($page >= 2) : ?>
                 <a href="index.php?page=<?php echo ($page - 1); ?>" class="page_feed">&laquo;</a>
@@ -266,6 +265,7 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <span class="first_last_page">&raquo;</span>
             <?php endif; ?>
         </div>
+        <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
     </div>
     <!-- ログアウト機能作る -->
     <!-- jQuery -->
