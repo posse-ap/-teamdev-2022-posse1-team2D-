@@ -44,7 +44,7 @@ $(".dropdown-item").on("click.bs.dropdown.data-api", (event) =>
   event.stopPropagation()
 );
 
-// モーダル
+// エージェント登録用のモーダルの動作
 $(function () {
   $(".js-modal-open").on("click", function () {
     $(".js-modal").fadeIn();
@@ -55,13 +55,19 @@ $(function () {
     return false;
   });
 });
-// ---------------Miu's area----------------------------------------------
 
-// 検索結果画面：キープボタンクリック時の☆アイコン切り替え
-// $('.keep-btn').click(function(){
-//      $('.white-star').hide();
-//      $('.black-star').show();
-// });
+// エージェント更新用のモーダルの差別化
+// モーダルにdata-whatever属性でsqlのデータを渡し、Ajaxでモーダルのどの部分にデータを代入するか指定する
+$('#exampleModal').on('show.bs.modal', function (event) {
+   var button = $(event.relatedTarget) //モーダルを呼び出すときに使われたボタンを取得
+   var recipient = button.data('whatever') //data-whatever の値を取得
+
+   //Ajaxの処理
+   var modal = $(this)  //モーダルを取得
+   modal.find('.modal-body form').attr("action", "edit.php?id=" + recipient) //formタグのactionに、データに対応した識別idを付与
+   modal.find('.modal-body input#agent-number').val(recipient) //非表示のinputタグに識別idを付与
+})
+// ---------------Miu's area----------------------------------------------
 
 let changeStars = document.querySelectorAll(".keep-btn");
 
