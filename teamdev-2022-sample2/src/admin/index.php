@@ -169,11 +169,13 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <div class="content">
             <a class="js-modal-open btn btn-lg btn-success" href="">エージェントの登録</a>
         </div>
-        <!--modal-->
+        <!--エージェント登録用のモーダル-->
         <div class="modal js-modal">
             <div class="modal__bg js-modal-close"></div>
-            <!--modal__inner-->
+            <!--モーダルの構成-->
             <div class="modal__content">
+                <h5 class="modal-top" id="exampleModalLabel">エージェント情報の登録を行います</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                 <form action="/admin/index.php" method="POST" class="ms-3">
                     社名：<input class="d-block" type="text" name="agent_name" required>
                     会社URL：<input class="d-block" type="url" name="agent_url" placeholder="http://example.jp" required>
@@ -184,11 +186,14 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                     住所：<input class="d-block" type="text" name="address" required>
                     掲載期間：<input class="d-block" type="date" name="post_period" required>
-                    <input class="d-block" type="submit" value="登録する">
+                    <div class="modal-bottom">
+                        <a class="js-modal-close btn btn-secondary mx-2" href="">閉じる</a>
+                        <input class="d-block btn btn-success" type="submit" value="登録する">
+                    </div>
                 </form>
-                <a class="js-modal-close" href="">閉じる</a>
             </div>
         </div>
+
         <div class="row">
             <div class="col-12 mb-lg-0">
                 <div class="card">
@@ -225,11 +230,42 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?= $agent["address"]; ?></td>
                                             <td><?= $agent["post_period"]; ?></td>
                                             <td>
-                                                <a href="edit.php?id=<?= $agent['id'] ?>" class="btn btn-sm btn-primary">更新</a>
+                                                <!-- エージェント更新ボタン -->
+                                                <button type="button" class="btn btn-sm btn-primary modal-trigger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-whatever="<?= $agent['id'] ?>">
+                                                    更新
+                                                </button>
+                                                <!-- エージェント更新用のモーダル -->
+                                                <div class="modal fade modal-index" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">エージェント情報の更新を行います</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="edit.php?id=" method="POST">
+                                                                    <input id="agent-number" class="d-block" type="hidden" name="agent_id" value="" required>
+                                                                    社名：<input class="d-block" type="text" name="agent_name" required>
+                                                                    会社URL：<input class="d-block" type="url" name="agent_url" placeholder="http://example.jp" required>
+                                                                    代表者名：<input class="d-block" type="text" name="representative" required>
+                                                                    契約担当者名：<input class="d-block" type="text" name="contractor" required>
+                                                                    部署：<input class="d-block" type="text" name="department" required>
+                                                                    メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
+                                                                    電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
+                                                                    住所：<input class="d-block" type="text" name="address" required>
+                                                                    掲載期間：<input class="d-block" type="date" name="post_period" required>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary modal-close" data-bs-dismiss="modal">戻る</button>
+                                                                        <input class="btn btn-primary" type="submit" value="更新する">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td>
-                                                <!-- 課題：/admin/delete.php?page=1,2 の形で削除ボタンを押さないと、confirmの確認なくデータが消えてしまう -->
-                                                <!-- 課題解決：onclickに自作関数設定してphpでjsを発火させようとscriptタグ使っていたらheader関数の文法に反していた -->
+                                                <!-- エージェント削除ボタン -->
                                                 <a href="delete.php?id=<?= $agent['id'] ?>" class="btn btn-sm btn-danger" onClick="return confirm('エージェント情報を削除しますか？')">削除</a>
                                             </td>
                                         </tr>
@@ -241,31 +277,32 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-        <!--ページネーション  -->
-        <div class="pagination">
-            <?php if ($page >= 2) : ?>
-                <a href="index.php?page=<?php echo ($page - 1); ?>" class="page_feed">&laquo;</a>
-            <?php else :; ?>
-                <span class="first_last_page">&laquo;</span>
-            <?php endif; ?>
+    </div>
+    <!--ページネーション  -->
+    <div class="pagination">
+        <?php if ($page >= 2) : ?>
+            <a href="index.php?page=<?php echo ($page - 1); ?>" class="page_feed">&laquo;</a>
+        <?php else :; ?>
+            <span class="first_last_page">&laquo;</span>
+        <?php endif; ?>
 
-            <?php for ($i = 1; $i <= $max_page; $i++) : ?>
-                <?php if ($i >= $page - $range && $i <= $page + $range) : ?>
-                    <?php if ($i == $page) : ?>
-                        <span class="now_page_number"><?php echo $i; ?></span>
-                    <?php else : ?>
-                        <a href="?page=<?php echo $i; ?>" class="page_number"><?php echo $i; ?></a>
-                    <?php endif; ?>
+        <?php for ($i = 1; $i <= $max_page; $i++) : ?>
+            <?php if ($i >= $page - $range && $i <= $page + $range) : ?>
+                <?php if ($i == $page) : ?>
+                    <span class="now_page_number"><?php echo $i; ?></span>
+                <?php else : ?>
+                    <a href="?page=<?php echo $i; ?>" class="page_number"><?php echo $i; ?></a>
                 <?php endif; ?>
-            <?php endfor; ?>
-
-            <?php if ($page < $max_page) : ?>
-                <a href="index.php?page=<?php echo ($page + 1); ?>" class="page_feed">&raquo;</a>
-            <?php else : ?>
-                <span class="first_last_page">&raquo;</span>
             <?php endif; ?>
-        </div>
-        <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
+        <?php endfor; ?>
+
+        <?php if ($page < $max_page) : ?>
+            <a href="index.php?page=<?php echo ($page + 1); ?>" class="page_feed">&raquo;</a>
+        <?php else : ?>
+            <span class="first_last_page">&raquo;</span>
+        <?php endif; ?>
+    </div>
+    <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
     </div>
     <!-- ログアウト機能作る -->
     <!-- jQuery -->
