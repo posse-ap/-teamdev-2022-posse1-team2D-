@@ -1,3 +1,5 @@
+<!-- dbconnectと連結できない←階層構造があってない？ -->
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -70,5 +72,33 @@
   </header>
   <!-- コンテンツ -->
   <div class="wrapper">
+    <!-- ⚠戻る押したらタブが消えて検索結果画面に遷移するのを同時にやりたい⚠ -->
+    <div class="first-size"><a href="../result.php"><i class="bi bi-arrow-left-circle link-dark" type="button" onclick="window.close();" value="window.close()" href="../result.php"></i></a>エージェント企業一覧に戻る</div>
+    <div class="container rounded">
+      <div class="row d-flex py-2">
+        <div class="col-md-5"><img src="../public/img/feature5.jpg" alt=""></div>
+        <div class="col-md-7 ">
+          <p class="fw-bold py-2">エージェント企業詳細</p>
+          <p class="forth-size">・企業情報</p>
+          <p class="forth-size">・企業情報</p>
+          <p class="forth-size">・企業情報</p>
+          <p class="forth-size">・企業情報</p>
+          <p class="forth-size">・企業情報</p>
+          <p class="forth-size">・企業情報</p>
+          <p class="forth-size">・企業情報</p>
+          <p class="forth-size">・企業情報</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <form action="" method="POST" class="item-form ">
+        <input type="hidden" name="name" value="リクルート">
+        <input type="hidden" name="tags" value="理系">
+        <!-- <input type="text" value="1" name="count"> -->
+        <button class="keep-btn my-5 px-5" type="submit">
+          <i class="bi bi-star-fill black-star"></i>
+          <i class="bi bi-star white-star"></i>キープする</button>
+      </form>
+    </div>
   </div>
 </body>
