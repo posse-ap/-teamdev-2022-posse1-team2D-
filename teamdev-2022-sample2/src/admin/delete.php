@@ -9,10 +9,9 @@ if (isset($_GET["id"])) {
         // 後で論理削除も試す
         $sql = 'DELETE FROM agents WHERE id = :id';
         $stmt = $db->prepare($sql);
-        //   $stmt->execute([":id" => $id]);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
-        // ここが機能していない
+        // 管理者TOPページにリダイレクト
         header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php?page=1');
         exit();
     } catch (PDOException $e) {
