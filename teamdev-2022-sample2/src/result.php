@@ -6,26 +6,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
 
 <?php
 
-$name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : '';
-$tags = isset($_POST['tags']) ? htmlspecialchars($_POST['tags'], ENT_QUOTES, 'utf-8') : '';
-// $count = isset($_POST['count'])? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
 
-//配列に入れるには、変数に代入された値が取得できていることが前提なのでif文で空のデータを排除する
-if ($name != '' && $tags != '') {
-  $_SESSION['products'][$name] = [
-    'tags' => $tags
-  ];
-}
-$products = isset($_SESSION['products']) ? $_SESSION['products'] : [];
-
-//  if(isset($products)){
-//          foreach($products as $key => $product){
-//              echo $key;      //商品名
-//              echo "<br>";
-//              echo $product['tags']; //商品の金額
-//              echo "<br>";
-//          }
-//      }
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -115,9 +96,9 @@ $products = isset($_SESSION['products']) ? $_SESSION['products'] : [];
           <p class="forth-size">・企業情報</p>
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="http://agent-datails/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
+          <a href="agent-details/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
           <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button class="keep-btn bi bi-star white-star">キープする</button>
+          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
         </div>
       </div>
       <div class="col-md-6 my-5 d-flex flex-row">
@@ -133,9 +114,9 @@ $products = isset($_SESSION['products']) ? $_SESSION['products'] : [];
           <p class="forth-size">・企業情報</p>
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="http://agent-datails/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
+          <a href="agent-details/agent2.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
           <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button class="keep-btn bi bi-star white-star">キープする</button>
+          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
         </div>
       </div>
       <div class="col-md-6 my-5 d-flex flex-row">
@@ -151,9 +132,9 @@ $products = isset($_SESSION['products']) ? $_SESSION['products'] : [];
           <p class="forth-size">・企業情報</p>
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="http://agent-datails/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
+          <a href="agent-details/agent3.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
           <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button class="keep-btn bi bi-star white-star">キープする</button>
+          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
         </div>
       </div>
       <div class="col-md-6 my-5 d-flex flex-row">
@@ -169,9 +150,9 @@ $products = isset($_SESSION['products']) ? $_SESSION['products'] : [];
           <p class="forth-size">・企業情報</p>
         </div>
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="http://agent-datails/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
+          <a href="agent-details/agent4.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
           <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button class="keep-btn bi bi-star white-star">キープする</button>
+          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
         </div>
       </div>
     </div>

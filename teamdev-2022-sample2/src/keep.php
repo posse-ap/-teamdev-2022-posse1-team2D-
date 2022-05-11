@@ -92,12 +92,11 @@ require(dirname(__FILE__) . "/dbconnect.php");
         <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
           <a href="./agent-details/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
           <form action="" method="POST" class="item-form">
-            <input type="hidden" name="name" value="リクルート">
-            <input type="hidden" name="tags" value="理系">
+            <input type="hidden" name="" value="リクルート">
+            <input type="hidden" name="" value="理系">
             <!-- <input type="text" value="1" name="count"> -->
             <button class="delete-btn" type="submit">
-              <i class="bi bi-star-fill black-star"></i>
-              <i class="bi bi-star white-star"></i>削除する</button>
+              <i class="bi bi-star-fill black-star"></i>削除する</button>
           </form>
 
         </div>
@@ -121,16 +120,15 @@ require(dirname(__FILE__) . "/dbconnect.php");
             <input type="hidden" name="tags" value="エントリーシート">
             <!-- <input type="text" value="1" name="count"> -->
             <button class="delete-btn" type="submit">
-              <i class="bi bi-star-fill black-star"></i>
-              <i class="bi bi-star white-star"></i>削除する</button>
+              <i class="bi bi-star-fill black-star"></i>削除する</button>
           </form>
 
         </div>
       </div>
     </div>
     <div class="d-flex flex-column align-items-center">
-      <button type="button" class="contact-btn my-3"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</button>
-      <a href="result.php"><button type="button" class="continue-btn my-5"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</button></a>
+      <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>
+      <a class="btn continue-btn my-5" href="result.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
     </div>
   </div>
 </body>

@@ -338,7 +338,8 @@ a.page_number:visited {color: black; text-decoration:none }
 }
 
 .contact-btn {
-  background-color: #F38456;
+  /* background-color: #F38456; */
+  background-color: #DD544D;
 }
 
 .continue-btn {
@@ -350,3 +351,262 @@ a.page_number:visited {color: black; text-decoration:none }
 .container {
   background-color: #EBEDF1;
 }
+
+
+/*////////////////////////////////// おもうしこみフォーム画面////////////////////////////////// */
+.Form {
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 720px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form {
+    margin-top: 40px;
+  }
+}
+
+.Form-Item {
+  border-top: 1px solid #ddd;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    flex-wrap: wrap;
+  }
+}
+.Form-Item:nth-child(5) {
+  border-bottom: 1px solid #ddd;
+}
+.Form-Item-Label {
+  width: 100%;
+  max-width: 248px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  font-size: 18px;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Label {
+    max-width: inherit;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+}
+.Form-Item-Label.isMsg {
+  margin-top: 8px;
+  margin-bottom: auto;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Label.isMsg {
+    margin-top: 0;
+  }
+}
+.Form-Item-Label-Required {
+  border-radius: 6px;
+  margin-right: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 48px;
+  display: inline-block;
+  text-align: center;
+  background: #5bc8ac;
+  color: #fff;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item-Label-Required {
+    border-radius: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 32px;
+    font-size: 10px;
+  }
+}
+.Form-Item-Input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 48px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item-Input {
+    margin-left: 0;
+    margin-top: 18px;
+    height: 40px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+.Form-Item-Textarea {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 216px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item-Textarea {
+    margin-top: 18px;
+    margin-left: 0;
+    height: 200px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+
+
+
+@media screen and (max-width: 480px) {
+  .Form-Btn {
+    margin-top: 24px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 160px;
+    font-size: 16px;
+  }
+}
+
+
+/* プライバシーポリシー */
+.Form-CheckItem {
+  margin-top: 24px;
+  }
+
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem {
+  margin-top: 18px;
+  }
+  }
+
+  .Form-CheckItem-Label {
+  margin-top: 20px;
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  }
+
+  .Form-CheckItem-Label-Input {
+  display: none;
+  }
+
+  .Form-CheckItem-Label-SquareIcon {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  background: #eaedf2;
+  }
+
+
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem-Label-SquareIcon {
+  width: 15px;
+  height: 15px;
+  }
+  }
+
+  .Form-CheckItem-Label-Text {
+  padding-left: 8px;
+  }
+
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem-Label-Text {
+  padding-left: 6px;
+  font-size: 3.6vw;
+  }
+  }
+
+  .Form-Btn {
+    border-radius: 6px;
+    margin: 32px auto;
+    /* margin-left: auto;
+    margin-right: auto; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 280px;
+    display: block;
+    letter-spacing: 0.05em;
+    background: #52A49A;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    opacity: 0.2;
+  pointer-events: none;
+  transition: all 0.2s;
+  }
+
+
+  @media screen and (max-width: 480px) {
+  .Form-Btn {
+  margin-top: 24px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 160px;
+  font-size: 16px;
+  }
+  }
+  .Form-Btn.isActive {
+  opacity: 1;
+  pointer-events: inherit;
+  }
+  .Form-CheckItem-Label-Input:checked + *:before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #5bc8ac;
+  transform-origin: bottom left;
+  transform: rotateZ(90deg);
+  }
+  .Form-CheckItem-Label-Input:checked + *:after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 2px;
+  background: #5bc8ac;
+  transform-origin: bottom left;
+  transform: rotateZ(0deg);
+  }
+  .Form-CheckItem-Label-Input:checked + * {
+  width: 0;
+  height: 0;
+  transform: translate(8px, 8px) rotateZ(-135deg) scale(1.5);
+  }
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem-Label-Input:checked + * {
+  transform: translate(5px, 7px) rotateZ(-135deg) scale(1.5);
+  }
+  }
