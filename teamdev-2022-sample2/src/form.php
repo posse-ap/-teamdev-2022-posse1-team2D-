@@ -2,6 +2,16 @@
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
 
+// 変数の初期化
+$page_flag = 0;
+
+if (!empty($_POST['btn_confirm'])) {
+
+  $page_flag = 1;
+} elseif (!empty($_POST['btn_submit'])) {
+
+  $page_flag = 2;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -10,7 +20,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <title>キープ企業確認画面</title>
+  <title>お問い合わせフォーム</title>
   <!-- Bootstrap CSS-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- Bootstrap Icon -->
@@ -77,66 +87,129 @@ require(dirname(__FILE__) . "/dbconnect.php");
   </header>
   <div class="wrapper">
     <div class="Form">
-      <form action="sample.php" method="POST">
-        <div class="Form-Item">
-          <p class="Form-Item-Label">
-            <span class="Form-Item-Label-Required">必須</span>氏名
-          </p>
-          <input type="name" class="Form-Item-Input" placeholder="例）山田太郎" required>
+      <?php if ($page_flag === 1) : ?>
+        <form action="" method="POST">
+          <div class="Form-Item">
+            <p class="Form-Item-Label">
+              <span class="Form-Item-Label-Required">必須</span>氏名
+            </p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-name']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-university']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-faculty']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学科名</p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-department']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-graduation']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>電話</p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-tel']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-email']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
+            <p class="Form-Item-Input"><?php echo $_POST['student-address']; ?></p>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
+            <p class="Form-Item-Textarea"><?php echo $_POST['student-content']; ?></p>
+          </div>
+          <label class="Form-CheckItem-Label">
+            <input type="checkbox" name="" value="" id="JS_CheckItem" class="Form-CheckItem-Label-Input">
+            <span class="Form-CheckItem-Label-CheckIcon"></span>
+            <span class="Form-CheckItem-Label-SquareIcon"></span>
+            <span class="Form-CheckItem-Label-Text"><a href="#">プライバシーポリシー</a>に同意する</span>
+          </label>
+          <input type="submit" name="btn_back" class="Form-Btn send" value="戻る">
+          <input type="submit" name="btn_submit" class="Form-Btn send" value="送信">
+        </form>
+
+        <!-- サンクスページ -->
+      <?php elseif ($page_flag === 2) : ?>
+        <div class="card thanks p-3 align-items-center justify-content-center">
+          <h1>Thanks!!</h1>
+          <p class="second-size">お問い合わせを受け付けました。</p>
+          <p>折り返し自動送信メール（確認メール）をお送りさせていただきました。？？？？</p>
+          <p> お問い合わせ内容を確認のうえ、回答させて頂きます。 </p>
+          <div class="d-flex">
+            <p>メールが届いていない場合<br>boozerへのお問い合わせ⇒</p>
+            <button class="contact-circle  align-items-center justify-content-center mx-2 text-light"><i class="bi bi-envelope"></i></button>
+          </div>
+          <a href="index.php" class="my-2 link-success"><i class="bi bi-skip-backward-circle"></i>Topページに戻る</a>
         </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
-          <input type="text" class="Form-Item-Input" placeholder="例）慶應義塾大学" required>
-        </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
-          <input type="text" class="Form-Item-Input" placeholder="例）理工学部" required>
-        </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学科名</p>
-          <input type="text" class="Form-Item-Input" placeholder="例）管理工学科" required>
-        </div>
-        <!-- プルダウンメニュー -->
-        <div class="Form-Item">
-          <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
-          <!-- <input type="text" data-options="2022,2023,2024,2025,2026" class="Form-Item-Input" placeholder="例）23年度卒" required> -->
-          <select name="" id="graduation"  class="Form-Item-Input text-secondary">
-            <option value="none" class="text-secondary default-word">選択してください</option>
-            <option value="2022" class="text-dark graduation">2022年卒</option>
-            <option value="2023" class="text-dark graduation">2023年卒</option>
-            <option value="2024" class="text-dark graduation">2024年卒</option>
-            <option value="2025" class="text-dark graduation">2025年卒</option>
-            <option value="2026" class="text-dark graduation">2026年卒</option>
-          </select>
-        </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>電話</p>
-          <input type="tel" pattern="\d{2,4}-\d{3,4}-\d{3,4}" class="Form-Item-Input" placeholder="例）000-0000-0000" required>
-        </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
-          <input type="email" class="Form-Item-Input" placeholder="例）example@gmail.com" required>
-        </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
-          <input type="text" class="Form-Item-Input" placeholder="例）東京都世田谷区１丁目" required>
-        </div>
-        <div class="Form-Item">
-          <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
-          <textarea class="Form-Item-Textarea"></textarea>
-        </div>
-        <label class="Form-CheckItem-Label">
-          <input type="checkbox" name="" value="" id="JS_CheckItem" class="Form-CheckItem-Label-Input">
-          <span class="Form-CheckItem-Label-CheckIcon"></span>
-          <span class="Form-CheckItem-Label-SquareIcon"></span>
-          <span class="Form-CheckItem-Label-Text"><a href="#">プライバシーポリシー</a>に同意する</span>
-        </label>
-        <input type="submit" class="Form-Btn send" value="送信する">
-      </form>
-    </div>
-    <div class="Thanks">
 
 
+      <?php else : ?>
+        <form action="" method="POST">
+          <div class="Form-Item">
+            <p class="Form-Item-Label">
+              <span class="Form-Item-Label-Required">必須</span>氏名
+            </p>
+            <input type="text" name="student-name" class="Form-Item-Input" placeholder="例）山田太郎" required>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
+            <input type="text" name="student-university" class="Form-Item-Input" placeholder="例）慶應義塾大学" required>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
+            <input type="text" name="student-faculty" class="Form-Item-Input" placeholder="例）理工学部" required>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学科名</p>
+            <input type="text" name="student-department" class="Form-Item-Input" placeholder="例）管理工学科" required>
+          </div>
+          <!-- プルダウンメニュー -->
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
+            <!-- <input type="text" data-options="2022,2023,2024,2025,2026" class="Form-Item-Input" placeholder="例）23年度卒" required> -->
+            <select name="student-graduation" id="graduation" class="Form-Item-Input text-secondary" required>
+              <option value="" class="text-secondary default-word" hidden>選択してください</option>
+              <option value="2022" class="text-dark graduation">2022年卒</option>
+              <option value="2023" class="text-dark graduation">2023年卒</option>
+              <option value="2024" class="text-dark graduation">2024年卒</option>
+              <option value="2025" class="text-dark graduation">2025年卒</option>
+              <option value="2026" class="text-dark graduation">2026年卒</option>
+            </select>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>電話</p>
+            <input type="tel" name="student-tel" pattern="\d{2,4}-\d{3,4}-\d{3,4}" class="Form-Item-Input" placeholder="例）000-0000-0000" required>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
+            <input type="email" name="student-email" class="Form-Item-Input" placeholder="例）example@gmail.com" required>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
+            <input type="text" name="student-address" class="Form-Item-Input" placeholder="例）東京都世田谷区１丁目" required>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
+            <textarea name="student-content" class="Form-Item-Textarea"></textarea>
+          </div>
+          <label class="Form-CheckItem-Label">
+            <input type="checkbox" name="" value="" id="JS_CheckItem" class="Form-CheckItem-Label-Input">
+            <span class="Form-CheckItem-Label-CheckIcon"></span>
+            <span class="Form-CheckItem-Label-SquareIcon"></span>
+            <span class="Form-CheckItem-Label-Text"><a href="#">プライバシーポリシー</a>に同意する</span>
+          </label>
+          <input type="submit" name="btn_confirm" class="Form-Btn send" value="入力内容を確認する">
+        </form>
+      <?php endif; ?>
     </div>
 
   </div>

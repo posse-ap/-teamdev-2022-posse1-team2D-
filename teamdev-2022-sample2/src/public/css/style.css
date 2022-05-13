@@ -625,3 +625,16 @@ a.page_number:visited {color: black; text-decoration:none }
   transform: translate(5px, 7px) rotateZ(-135deg) scale(1.5);
   }
   }
+
+  /*////////////////////////////////// サンクスページ////////////////////////////////// */
+  .thanks {
+    background-color: #EBEDF1;
+  }
+
+  .contact-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #F3AF56;
+    /*背景色*/
+  }
