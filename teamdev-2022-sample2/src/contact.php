@@ -78,7 +78,7 @@ if (!empty($_POST['btn_confirm'])) {
               <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
+              <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
             </li>
           </ul>
         </div>
@@ -103,8 +103,8 @@ if (!empty($_POST['btn_confirm'])) {
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
             <p class="Form-Item-Textarea"><?php echo $_POST['student-content']; ?></p>
           </div>
-          <input type="submit" name="btn_back" class="Form-Btn send" value="戻る">
-          <input type="submit" name="btn_submit" class="Form-Btn send" value="送信">
+          <input type="submit" name="btn_back" class="Form-Btn unchecked" value="戻る">
+          <input type="submit" name="btn_submit" class="Form-Btn unchecked" value="送信">
         </form>
 
         <!-- サンクスページ -->
@@ -135,7 +135,7 @@ if (!empty($_POST['btn_confirm'])) {
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
             <textarea name="student-content" class="Form-Item-Textarea"></textarea>
           </div>
-          <input type="submit" name="btn_confirm" class="Form-Btn send" value="入力内容を確認する">
+          <input type="submit" name="btn_confirm" class="Form-Btn unchecked" value="入力内容を確認する">
         </form>
       <?php endif; ?>
     </div>

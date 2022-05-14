@@ -78,7 +78,7 @@ if (!empty($_POST['btn_confirm'])) {
               <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
+              <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
             </li>
           </ul>
         </div>
@@ -127,14 +127,8 @@ if (!empty($_POST['btn_confirm'])) {
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
             <p class="Form-Item-Textarea"><?php echo $_POST['student-content']; ?></p>
           </div>
-          <label class="Form-CheckItem-Label">
-            <input type="checkbox" name="" value="" id="JS_CheckItem" class="Form-CheckItem-Label-Input">
-            <span class="Form-CheckItem-Label-CheckIcon"></span>
-            <span class="Form-CheckItem-Label-SquareIcon"></span>
-            <span class="Form-CheckItem-Label-Text"><a href="#">プライバシーポリシー</a>に同意する</span>
-          </label>
-          <input type="submit" name="btn_back" class="Form-Btn send" value="戻る">
-          <input type="submit" name="btn_submit" class="Form-Btn send" value="送信">
+          <input type="submit" name="btn_back" class="Form-Btn unchecked" value="戻る">
+          <input type="submit" name="btn_submit" class="Form-Btn unchecked" value="送信">
         </form>
 
         <!-- サンクスページ -->
