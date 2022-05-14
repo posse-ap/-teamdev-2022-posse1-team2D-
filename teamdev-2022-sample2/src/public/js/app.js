@@ -125,7 +125,7 @@ $(function(){
 
 
 
-
+//お申し込みフォーム画面の年度卒欄、灰色の選択肢を押したら黒色で入力される
 let graduation = document.getElementById("graduation");
 let defaultWord = document.querySelector(".default-word");
 
