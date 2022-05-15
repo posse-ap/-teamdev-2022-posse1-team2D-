@@ -40,6 +40,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $address = $_POST['address'];
             $post_period = $_POST['post_period'];
 
+
             // INSERT文を変数に格納。プレスホルダーは、値を入れるための空箱
             $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period) VALUES 
         (:agent_name, :agent_url, :representative, :contractor, :department, :email, :phone_number, :address, :post_period)";
@@ -67,6 +68,22 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
             // 
             $stmt->execute();
+
+            // tagの登録を行う
+
+            // 中間テーブルに入力するデータ
+            $tags = $_POST['tag'];
+            // 最後に入力されたエージェントの主キーを取得
+            $agent_id_joinTable = $db->lastInsertId();
+            // 選択したタグの数だけ、中間テーブルにinsertする
+            foreach ($tags as $tag) {
+                $sql = "INSERT INTO agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)";
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(":agent_id",  $agent_id_joinTable, PDO::PARAM_INT);
+                $stmt->bindValue(":tag_id",  $tag, PDO::PARAM_INT);
+                $stmt->execute();
+            };
+
             header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php');
             exit();
         } catch (PDOException $e) {
@@ -120,6 +137,9 @@ $stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contract
 $stmt->bindParam(1, $page_change_record, PDO::PARAM_INT);
 $stmt->execute();
 $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// tagを取得する
+$stmt = $db->query('SELECT id, name FROM tags');
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // -------------------------------------------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -129,7 +149,7 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者ログイン</title>
+    <title>エージェント情報管理画面</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Bootstrap Icon -->
@@ -156,8 +176,9 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <h1 class="ms-3 text-light">エージェント情報管理画面</h1>
 
                 <div class="float-end h5 text-light">
-                    <div class="d-inline mx-5">○○様</div>
-                    <a>ログアウト</a>
+                    <form method="get" action="">
+                        <input type="submit" name="btn_logout" value="ログアウト">
+                    </form>
                 </div>
 
             </div>
@@ -166,44 +187,63 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <!-- コンテンツ -->
     <div class="admin-wrapper">
         <!-- エージェント登録 -->
-        <div class="content">
-            <a class="js-modal-open btn btn-lg btn-success" href="">エージェントの登録</a>
-        </div>
-        <!--エージェント登録用のモーダル-->
-        <div class="modal js-modal">
-            <div class="modal__bg js-modal-close"></div>
-            <!--モーダルの構成-->
-            <div class="modal__content">
-                <h5 class="modal-top" id="exampleModalLabel">エージェント情報の登録を行います</h5>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-                <form action="/admin/index.php" method="POST" class="ms-3">
-                    社名：<input class="d-block" type="text" name="agent_name" required>
-                    会社URL：<input class="d-block" type="url" name="agent_url" placeholder="http://example.jp" required>
-                    代表者名：<input class="d-block" type="text" name="representative" required>
-                    契約担当者名：<input class="d-block" type="text" name="contractor" required>
-                    部署：<input class="d-block" type="text" name="department" required>
-                    メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
-                    電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
-                    住所：<input class="d-block" type="text" name="address" required>
-                    掲載期間：<input class="d-block" type="date" name="post_period" required>
-                    <div class="modal-bottom">
-                        <a class="js-modal-close btn btn-secondary mx-2" href="">閉じる</a>
-                        <input class="d-block btn btn-success" type="submit" value="登録する">
-                    </div>
+        <div class="row">
+            <div class="content col-6">
+                <a class="js-modal-open btn btn-lg btn-success" href="">エージェントの登録</a>
+            </div>
+            <!--エージェント登録用のモーダル-->
+            <div class="modal js-modal">
+                <div class="modal__bg js-modal-close"></div>
+                <!--モーダルの構成-->
+                <div class="modal__content">
+                    <h5 class="modal-top" id="exampleModalLabel">エージェント情報の登録を行います</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    <form action="/admin/index.php" method="POST" class="ms-3">
+                        <div class="row">
+                            <div class="col-6">
+                                社名：<input class="d-block" type="text" name="agent_name" required>
+                                会社URL：<input class="d-block" type="url" name="agent_url" placeholder="http://example.jp" required>
+                                代表者名：<input class="d-block" type="text" name="representative" required>
+                                契約担当者名：<input class="d-block" type="text" name="contractor" required>
+                                部署：<input class="d-block" type="text" name="department" required>
+                                メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
+                                電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
+                                住所：<input class="d-block" type="text" name="address" required>
+                                掲載期間：<input class="d-block" type="date" name="post_period" required>
+                            </div>
+                            <div class="col-6">
+                                <div class="h6">タグの選択</div>
+                                <?php foreach ($tags as $key => $tag) : ?>
+                                    <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="modal-bottom">
+                            <a class="js-modal-close btn btn-secondary mx-2" href="">閉じる</a>
+                            <input class="d-block btn btn-success" type="submit" value="登録する">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="content col-6">
+                <form action="/admin/buzzer_search.php" method="POST">
+                    <label>Name：</label>
+                    <input type="text" name="word" /><input type="submit" value="検索" />
                 </form>
             </div>
         </div>
+
 
         <div class="row">
             <div class="col-12 mb-lg-0">
                 <div class="card">
                     <h5 class="card-header">契約エージェント一覧</h5>
-                    <div class="card-body">
+                    <div class="card-body pb-0">
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">ID</th>
                                         <th scope="col">社名</th>
                                         <th scope="col">会社URL</th>
                                         <th scope="col">代表者名</th>
@@ -213,13 +253,13 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <th scope="col">電話番号</th>
                                         <th scope="col">住所</th>
                                         <th scope="col">掲載期間</th>
+                                        <th scope="col">タグ</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($agents as $key => $agent) : ?>
                                         <tr>
-                                            <th scope="row"><?= $agent["id"]; ?></th>
                                             <td><?= $agent["agent_name"]; ?></td>
                                             <td><?= $agent["agent_url"]; ?></td>
                                             <td><?= $agent["representative"]; ?></td>
@@ -229,6 +269,17 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?= $agent["phone_number"]; ?></td>
                                             <td><?= $agent["address"]; ?></td>
                                             <td><?= $agent["post_period"]; ?></td>
+                                            <td>
+                                                <?php $sql = "SELECT name FROM tags inner join agents_tags on tags.id = agents_tags.tag_id inner join agents on agents_tags.agent_id = agents.id WHERE agents.agent_name <=> :agent_name";
+                                                $stmt_for_joinTable = $db->prepare($sql);
+                                                //  エージェントの名前毎に、タグの名前を取得する
+                                                $stmt_for_joinTable->bindValue(":agent_name", $agent["agent_name"], PDO::PARAM_STR);
+                                                $stmt_for_joinTable->execute();
+                                                $tags_with_agents = $stmt_for_joinTable->fetchAll(PDO::FETCH_COLUMN);
+                                                foreach ($tags_with_agents as $key => $each_tag) {
+                                                    echo $each_tag . ' ';
+                                                } ?>
+                                            </td>
                                             <td>
                                                 <!-- エージェント更新ボタン -->
                                                 <button type="button" class="btn btn-sm btn-primary modal-trigger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-whatever="<?= $agent['id'] ?>">
@@ -244,16 +295,27 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                             </div>
                                                             <div class="modal-body">
                                                                 <form action="edit.php?id=" method="POST">
-                                                                    <input id="agent-number" class="d-block" type="hidden" name="agent_id" value="" required>
-                                                                    社名：<input class="d-block" type="text" name="agent_name" required>
-                                                                    会社URL：<input class="d-block" type="url" name="agent_url" placeholder="http://example.jp" required>
-                                                                    代表者名：<input class="d-block" type="text" name="representative" required>
-                                                                    契約担当者名：<input class="d-block" type="text" name="contractor" required>
-                                                                    部署：<input class="d-block" type="text" name="department" required>
-                                                                    メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
-                                                                    電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
-                                                                    住所：<input class="d-block" type="text" name="address" required>
-                                                                    掲載期間：<input class="d-block" type="date" name="post_period" required>
+                                                                    <div class="row">
+                                                                        <div class="col-6">
+                                                                            <input id="agent-number" class="d-block" type="hidden" name="agent_id" value="" required>
+                                                                            社名：<input class="d-block" type="text" name="agent_name" required>
+                                                                            会社URL：<input class="d-block" type="url" name="agent_url" placeholder="http://example.jp" required>
+                                                                            代表者名：<input class="d-block" type="text" name="representative" required>
+                                                                            契約担当者名：<input class="d-block" type="text" name="contractor" required>
+                                                                            部署：<input class="d-block" type="text" name="department" required>
+                                                                            メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
+                                                                            電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
+                                                                            住所：<input class="d-block" type="text" name="address" required>
+                                                                            掲載期間：<input class="d-block" type="date" name="post_period" required>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <div class="h6">タグの選択</div>
+                                                                            <?php foreach ($tags as $key => $tag) : ?>
+                                                                                <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                                                                            <?php endforeach; ?>
+                                                                        </div>
+                                                                    </div>
+
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary modal-close" data-bs-dismiss="modal">戻る</button>
                                                                         <input class="btn btn-primary" type="submit" value="更新する">
