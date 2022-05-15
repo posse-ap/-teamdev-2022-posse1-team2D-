@@ -51,7 +51,7 @@
               <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">エージェント一覧</a>
+              <a class="h6 nav-link text-dark"  href="../agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
@@ -63,7 +63,7 @@
               <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
+              <a class="h6 nav-link text-dark" href="../contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
             </li>
           </ul>
         </div>
@@ -94,11 +94,13 @@
       <form action="" method="POST" class="item-form ">
         <input type="hidden" name="name" value="リクルート">
         <input type="hidden" name="tags" value="理系">
-        <!-- <input type="text" value="1" name="count"> -->
-        <button class="keep-btn my-5 px-5" type="submit">
-          <i class="bi bi-star-fill black-star"></i>
-          <i class="bi bi-star white-star"></i>キープする</button>
+        <button type="submit" class="keep-btn bi bi-star white-star my-3 px-5">キープする</button>
       </form>
     </div>
   </div>
+  
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- 私たちのJS -->
+    <script src="../public/js/app.js"></script>
 </body>

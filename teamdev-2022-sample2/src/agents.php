@@ -1,11 +1,10 @@
 <?php
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
-?>
 
-
-<?php
-
+// admin/index.phpでinsert処理等したeventsテーブルから、id, titleを検索
+$stmt = $db->query('SELECT id, title FROM events');
+$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -14,8 +13,8 @@ require(dirname(__FILE__) . "/dbconnect.php");
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRAFT 検索結果画面</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>エージェント一覧</title>
   <!-- Bootstrap CSS-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- Bootstrap Icon -->
@@ -29,60 +28,59 @@ require(dirname(__FILE__) . "/dbconnect.php");
 <body>
   <!-- ヘッダー -->
   <header>
-    <!-- ナヴィゲーション -->
-    <nav class="navbar navbar-dark fixed-top py-1 px-4" id="header">
-      <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
-      <div class="container-fluid">
+        <!-- ナヴィゲーション -->
+        <nav class="navbar navbar-dark fixed-top py-1 px-4" id="header">
+            <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
+            <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
-          <h1 class="mb-0">CRAFT</h1>
-          <div class="h6">by 就活.com</div>
-        </a>
+                <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+                    <h1 class="mb-0">CRAFT</h1>
+                    <div class="h6">by 就活.com</div>
+                </a>
 
-        <div class="float-end">
-          <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
-          <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
-          <!-- キープマーク -->
-          <a href="keep.php" class="keep-star ms-5">
-            <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
-          </a>
-          <!-- ハンバーガーメニューボタン -->
-          <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-        <!-- ハンバーガーメニュー内部 -->
-        <div class="collapse navbar-collapse bg-light navbar-expand-lg" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 ps-3 py-2 mb-lg-0 row">
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark"  href="agents.php">エージェント一覧</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">CRAFTを利用した就活の流れ</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">就活エージェントとは</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+                <div class="float-end">
+                    <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
+                    <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
+                    <!-- キープマーク -->
+                    <a href="keep.php" class="keep-star ms-5">
+                        <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
+                        <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+                    </a>
+                    <!-- ハンバーガーメニューボタン -->
+                    <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <!-- ハンバーガーメニュー内部 -->
+                <div class="collapse navbar-collapse bg-light navbar-expand-lg" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 ps-3 py-2 mb-lg-0 row">
+                        <li class="nav-item col-md-6">
+                            <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
+                        </li>
+                        <li class="nav-item col-md-6">
+                            <a class="h6 nav-link text-dark" href="agents.php">エージェント一覧</a>
+                        </li>
+                        <li class="nav-item col-md-6">
+                            <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                        </li>
+                        <li class="nav-item col-md-6">
+                            <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                        </li>
+                        <li class="nav-item col-md-6">
+                            <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
+                        </li>
+                        <li class="nav-item col-md-6">
+                            <a class="h6 nav-link text-dark" href="#">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
   <!-- コンテンツ -->
   <div class="wrapper">
-    <p class="first-size">検索結果一覧（あなたがお探しのエージェントはこちら！！）</p>
+    <p class="first-size">エージェント企業一覧</p>
     <div class="row">
-      <!-- ⚠cardは角丸いのに背景の色は角ばってる⚠ -->
       <div class="col-md-6 my-5 d-flex flex-row">
         <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
           <div class="">
@@ -158,6 +156,10 @@ require(dirname(__FILE__) . "/dbconnect.php");
     </div>
   </div>
   </div>
+
+
+
+
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
