@@ -38,6 +38,23 @@ if (isset($_POST)) {
         // 
         $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
         $stmt->execute();
+
+        // tagの更新を行う
+
+        // そもそもエージェントにタグが存在しない場合は、updateできない & タグの数が1→2に変動する場合、updateの回数が対応しない
+        // → まず該当エージェントのタグをすべて削除し、insertする形にすることで、更新を実現させる
+        $tags = $_POST['tag'];
+        $sql = 'DELETE FROM agents_tags WHERE agent_id = :agent_id';
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(":agent_id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        foreach ($tags as $tag) {
+            $sql = "INSERT INTO agents_tags (agent_id, tag_id) VALUES (:agent_id, :tag_id)";
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(":agent_id",  $id, PDO::PARAM_INT);
+            $stmt->bindValue(":tag_id",  $tag, PDO::PARAM_INT);
+            $stmt->execute();
+        };
         // 管理者TOPページにリダイレクト
         header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php?page=1');
         exit();

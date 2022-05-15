@@ -84,7 +84,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <p class="d-inline-block">就活エージェントってなに？</p>
             <div class="d-inline-block ms-3 updown">
                 <a href="#jobHuntingSec" class="text-danger" style="text-decoration: none;">
-                    <p class="mb-0 third-size">SCROLL</p>
+                    <p class="mb-0 fourth-size">詳細はこちら</p>
                     <span>
                         <i class="bi bi-arrow-down-circle-fill text-danger first-size"></i>
                     </span>
@@ -96,34 +96,42 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <form action="/result.php">
                     <p class="second-size fw-bold">タグで絞り込む<i class="bi bi-check-all"></i></p>
                     <ul class="tags row">
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
-                        </li>
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
-                        </li>
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
-                        </li>
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
-                        </li>
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
-                        </li>
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
-                        </li>
-                        <li class="tag col-6">
-                            <input type="checkbox">
-                            文系
-                        </li>
+                        <?php //tagを取得する
+                        $stmt = $db->query('SELECT id, name FROM tags');
+                        $tags = $stmt->fetchAll(PDO::FETCH_ASSOC); ?>
+                        <?php foreach ($tags as $key => $tag) : ?>
+                            <li class="tag col-6">
+                                <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                            </li>
+                        <?php endforeach; ?>
+                        <!-- <li class="tag col-6">
+                                <input type="checkbox">
+                                文系
+                            </li>
+                            <li class="tag col-6">
+                                <input type="checkbox">
+                                文系
+                            </li>
+                            <li class="tag col-6">
+                                <input type="checkbox">
+                                文系
+                            </li>
+                            <li class="tag col-6">
+                                <input type="checkbox">
+                                文系
+                            </li>
+                            <li class="tag col-6">
+                                <input type="checkbox">
+                                文系
+                            </li>
+                            <li class="tag col-6">
+                                <input type="checkbox">
+                                文系
+                            </li>
+                            <li class="tag col-6">
+                                <input type="checkbox">
+                                文系
+                            </li> -->
                         <li class="other-tag dropdown col-6">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 その他のタグ
