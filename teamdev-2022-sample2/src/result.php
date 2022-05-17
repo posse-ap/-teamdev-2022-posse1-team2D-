@@ -29,7 +29,6 @@ if (isset($_POST['tag'])) {
   }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -150,7 +149,10 @@ if (isset($_POST['tag'])) {
             <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
             <!-- キープした時にセッションでエージェントの情報を保持 -->
             <div class="">
-              <form action="shop.php" method="POST" class="item-form">
+              <form action="" method="POST" class="item-form">
+                <?php foreach ($tags as $tag) : ?>
+                  <input type="hidden" name="tag[]" value="<?= $tag ?>">
+                <?php endforeach; ?>
                 <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
                 <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
                 <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
@@ -163,7 +165,14 @@ if (isset($_POST['tag'])) {
     </div>
   </div>
   </div>
-
+  <!--キープした時にエージェントの名前とメールがとれたかデバッグ、この変数をセッションで管理する  -->
+  <?php
+  $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8') : '';
+  $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : '';
+  echo $keep_email;
+  echo '<pre></pre>';
+  echo $keep_name;
+  ?>
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- 私たちのJS -->
