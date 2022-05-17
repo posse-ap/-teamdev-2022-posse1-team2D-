@@ -1,13 +1,35 @@
 <?php
-session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
+if (isset($_POST['tag'])) {
+  try {
+    // 選択したタグのidを取得
+    $tags = $_POST['tag'];
+    $arr_tag_id = array();
+    foreach ($tags as $tag) {
+      $sql = "SELECT id, name FROM tags where id = :tag_id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(":tag_id",  $tag, PDO::PARAM_INT);
+      $stmt->execute();
+      array_push($arr_tag_id, $tag . ",");
+    };
+    // 送信されたタグのidをカンマ区切りの文字列に変換する
+    $str_tags = implode($arr_tag_id);
+    // エージェントの情報を送信されたタグの数にヒットした順に取得する
+    $stmt = $db->prepare('SELECT agent_name, agent_url, COUNT(*) AS count, representative, address, email
+    FROM agents
+    INNER JOIN agents_tags ON agents.id = agents_tags.agent_id 
+    WHERE FIND_IN_SET(agents_tags.tag_id, :tags) 
+    GROUP BY agents.id
+    ORDER BY count DESC');
+    $stmt->bindValue(":tags",  $str_tags, PDO::PARAM_STR);
+    $stmt->execute();
+    $result_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  } catch (PDOException $e) {
+    exit('データベースに接続できませんでした。' . $e->getMessage());
+  }
+}
 ?>
 
-
-<?php
-
-
-?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -59,7 +81,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
               <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark"  href="agents.php">エージェント一覧</a>
+              <a class="h6 nav-link text-dark" href="agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="#">CRAFTを利用した就活の流れ</a>
@@ -80,81 +102,64 @@ require(dirname(__FILE__) . "/dbconnect.php");
   </header>
   <!-- コンテンツ -->
   <div class="wrapper">
-    <p class="first-size">検索結果一覧（あなたがお探しのエージェントはこちら！！）</p>
+    <p class="h2 fw-bold text-center">検索結果一覧</p>
+    <div class="d-inline h4 me-3">選択したタグ: </div>
+    <?php foreach ($tags as $tag) : ?>
+      <? $sql = "SELECT id, name FROM tags where id = :tag_id";
+      $stmt = $db->prepare($sql);
+      $stmt->bindValue(":tag_id",  $tag, PDO::PARAM_INT);
+      $stmt->execute();
+      $checked_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      ?>
+      <!-- なんのタグを選択したか表示 -->
+      <?php foreach ($checked_tags as $checked_tag) : ?>
+        <div class="d-inline h4 me-2"><?= $checked_tag['name']; ?></div>
+      <?php endforeach; ?>
+
+    <?php endforeach; ?>
     <div class="row">
+      <!-- ヒットしたエージェントの数だけ、以下のphp動作と、html要素をforeachさせる -->
+      <?php foreach ($result_agents as $key => $result_agent) : ?>
+        <!-- エージェント毎のタグを全て取得する -->
+        <? $stmt = $db->prepare('SELECT name FROM tags inner join agents_tags on tags.id = agents_tags.tag_id inner join agents on agents_tags.agent_id = agents.id WHERE agents.agent_name = :agent_name');
+        $stmt->bindValue(":agent_name",  $result_agent['agent_name'], PDO::PARAM_STR);
+        $stmt->execute();
+        $result_agents_tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        ?>
+        <!-- １つ１つのエージェントのカードタイル -->
+        <div class="col-md-6 my-3 my-md-4 d-flex flex-row">
+          <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
+            <div class="">
+              <img src="public/img/feature5.jpg" class="" alt="">
+            </div>
+          </div>
+          <div class="col-5 col-md-6 result-content ps-3 my-0">
+            <p class="second-size fw-bold"><?= $result_agent['agent_name']; ?></p>
+            <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
+            <p class="forth-size">
+              <?php foreach ($result_agents_tags as $key => $result_agents_tag) {
+                echo $result_agents_tag . ' ';
+              } ?>
+            </p>
+            <div class="mb-2">
+              <a href="<?= $result_agent['agent_url']; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
+            </div>
+          </div>
+          <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
+            <a href="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {echo $result_agents_tag . ' ';} ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
+            <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
+            <!-- キープした時にセッションでエージェントの情報を保持 -->
+            <div class="">
+              <form action="shop.php" method="POST" class="item-form">
+                <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
+                <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
+                <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
       <!-- ⚠cardは角丸いのに背景の色は角ばってる⚠ -->
-      <div class="col-md-6 my-5 d-flex flex-row">
-        <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-          <div class="">
-            <img src="public/img/feature5.jpg" class="" alt="">
-          </div>
-        </div>
-        <div class="col-4 result-content ps-3">
-          <p class="first-size fw-bold">企業名1</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-        </div>
-        <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="agent-details/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
-        </div>
-      </div>
-      <div class="col-md-6 my-5 d-flex flex-row">
-        <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-          <div class="">
-            <img src="public/img/feature5.jpg" class="" alt="">
-          </div>
-        </div>
-        <div class="col-4 result-content ps-3">
-          <p class="first-size fw-bold">企業名1</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-        </div>
-        <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="agent-details/agent2.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
-        </div>
-      </div>
-      <div class="col-md-6 my-5 d-flex flex-row">
-        <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-          <div class="">
-            <img src="public/img/feature5.jpg" class="" alt="">
-          </div>
-        </div>
-        <div class="col-4 result-content ps-3">
-          <p class="first-size fw-bold">企業名1</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-        </div>
-        <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="agent-details/agent3.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
-        </div>
-      </div>
-      <div class="col-md-6 my-5 d-flex flex-row">
-        <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-          <div class="">
-            <img src="public/img/feature5.jpg" class="" alt="">
-          </div>
-        </div>
-        <div class="col-4 result-content ps-3">
-          <p class="first-size fw-bold">企業名1</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-        </div>
-        <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="agent-details/agent4.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
-          <button type="submit" class="keep-btn bi bi-star white-star">キープする</button>
-        </div>
-      </div>
     </div>
   </div>
   </div>

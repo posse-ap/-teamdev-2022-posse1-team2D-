@@ -1,5 +1,19 @@
 <!-- dbconnectと連結できない←階層構造があってない？ -->
-
+<?php
+// require(dirname(__FILE__) . "/dbconnect.php");
+require('../dbconnect.php');
+if (isset($_GET)) {
+  try {
+    $name = $_GET['name'];
+    $url = $_GET['url'];
+    $tag = $_GET['tag'];
+    $representative = $_GET['representative'];
+    $address = $_GET['address'];
+  } catch (PDOException $e) {
+    exit('データベースに接続できませんでした。' . $e->getMessage());
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -51,7 +65,7 @@
               <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark"  href="../agents.php">エージェント一覧</a>
+              <a class="h6 nav-link text-dark" href="../agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
@@ -78,15 +92,19 @@
       <div class="row d-flex py-2">
         <div class="col-md-5"><img src="../public/img/feature5.jpg" alt=""></div>
         <div class="col-md-7 ">
-          <p class="fw-bold py-2">エージェント企業詳細</p>
+          <p class="h1 fw-bold py-2"><?= $name ?></p>
+          <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i><span class="fw-bold">タグ</span></p>
+          <p class="forth-size">
+            <?= $tag; ?>
+          </p>
           <p class="forth-size">・企業情報</p>
           <p class="forth-size">・企業情報</p>
           <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
+          <p class="forth-size"><span class="fw-bold">・代表者：</span><?=$representative?></p>
+          <p class="forth-size"><span class="fw-bold">・所在地：</span><?=$address?></p>
+          <div class="">
+            <a href="<?= $url; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
+          </div>
         </div>
       </div>
     </div>
@@ -98,9 +116,9 @@
       </form>
     </div>
   </div>
-  
-    <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- 私たちのJS -->
-    <script src="../public/js/app.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- 私たちのJS -->
+  <script src="../public/js/app.js"></script>
 </body>

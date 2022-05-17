@@ -93,60 +93,36 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
         <div class="row justify-content-around my-3">
             <div class="col-md-4 mb-4">
-                <form action="/result.php">
+                <form action="/result.php" method="POST">
                     <p class="second-size fw-bold">タグで絞り込む<i class="bi bi-check-all"></i></p>
                     <ul class="tags row">
                         <?php //tagを取得する
                         $stmt = $db->query('SELECT id, name FROM tags');
                         $tags = $stmt->fetchAll(PDO::FETCH_ASSOC); ?>
                         <?php foreach ($tags as $key => $tag) : ?>
-                            <li class="tag col-6">
-                                <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
-                            </li>
+                            <label for="<?= $tag["id"]; ?>" class="tag col-6">
+                                <li>
+                                    <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                                </li>
+                            </label>
                         <?php endforeach; ?>
-                        <!-- <li class="tag col-6">
-                                <input type="checkbox">
-                                文系
-                            </li>
-                            <li class="tag col-6">
-                                <input type="checkbox">
-                                文系
-                            </li>
-                            <li class="tag col-6">
-                                <input type="checkbox">
-                                文系
-                            </li>
-                            <li class="tag col-6">
-                                <input type="checkbox">
-                                文系
-                            </li>
-                            <li class="tag col-6">
-                                <input type="checkbox">
-                                文系
-                            </li>
-                            <li class="tag col-6">
-                                <input type="checkbox">
-                                文系
-                            </li>
-                            <li class="tag col-6">
-                                <input type="checkbox">
-                                文系
-                            </li> -->
+
                         <li class="other-tag dropdown col-6">
                             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                その他のタグ
+                                職種
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
-                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
-                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
-                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
-                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
-                                <li class="dropdown-item tag"><input type="checkbox">Action</li>
+                                <?php foreach ($tags as $key => $tag) : ?>
+                                    <li class="dropdown-item">
+                                        <label for="<?= $tag["id"]; ?>" class="tag col-12">
+                                            <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                                        </label>
+                                    </li>
+                                <?php endforeach; ?>
                             </ul>
                         </li>
                     </ul>
-                    <button type="submit" class="btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
+                    <button type="submit" class="search-agents btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
                 </form>
             </div>
             <div class="col-md-4">
