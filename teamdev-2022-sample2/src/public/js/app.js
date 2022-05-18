@@ -12,14 +12,14 @@
 //     });
 //   });
 
-const tags = document.querySelectorAll(".tag");
+// const tags = document.querySelectorAll(".tag");
 
-tags.forEach((tag) => {
-  tag.addEventListener("click", function () {
-    // console.log(this);
-    tag.classList.toggle("bi-check-lg");
-  });
-});
+// tags.forEach((tag) => {
+//   tag.addEventListener("click", function () {
+//     // console.log(this);
+//     tag.classList.toggle("bi-check-lg");
+//   });
+// });
 
 // 指定箇所へのスムーススクロール
 $(function () {
@@ -44,6 +44,16 @@ $(".dropdown-item").on("click.bs.dropdown.data-api", (event) =>
   event.stopPropagation()
 );
 
+// タグが1つも選択されていない場合に、バリデーション
+let checkedsum; //チェックが入っている個数
+$('.search-agents').on("click",function(){
+   checkedsum = $('.q2:checked').length; //チェックが入っているチェックボックスの取得
+   if( checkedsum > 0 ){
+        $('.q2').prop("required",false); //required属性の解除
+   }else{
+        $('.q2').prop("required",true); //required属性の付与
+   }
+});
 // エージェント登録用のモーダルの動作
 $(function () {
   $(".js-modal-open").on("click", function () {
