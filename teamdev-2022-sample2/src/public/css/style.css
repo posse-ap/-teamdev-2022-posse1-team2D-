@@ -176,7 +176,6 @@ ul .tag {
   border-right: solid 1px gray;
   box-sizing: border-box;
   padding: 0 10px;
-  display: flex;
   align-items: center;
   /* 文字を上下中央にする */
 }
@@ -203,7 +202,7 @@ ul .other-tag {
 
 .tag input {
   box-sizing: border-box;
-  display: none;
+  /* visibility: hidden; */
 }
 
 .recommend-function {
