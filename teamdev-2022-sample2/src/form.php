@@ -86,55 +86,65 @@ if (!empty($_POST['btn_confirm'])) {
     </nav>
   </header>
   <div class="wrapper">
+    <h2>お問い合わせ手続き</h2>
+    <p>必須事項をご記入の上、お問い合わせ内容を入力してください。</p>
     <div class="Form">
       <?php if ($page_flag === 1) : ?>
         <form action="" method="POST">
           <div class="Form-Item">
-            <p class="Form-Item-Label">
-              <span class="Form-Item-Label-Required">必須</span>氏名
-            </p>
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>氏名</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-name']; ?></p>
+            <input type="hidden" name="student-name" value="<?php echo $_POST['student-name']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-university']; ?></p>
+            <input type="hidden" name="student-university" value="<?php echo $_POST['student-university']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-faculty']; ?></p>
+            <input type="hidden" name="student-faculty" value="<?php echo $_POST['student-faculty']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学科名</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-department']; ?></p>
+            <input type="hidden" name="student-department" value="<?php echo $_POST['student-department']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-graduation']; ?></p>
+            <input type="hidden" name="student-graduation" value="<?php echo $_POST['student-graduation']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>電話</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-tel']; ?></p>
+            <input type="hidden" name="student-tel" value="<?php echo $_POST['student-tel']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-email']; ?></p>
+            <input type="hidden" name="student-email" value="<?php echo $_POST['student-email']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
             <p class="Form-Item-Input"><?php echo $_POST['student-address']; ?></p>
+            <input type="hidden" name="student-address" value="<?php echo $_POST['student-address']; ?>">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
             <p class="Form-Item-Textarea"><?php echo $_POST['student-content']; ?></p>
+            <input type="hidden" name="student-content" value="<?php echo $_POST['student-content']; ?>">
           </div>
-          <input type="submit" name="btn_back" class="Form-Btn unchecked" value="戻る">
+          <p>この内容で送信してよろしいですか？</p>
+          <input type="submit" name="btn_back" class="Form-Btn unchecked" onclick=history.back() value="修正する">
           <input type="submit" name="btn_submit" class="Form-Btn unchecked" value="送信">
         </form>
 
         <!-- サンクスページ -->
       <?php elseif ($page_flag === 2) : ?>
         <div class="card thanks p-3 align-items-center justify-content-center">
-          <h1>Thanks!!</h1>
+          <h3>Thanks!!</h3>
           <p class="second-size">お問い合わせを受け付けました。</p>
           <p>折り返し自動送信メール（確認メール）をお送りさせていただきました。？？？？</p>
           <p> お問い合わせ内容を確認のうえ、回答させて頂きます。 </p>

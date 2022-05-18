@@ -96,3 +96,4 @@ CREATE TABLE agents_tags (
     agent_id INT NOT NULL,
     tag_id INT NOT NULL
 );
+
