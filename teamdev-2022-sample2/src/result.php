@@ -114,7 +114,6 @@ if (isset($_POST['tag'])) {
       <?php foreach ($checked_tags as $checked_tag) : ?>
         <div class="d-inline h4 me-2"><?= $checked_tag['name']; ?></div>
       <?php endforeach; ?>
-
     <?php endforeach; ?>
     <div class="row">
       <!-- ヒットしたエージェントの数だけ、以下のphp動作と、html要素をforeachさせる -->
@@ -161,7 +160,6 @@ if (isset($_POST['tag'])) {
           </div>
         </div>
       <?php endforeach; ?>
-      <!-- ⚠cardは角丸いのに背景の色は角ばってる⚠ -->
     </div>
   </div>
   </div>

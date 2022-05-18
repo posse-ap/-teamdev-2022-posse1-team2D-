@@ -157,7 +157,7 @@ if (!empty($_POST['btn_confirm'])) {
 
 
       <?php else : ?>
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="return check(this)">
           <div class="Form-Item">
             <p class="Form-Item-Label">
               <span class="Form-Item-Label-Required">必須</span>氏名
@@ -179,7 +179,6 @@ if (!empty($_POST['btn_confirm'])) {
           <!-- プルダウンメニュー -->
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
-            <!-- <input type="text" data-options="2022,2023,2024,2025,2026" class="Form-Item-Input" placeholder="例）23年度卒" required> -->
             <select name="student-graduation" id="graduation" class="Form-Item-Input text-secondary" required>
               <option value="" class="text-secondary default-word" hidden>選択してください</option>
               <option value="2022" class="text-dark graduation">2022年卒</option>

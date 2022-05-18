@@ -91,6 +91,39 @@ changeStars.forEach((changeStar) => {
   });
 });
 
+
+//バリデーション
+// function check(form) {
+//   if (form.student-name.value == "") {
+//     alert("名前が入力されていません。");
+//     form.student-name.focus();
+//     return false;
+//   }
+//   if (form.student-university.value == "") {
+//     alert("大学名が入力されていません。");
+//     form.student-university.focus();
+//     return false;
+//   }
+
+
+  // if (form.student-name.value == "") {
+  //   alert("名前が入力されていません。");
+  //   form.student-name.focus();
+  //   return false;
+  // }
+  // if (form.student-name.value == "") {
+  //   alert("名前が入力されていません。");
+  //   form.student-name.focus();
+  //   return false;
+  // }
+  // if (form.addr.value == "") {
+  //   alert("住所が入力されていません。");
+  //   form.addr.focus();
+  //   return false;
+  
+//   return true;
+// }
+
 // プライバシーポリシーに同意したらお申込み送信
 $(function(){
    $('.Form-CheckItem-Label').on('click', function(){
