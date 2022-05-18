@@ -145,6 +145,26 @@ let defaultWord = document.querySelector(".default-word");
      defaultWord.style.display="none";
   });
 
+changeStars.forEach(changeStar => {
+   changeStar.addEventListener('click', function () {
+      console.log("a")
+      changeStar.classList.remove('bi-star');
+      changeStar.classList.remove('white-star');
+      changeStar.classList.add('bi-star-fill');
+      changeStar.classList.add('black-star');
+   })
+})
+
+// プライバシーポリシーに同意したらお申込み送信
+$(function(){
+   $('.Form-CheckItem-Label').on('click', function(){
+   if ($('#JS_CheckItem').prop("checked") == true) {
+   $('.send').addClass('isActive');
+   } else {
+   $('.send').removeClass('isActive');
+   }
+   });
+   });
 
 
 
