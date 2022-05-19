@@ -39,11 +39,16 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $phone_number = $_POST['phone_number'];
             $address = $_POST['address'];
             $post_period = $_POST['post_period'];
-
+            // var_dump($_FILES);
+            $image = uniqid(mt_rand(), true); //ファイル名をユニーク化
+            $image .= '.' . substr(strrchr($_FILES['logo']['name'], '.'), 1); //アップロードされたファイルの拡張子を取得
+            $file = "images/$image";
+            // フォームからファイルの中身が一時的にどこにあるか確認
+            // imgの名前、どこにあるのかのパスはDB、画像のデータはimgディレクトリで管理
 
             // INSERT文を変数に格納。プレスホルダーは、値を入れるための空箱
-            $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period) VALUES 
-        (:agent_name, :agent_url, :representative, :contractor, :department, :email, :phone_number, :address, :post_period)";
+            $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, img) VALUES 
+        (:agent_name, :agent_url, :representative, :contractor, :department, :email, :phone_number, :address, :post_period, :img)";
             $stmt = $db->prepare($sql); //挿入する値は空のまま、SQL実行の準備をする
 
             //送信された値を、データベースのカラムに結びつける
@@ -66,8 +71,13 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $stmt->bindValue(":address",  $address, PDO::PARAM_STR);
             // 
             $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
+
+            $stmt->bindValue(":img", $image, PDO::PARAM_STR);
             // 
-            $stmt->execute();
+            if (!empty($_FILES['logo']['name'])) {//ファイルが選択されていれば$imageにファイル名を代入
+                move_uploaded_file($_FILES['logo']['tmp_name'], '../public/images/' . $image);//imagesディレクトリにファイル保存
+                $stmt->execute();
+            }
 
             // tagの登録を行う
 
@@ -133,7 +143,7 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
 
 // -----------------ページ切り替えごとに10件データ取得------------------------------------------------------------
 $page_change_record = $from_record - 1;
-$stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, deleted_at FROM agents WHERE deleted_at = 0 LIMIT ?, 10');
+$stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period,  img FROM agents WHERE deleted_at = 0 LIMIT ?, 10');
 $stmt->bindParam(1, $page_change_record, PDO::PARAM_INT);
 $stmt->execute();
 $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -198,7 +208,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="modal__content">
                     <h5 class="modal-top" id="exampleModalLabel">エージェント情報の登録を行います</h5>
                     <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-                    <form action="/admin/index.php" method="POST" class="ms-3">
+                    <form action="/admin/index.php" method="POST" class="ms-3" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-6">
                                 社名：<input class="d-block" type="text" name="agent_name" required>
@@ -209,12 +219,13 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
                                 電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                                 住所：<input class="d-block" type="text" name="address" required>
-                                掲載期間：<input class="d-block" type="date" name="post_period" required>
                             </div>
                             <div class="col-6">
-                                <div class="h6">タグの選択</div>
+                                掲載期間：<input class="d-block" type="date" name="post_period" required>
+                                企業ロゴ：<input class="d-block" type="file" name="logo" accept="image/*" required>
+                                <div class="h6 mt-2">タグの選択</div>
                                 <?php foreach ($tags as $key => $tag) : ?>
-                                    <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                                    <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1 h5" id="flexCheckDefault"><?= $tag["name"]; ?>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -294,7 +305,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form action="edit.php?id=" method="POST">
+                                                                <form action="edit.php?id=" method="POST" enctype="multipart/form-data">
                                                                     <div class="row">
                                                                         <div class="col-6">
                                                                             <input id="agent-number" class="d-block" type="hidden" name="agent_id" value="" required>
@@ -306,12 +317,13 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                                                             メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
                                                                             電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                                                                             住所：<input class="d-block" type="text" name="address" required>
-                                                                            掲載期間：<input class="d-block" type="date" name="post_period" required>
                                                                         </div>
                                                                         <div class="col-6">
-                                                                            <div class="h6">タグの選択</div>
+                                                                            掲載期間：<input class="d-block" type="date" name="post_period" required>
+                                                                            企業ロゴ：<input class="d-block" type="file" name="logo" accept="image/*" required>
+                                                                            <div class="h6 mt-2">タグの選択</div>
                                                                             <?php foreach ($tags as $key => $tag) : ?>
-                                                                                <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                                                                                <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1 h5" id="flexCheckDefault"><?= $tag["name"]; ?>
                                                                             <?php endforeach; ?>
                                                                         </div>
                                                                     </div>

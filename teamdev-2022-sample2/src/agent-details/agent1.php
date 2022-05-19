@@ -5,6 +5,7 @@ require('../dbconnect.php');
 if (isset($_GET)) {
   try {
     $name = $_GET['name'];
+    $img = $_GET['img'];
     $url = $_GET['url'];
     $tag = $_GET['tag'];
     $representative = $_GET['representative'];
@@ -90,7 +91,7 @@ if (isset($_GET)) {
     <div class="first-size"><a href="../result.php"><i class="bi bi-arrow-left-circle link-dark" type="button" onclick="window.close();" value="window.close()" href="../result.php"></i></a>エージェント企業一覧に戻る</div>
     <div class="container rounded">
       <div class="row d-flex py-2">
-        <div class="col-md-5"><img src="../public/img/feature5.jpg" alt=""></div>
+        <div class="col-md-5"><img src="../public/images/<?php echo $img; ?>" class="" alt="企業ロゴ"></div>
         <div class="col-md-7 ">
           <p class="h1 fw-bold py-2"><?= $name ?></p>
           <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i><span class="fw-bold">タグ</span></p>
