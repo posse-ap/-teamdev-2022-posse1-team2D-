@@ -88,7 +88,7 @@ CREATE TABLE tags (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO tags (name) VALUES ("IT"), ("Finance"), ("Insurance"), ("文系");
+INSERT INTO tags (name) VALUES ("IT"), ("Finance"), ("Insurance"), ("文系"), ("理系");
 DROP TABLE IF EXISTS agents_tags;
 
 CREATE TABLE agents_tags (

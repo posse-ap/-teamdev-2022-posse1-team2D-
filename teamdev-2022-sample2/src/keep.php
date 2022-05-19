@@ -1,6 +1,8 @@
 <?php
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
+$agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
+
 
 ?>
 <!DOCTYPE html>
@@ -54,7 +56,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
               <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark"  href="agents.php">エージェント一覧</a>
+              <a class="h6 nav-link text-dark" href="agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
@@ -77,7 +79,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
     <p class="first-size">キープ企業一覧</p>
     <div class="row">
       <!-- ⚠cardは角丸いのに背景の色は角ばってる⚠ -->
-      <div class="col-md-6 my-5 d-flex flex-row">
+      <!-- <div class="col-md-6 my-5 d-flex flex-row">
         <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
           <div class="">
             <img src="public/img/feature5.jpg" class="" alt="">
@@ -94,13 +96,13 @@ require(dirname(__FILE__) . "/dbconnect.php");
           <form action="" method="POST" class="item-form">
             <input type="hidden" name="" value="リクルート">
             <input type="hidden" name="" value="理系">
-            <!-- <input type="text" value="1" name="count"> -->
+            <input type="text" value="1" name="count">
             <button class="delete-btn" type="submit">
               <i class="bi bi-star-fill black-star"></i>削除する</button>
           </form>
-
         </div>
-      </div>
+      </div> -->
+      <?php foreach($agents as $keep_name => $agent): ?>
       <div class="col-md-6 my-5 d-flex flex-row">
         <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
           <div class="">
@@ -108,7 +110,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
           </div>
         </div>
         <div class="col-4 result-content ps-3">
-          <p class="first-size fw-bold">aaaaa</p>
+          <p class="first-size fw-bold"><?php echo $keep_name; ?></p>
           <p class="forth-size">rrrrrrrrr</p>
           <p class="forth-size">・企業情報</p>
           <p class="forth-size">・企業情報</p>
@@ -125,6 +127,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
 
         </div>
       </div>
+      <?php endforeach; ?>
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>

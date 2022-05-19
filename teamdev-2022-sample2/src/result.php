@@ -1,4 +1,5 @@
 <?php
+session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
 if (isset($_POST['tag'])) {
   try {
@@ -29,6 +30,29 @@ if (isset($_POST['tag'])) {
   }
 }
 ?>
+ <!--キープした時にエージェントの名前とメールがとれたかデバッグ、この変数をセッションで管理する  -->
+ <?php
+  $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8') : '';
+  $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : '';
+
+  //配列に入れるには、$email,$nameの値が取得できていることが前提なのでif文で空のデータを排除する
+  if($keep_email!=''&&$keep_name!=''){
+     $_SESSION['agents'][$keep_name]=[
+       'keep_email' => $keep_email
+      ];
+    }
+  $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
+  // if(isset($agents)){
+  //       foreach($agents as $key => $agent){
+  //           echo $key;      //商品名
+  //           echo "<br>";
+  //           // echo $agent['count'];  //商品の個数
+  //           // echo "<br>";
+  //           echo $agent['keep_email']; //商品の金額
+  //           echo "<br>";
+  //       }
+  //   }
+  ?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -163,14 +187,7 @@ if (isset($_POST['tag'])) {
     </div>
   </div>
   </div>
-  <!--キープした時にエージェントの名前とメールがとれたかデバッグ、この変数をセッションで管理する  -->
-  <?php
-  $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8') : '';
-  $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : '';
-  echo $keep_email;
-  echo '<pre></pre>';
-  echo $keep_name;
-  ?>
+ 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- 私たちのJS -->
