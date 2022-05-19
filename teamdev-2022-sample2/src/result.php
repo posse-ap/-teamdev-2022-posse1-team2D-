@@ -15,7 +15,7 @@ if (isset($_POST['tag'])) {
     // 送信されたタグのidをカンマ区切りの文字列に変換する
     $str_tags = implode($arr_tag_id);
     // エージェントの情報を送信されたタグの数にヒットした順に取得する
-    $stmt = $db->prepare('SELECT agent_name, agent_url, COUNT(*) AS count, representative, address, email
+    $stmt = $db->prepare('SELECT agent_name, agent_url, COUNT(*) AS count, representative, address, email, img
     FROM agents
     INNER JOIN agents_tags ON agents.id = agents_tags.agent_id 
     WHERE FIND_IN_SET(agents_tags.tag_id, :tags) 
@@ -128,9 +128,7 @@ if (isset($_POST['tag'])) {
         <!-- １つ１つのエージェントのカードタイル -->
         <div class="col-md-6 my-3 my-md-4 d-flex flex-row">
           <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-            <div class="">
-              <img src="public/img/feature5.jpg" class="" alt="">
-            </div>
+              <img src="public/images/<?php echo $result_agent['img']; ?>" class="" alt="企業ロゴ">
           </div>
           <div class="col-5 col-md-6 result-content ps-3 my-0">
             <p class="second-size fw-bold"><?= $result_agent['agent_name']; ?></p>
@@ -145,7 +143,7 @@ if (isset($_POST['tag'])) {
             </div>
           </div>
           <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-            <a href="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {echo $result_agents_tag . ' ';} ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
+            <a href="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {echo $result_agents_tag . ' ';} ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
             <!-- <button class="keep-btn"><i class="bi bi-star-fill black-star"></i><i class="bi bi-star white-star"></i>キープする</button> -->
             <!-- キープした時にセッションでエージェントの情報を保持 -->
             <div class="">
@@ -155,6 +153,7 @@ if (isset($_POST['tag'])) {
                 <?php endforeach; ?>
                 <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
                 <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
+                <input type="hidden" name="logo" value="<?= $result_agent['img']; ?>">
                 <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
               </form>
             </div>

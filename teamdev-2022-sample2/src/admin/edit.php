@@ -14,9 +14,12 @@ if (isset($_POST)) {
         $phone_number = $_POST['phone_number'];
         $address = $_POST['address'];
         $post_period = $_POST['post_period'];
+        $image = uniqid(mt_rand(), true); //ファイル名をユニーク化
+        $image .= '.' . substr(strrchr($_FILES['logo']['name'], '.'), 1); //アップロードされたファイルの拡張子を取得
+        $file = "images/$image";
 
         $sql = 'UPDATE agents SET
-        agent_name = :agent_name, agent_url = :agent_url, representative = :representative, contractor = :contractor, department = :department, email = :email, phone_number = :phone_number, address =:address, post_period = :post_period WHERE id = :id';
+        agent_name = :agent_name, agent_url = :agent_url, representative = :representative, contractor = :contractor, department = :department, email = :email, phone_number = :phone_number, address =:address, post_period = :post_period, img = :img WHERE id = :id';
         $stmt = $db->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
@@ -37,7 +40,13 @@ if (isset($_POST)) {
         $stmt->bindValue(":address",  $address, PDO::PARAM_STR);
         // 
         $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
-        $stmt->execute();
+
+        $stmt->bindValue(":img", $image, PDO::PARAM_STR);
+        // 
+        if (!empty($_FILES['logo']['name'])) { //ファイルが選択されていれば$imageにファイル名を代入
+            move_uploaded_file($_FILES['logo']['tmp_name'], '../public/images/' . $image); //imagesディレクトリにファイル保存
+            $stmt->execute();
+        }
 
         // tagの更新を行う
 
