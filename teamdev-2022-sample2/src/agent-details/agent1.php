@@ -1,6 +1,4 @@
-<!-- dbconnectと連結できない←階層構造があってない？ -->
 <?php
-// require(dirname(__FILE__) . "/dbconnect.php");
 require('../dbconnect.php');
 if (isset($_GET)) {
   try {

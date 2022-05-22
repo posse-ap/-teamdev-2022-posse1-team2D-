@@ -1,6 +1,7 @@
 <?php
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
+$agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
 
 // 変数の初期化
 $page_flag = 0;
@@ -86,6 +87,8 @@ if (!empty($_POST['btn_confirm'])) {
     </nav>
   </header>
   <div class="wrapper">
+    <h2>お問い合わせ手続き</h2>
+    <p>必須事項をご記入の上、お問い合わせ内容を入力してください。</p>
     <div class="Form">
       <?php if ($page_flag === 1) : ?>
         <form action="/admin/agent-index.php" method="POST">
@@ -130,14 +133,15 @@ if (!empty($_POST['btn_confirm'])) {
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
             <textarea name="student_content" class="Form-Item-Textarea"><?=$_POST['student_content']; ?></textarea>
           </div>
-          <input type="submit" name="btn_back" class="Form-Btn unchecked" value="戻る">
+          <p>この内容で送信してよろしいですか？</p>
+          <input type="submit" name="btn_back" class="Form-Btn unchecked" onclick=history.back() value="修正する">
           <input type="submit" name="btn_submit" class="Form-Btn unchecked" value="送信">
         </form>
 
         <!-- サンクスページ -->
       <?php elseif ($page_flag === 2) : ?>
         <div class="card thanks p-3 align-items-center justify-content-center">
-          <h1>Thanks!!</h1>
+          <h3>Thanks!!</h3>
           <p class="second-size">お問い合わせを受け付けました。</p>
           <p>折り返し自動送信メール（確認メール）をお送りさせていただきました。？？？？</p>
           <p> お問い合わせ内容を確認のうえ、回答させて頂きます。 </p>
@@ -150,10 +154,14 @@ if (!empty($_POST['btn_confirm'])) {
 
 
       <?php else : ?>
+<<<<<<< HEAD
+        <form action="" method="POST" onsubmit="return check(this)">
+=======
         <form action="" method="POST">
           <!-- どの企業をキープしたかのエージェントのid -->
           <!-- foreachでキープした企業の数だけ、以下のinputタグを生成し、valueに、キープしたエージェントidをセット -->
           <!-- <input type="hidden" name="id" value="<?= $result_agent['id']; ?>"> -->
+>>>>>>> bc2b9218d857d362e09426d571c0a8f1987aa0a3
           <div class="Form-Item">
             <p class="Form-Item-Label">
               <span class="Form-Item-Label-Required">必須</span>氏名
@@ -175,7 +183,11 @@ if (!empty($_POST['btn_confirm'])) {
           <!-- プルダウンメニュー -->
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
+<<<<<<< HEAD
+            <select name="student-graduation" id="graduation" class="Form-Item-Input text-secondary" required>
+=======
             <select name="student_graduation" id="graduation" class="Form-Item-Input text-secondary" required>
+>>>>>>> bc2b9218d857d362e09426d571c0a8f1987aa0a3
               <option value="" class="text-secondary default-word" hidden>選択してください</option>
               <option value="2023" class="text-dark graduation">2023年卒</option>
               <option value="2024" class="text-dark graduation">2024年卒</option>
