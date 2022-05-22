@@ -90,11 +90,75 @@ CREATE TABLE tags (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO tags (name) VALUES ("IT"), ("Finance"), ("Marketing"), ("Insurance");
+INSERT INTO
+    tags (name)
+VALUES
+    ("IT"),
+    ("Finance"),
+    ("Marketing"),
+    ("Insurance");
+
 DROP TABLE IF EXISTS agents_tags;
 
 CREATE TABLE agents_tags (
     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     agent_id INT NOT NULL,
     tag_id INT NOT NULL
+);
+
+DROP TABLE IF EXISTS employees;
+
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    agent_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO
+    employees
+SET
+    email = 'test@employee.com',
+    password = sha1('employee'),
+    agent_id = 2;
+
+INSERT INTO
+    employees
+SET
+    email = 'test@employer.com',
+    password = sha1('employer'),
+    agent_id = 1;
+
+INSERT INTO
+    employees
+SET
+    email = 'test@boss.com',
+    password = sha1('boss'),
+    agent_id = 3;
+
+DROP TABLE IF EXISTS students;
+
+CREATE TABLE students (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    university VARCHAR(8190) NOT NULL,
+    faculty VARCHAR(255) NOT NULL,
+    student_department VARCHAR(255) NOT NULL,
+    graduation VARCHAR(255) NOT NULL,
+    student_phone_number VARCHAR(255) UNIQUE NOT NULL,
+    student_email VARCHAR(255) UNIQUE NOT NULL,
+    student_address VARCHAR(255) UNIQUE NOT NULL,
+    content VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS students_agents;
+
+CREATE TABLE students_agents (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    student_id INT NOT NULL,
+    agent_id INT NOT NULL
 );

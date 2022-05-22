@@ -4,22 +4,24 @@ require('../dbconnect.php');
 // 社員テーブルを検索し、emailとpasswordをセットして$employeeに値を返す
 // 検索した際に、社員がどのエージェントに属するのかもとれるので、その情報も変数に入れておく
 if (!empty($_POST)) {
-  $login = $db->prepare('SELECT * FROM users WHERE email=? AND password=?');
-//   $login = $db->prepare('SELECT * FROM employees WHERE email=? AND password=?');
+  $login = $db->prepare('SELECT * FROM employees WHERE email=? AND password=?');
   $login->execute(array(
     $_POST['email'],
-    sha1($_POST['password'])
+    sha1($_POST['password']),
   ));
-  $user = $login->fetch();
-//   $employee = $login->fetch();
+  $employee = $login->fetch();
+  // echo "<pre>";
+  // var_dump($employee);
+  // echo "</pre>";
+  // exit();
 
 //   $employeeなら、$user['id]をセッションのuser_idとする
 // どのエージェントに属するかのidもセッションで管理。
 // agent-index.phpでは、申込者の情報を表示。applicantsとagentsを紐付け、agentsとemployeesを紐づけて、その情報をselect
-  if ($user) {
+  if ($employee) {
     $_SESSION = array();
-    $_SESSION['user_id'] = $user['id'];
-    // $_SESSION['agent_id'] = $employee['agent_id']みたいにする
+    $_SESSION['employee_id'] = $employee['id'];
+    $_SESSION['agent_id'] = $employee['agent_id'];
     $_SESSION['time'] = time();
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/agent-index.php');
     exit();
