@@ -172,7 +172,6 @@ if (!empty($_POST['btn_confirm'])) {
             <!-- <input type="text" data-options="2022,2023,2024,2025,2026" class="Form-Item-Input" placeholder="例）23年度卒" required> -->
             <select name="student-graduation" id="graduation" class="Form-Item-Input text-secondary" required>
               <option value="" class="text-secondary default-word" hidden>選択してください</option>
-              <option value="2022" class="text-dark graduation">2022年卒</option>
               <option value="2023" class="text-dark graduation">2023年卒</option>
               <option value="2024" class="text-dark graduation">2024年卒</option>
               <option value="2025" class="text-dark graduation">2025年卒</option>

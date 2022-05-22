@@ -15,7 +15,7 @@ if (isset($_POST['tag'])) {
     // 送信されたタグのidをカンマ区切りの文字列に変換する
     $str_tags = implode($arr_tag_id);
     // エージェントの情報を送信されたタグの数にヒットした順に取得する
-    $stmt = $db->prepare('SELECT agent_name, agent_url, COUNT(*) AS count, representative, address, email, img
+    $stmt = $db->prepare('SELECT agents.id, agent_name, agent_url, COUNT(*) AS count, representative, address, email, img
     FROM agents
     INNER JOIN agents_tags ON agents.id = agents_tags.agent_id 
     WHERE FIND_IN_SET(agents_tags.tag_id, :tags) 
@@ -151,6 +151,7 @@ if (isset($_POST['tag'])) {
                 <?php foreach ($tags as $tag) : ?>
                   <input type="hidden" name="tag[]" value="<?= $tag ?>">
                 <?php endforeach; ?>
+                <input type="hidden" name="id" value="<?= $result_agent['id']; ?>">
                 <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
                 <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
                 <input type="hidden" name="logo" value="<?= $result_agent['img']; ?>">
@@ -166,8 +167,11 @@ if (isset($_POST['tag'])) {
   </div>
   <!--キープした時にエージェントの名前とメールがとれたかデバッグ、この変数をセッションで管理する  -->
   <?php
+  $keep_id = isset($_POST['id']) ? htmlspecialchars($_POST['id'], ENT_QUOTES, 'utf-8') : '';
   $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8') : '';
   $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : '';
+  echo $keep_id;
+  echo '<pre></pre>';
   echo $keep_email;
   echo '<pre></pre>';
   echo $keep_name;
