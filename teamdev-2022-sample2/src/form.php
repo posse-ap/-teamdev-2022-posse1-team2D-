@@ -1,6 +1,7 @@
 <?php
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
+$agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
 
 // 変数の初期化
 $page_flag = 0;
