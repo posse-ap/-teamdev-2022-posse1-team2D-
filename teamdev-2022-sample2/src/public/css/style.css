@@ -11,6 +11,14 @@ img {
   background-color: #52A49A;
 }
 
+.main-bg-color {
+  background-color: #52A49A;
+}
+.main-text-color {
+  color: #52A49A;
+}
+
+
 .corporation-link {
   text-decoration: none;
 
