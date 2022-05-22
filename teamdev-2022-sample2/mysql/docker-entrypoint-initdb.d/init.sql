@@ -48,6 +48,7 @@ CREATE TABLE agents (
     phone_number VARCHAR(255) UNIQUE NOT NULL,
     address VARCHAR(255) UNIQUE NOT NULL,
     post_period DATETIME NOT NULL,
+    img VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at INT DEFAULT 0
@@ -64,19 +65,20 @@ INSERT INTO
         phone_number,
         address,
         post_period,
-        deleted_at
+        img
     )
 VALUES
     (
-        "ラクナビ",
-        "rakunavi.com",
-        "田中太郎",
-        "佐藤次郎",
-        "営業",
-        "rakunavi@gmail.com",
-        "0120-000-000",
-        "サンプル",
-        "2023-05-05"
+        "Apple",
+        "Apple.com",
+        "Alexander",
+        "Robertson",
+        "sales",
+        "AppleInfo@gmail.com",
+        "0120-076-231",
+        "sampleAddress",
+        "2023-05-05",
+        "feature5.png"
     );
 
 DROP TABLE IF EXISTS tags;
@@ -88,7 +90,14 @@ CREATE TABLE tags (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-INSERT INTO tags (name) VALUES ("IT"), ("Finance"), ("Insurance"), ("文系"), ("理系");
+INSERT INTO
+    tags (name)
+VALUES
+    ("IT"),
+    ("Finance"),
+    ("Marketing"),
+    ("Insurance");
+
 DROP TABLE IF EXISTS agents_tags;
 
 CREATE TABLE agents_tags (
@@ -97,3 +106,59 @@ CREATE TABLE agents_tags (
     tag_id INT NOT NULL
 );
 
+DROP TABLE IF EXISTS employees;
+
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    agent_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO
+    employees
+SET
+    email = 'test@employee.com',
+    password = sha1('employee'),
+    agent_id = 2;
+
+INSERT INTO
+    employees
+SET
+    email = 'test@employer.com',
+    password = sha1('employer'),
+    agent_id = 1;
+
+INSERT INTO
+    employees
+SET
+    email = 'test@boss.com',
+    password = sha1('boss'),
+    agent_id = 3;
+
+DROP TABLE IF EXISTS students;
+
+CREATE TABLE students (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    university VARCHAR(8190) NOT NULL,
+    faculty VARCHAR(255) NOT NULL,
+    student_department VARCHAR(255) NOT NULL,
+    graduation VARCHAR(255) NOT NULL,
+    student_phone_number VARCHAR(255) UNIQUE NOT NULL,
+    student_email VARCHAR(255) UNIQUE NOT NULL,
+    student_address VARCHAR(255) UNIQUE NOT NULL,
+    content VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS students_agents;
+
+CREATE TABLE students_agents (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    student_id INT NOT NULL,
+    agent_id INT NOT NULL
+);

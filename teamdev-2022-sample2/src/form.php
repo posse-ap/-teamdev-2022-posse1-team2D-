@@ -90,51 +90,47 @@ if (!empty($_POST['btn_confirm'])) {
     <p>必須事項をご記入の上、お問い合わせ内容を入力してください。</p>
     <div class="Form">
       <?php if ($page_flag === 1) : ?>
-        <form action="" method="POST">
+        <form action="/admin/agent-index.php" method="POST">
+          <!-- どの企業をキープしたかのエージェントのid -->
+          <!-- foreachでキープした企業の数だけ、以下のinputタグを生成し、valueに、キープしたエージェントidをセット -->
+          <!-- <input type="hidden" name="id" value="<?= $result_agent['id']; ?>"> -->
           <div class="Form-Item">
-            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>氏名</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-name']; ?></p>
-            <input type="hidden" name="student-name" value="<?php echo $_POST['student-name']; ?>">
+            <p class="Form-Item-Label">
+              <span class="Form-Item-Label-Required">必須</span>氏名
+            </p>
+            <input type="text" name="student_name" class="Form-Item-Input" value="<?=$_POST['student_name']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-university']; ?></p>
-            <input type="hidden" name="student-university" value="<?php echo $_POST['student-university']; ?>">
+            <input type="text" name="student_university" class="Form-Item-Input" value="<?=$_POST['student_university']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-faculty']; ?></p>
-            <input type="hidden" name="student-faculty" value="<?php echo $_POST['student-faculty']; ?>">
+            <input type="text" name="student_faculty" class="Form-Item-Input" value="<?=$_POST['student_faculty']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学科名</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-department']; ?></p>
-            <input type="hidden" name="student-department" value="<?php echo $_POST['student-department']; ?>">
+            <input type="text" name="student_department" class="Form-Item-Input" value="<?=$_POST['student_department']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-graduation']; ?></p>
-            <input type="hidden" name="student-graduation" value="<?php echo $_POST['student-graduation']; ?>">
+            <input type="text" name="student_graduation" class="Form-Item-Input" value="<?=$_POST['student_graduation']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>電話</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-tel']; ?></p>
-            <input type="hidden" name="student-tel" value="<?php echo $_POST['student-tel']; ?>">
+            <input type="tel" name="student_tel" pattern="\d{2,4}-\d{3,4}-\d{3,4}" class="Form-Item-Input" value="<?=$_POST['student_tel']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-email']; ?></p>
-            <input type="hidden" name="student-email" value="<?php echo $_POST['student-email']; ?>">
+            <input type="email" name="student_email" class="Form-Item-Input" value="<?=$_POST['student_email']; ?>"  required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
-            <p class="Form-Item-Input"><?php echo $_POST['student-address']; ?></p>
-            <input type="hidden" name="student-address" value="<?php echo $_POST['student-address']; ?>">
+            <input type="text" name="student_address" class="Form-Item-Input" value="<?=$_POST['student_address']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
-            <p class="Form-Item-Textarea"><?php echo $_POST['student-content']; ?></p>
-            <input type="hidden" name="student-content" value="<?php echo $_POST['student-content']; ?>">
+            <textarea name="student_content" class="Form-Item-Textarea"><?=$_POST['student_content']; ?></textarea>
           </div>
           <p>この内容で送信してよろしいですか？</p>
           <input type="submit" name="btn_back" class="Form-Btn unchecked" onclick=history.back() value="修正する">
@@ -157,31 +153,41 @@ if (!empty($_POST['btn_confirm'])) {
 
 
       <?php else : ?>
+<<<<<<< HEAD
         <form action="" method="POST" onsubmit="return check(this)">
+=======
+        <form action="" method="POST">
+          <!-- どの企業をキープしたかのエージェントのid -->
+          <!-- foreachでキープした企業の数だけ、以下のinputタグを生成し、valueに、キープしたエージェントidをセット -->
+          <!-- <input type="hidden" name="id" value="<?= $result_agent['id']; ?>"> -->
+>>>>>>> bc2b9218d857d362e09426d571c0a8f1987aa0a3
           <div class="Form-Item">
             <p class="Form-Item-Label">
               <span class="Form-Item-Label-Required">必須</span>氏名
             </p>
-            <input type="text" name="student-name" class="Form-Item-Input" placeholder="例）山田太郎" required>
+            <input type="text" name="student_name" class="Form-Item-Input" placeholder="例）山田太郎" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
-            <input type="text" name="student-university" class="Form-Item-Input" placeholder="例）慶應義塾大学" required>
+            <input type="text" name="student_university" class="Form-Item-Input" placeholder="例）慶應義塾大学" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
-            <input type="text" name="student-faculty" class="Form-Item-Input" placeholder="例）理工学部" required>
+            <input type="text" name="student_faculty" class="Form-Item-Input" placeholder="例）理工学部" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学科名</p>
-            <input type="text" name="student-department" class="Form-Item-Input" placeholder="例）管理工学科" required>
+            <input type="text" name="student_department" class="Form-Item-Input" placeholder="例）管理工学科" required>
           </div>
           <!-- プルダウンメニュー -->
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
+<<<<<<< HEAD
             <select name="student-graduation" id="graduation" class="Form-Item-Input text-secondary" required>
+=======
+            <select name="student_graduation" id="graduation" class="Form-Item-Input text-secondary" required>
+>>>>>>> bc2b9218d857d362e09426d571c0a8f1987aa0a3
               <option value="" class="text-secondary default-word" hidden>選択してください</option>
-              <option value="2022" class="text-dark graduation">2022年卒</option>
               <option value="2023" class="text-dark graduation">2023年卒</option>
               <option value="2024" class="text-dark graduation">2024年卒</option>
               <option value="2025" class="text-dark graduation">2025年卒</option>
@@ -190,19 +196,19 @@ if (!empty($_POST['btn_confirm'])) {
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>電話</p>
-            <input type="tel" name="student-tel" pattern="\d{2,4}-\d{3,4}-\d{3,4}" class="Form-Item-Input" placeholder="例）000-0000-0000" required>
+            <input type="tel" name="student_tel" pattern="\d{2,4}-\d{3,4}-\d{3,4}" class="Form-Item-Input" placeholder="例）000-0000-0000" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
-            <input type="email" name="student-email" class="Form-Item-Input" placeholder="例）example@gmail.com" required>
+            <input type="email" name="student_email" class="Form-Item-Input" placeholder="例）example@gmail.com" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
-            <input type="text" name="student-address" class="Form-Item-Input" placeholder="例）東京都世田谷区１丁目" required>
+            <input type="text" name="student_address" class="Form-Item-Input" placeholder="例）東京都世田谷区１丁目" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
-            <textarea name="student-content" class="Form-Item-Textarea"></textarea>
+            <textarea name="student_content" class="Form-Item-Textarea"></textarea>
           </div>
           <label class="Form-CheckItem-Label">
             <input type="checkbox" name="" value="" id="JS_CheckItem" class="Form-CheckItem-Label-Input">
