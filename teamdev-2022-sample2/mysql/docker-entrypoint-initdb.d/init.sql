@@ -123,6 +123,12 @@ SET
     email = 'test@employee.com',
     password = sha1('employee'),
     agent_id = 2;
+INSERT INTO
+    employees
+SET
+    email = 'test@employee2.com',
+    password = sha1('employee2'),
+    agent_id = 2;
 
 INSERT INTO
     employees
