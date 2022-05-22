@@ -1,8 +1,9 @@
 <?php
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
-
+$agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -54,7 +55,7 @@ require(dirname(__FILE__) . "/dbconnect.php");
               <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark"  href="agents.php">エージェント一覧</a>
+              <a class="h6 nav-link text-dark" href="agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
@@ -76,55 +77,36 @@ require(dirname(__FILE__) . "/dbconnect.php");
   <div class="wrapper">
     <p class="first-size">キープ企業一覧</p>
     <div class="row">
-      <!-- ⚠cardは角丸いのに背景の色は角ばってる⚠ -->
+      <?php foreach ($agents as $name => $agent) : ?>
       <div class="col-md-6 my-5 d-flex flex-row">
         <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
           <div class="">
-            <img src="public/img/feature5.jpg" class="" alt="">
+            <img src="public/images/<?php echo $agent['keep_logo']; ?>" class="" alt="">
           </div>
         </div>
-        <div class="col-4 result-content ps-3">
-          <p class="first-size fw-bold">ttttttttt</p>
-          <p class="forth-size">sssssssssss</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-        </div>
-        <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="./agent-details/agent1.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <form action="" method="POST" class="item-form">
-            <input type="hidden" name="" value="リクルート">
-            <input type="hidden" name="" value="理系">
-            <!-- <input type="text" value="1" name="count"> -->
-            <button class="delete-btn" type="submit">
-              <i class="bi bi-star-fill black-star"></i>削除する</button>
-          </form>
-
-        </div>
-      </div>
-      <div class="col-md-6 my-5 d-flex flex-row">
-        <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-          <div class="">
-            <img src="public/img/feature5.jpg" class="" alt="">
+          <div class="col-4 result-content ps-3">
+            <p class="first-size fw-bold"><?php echo $name; ?></p>
+            <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
+            <p class="forth-size"><?php foreach ($agent['keep_tags'] as $key => $agent_keep_tag) : ?><?php echo $agent_keep_tag." "; ?><?php endforeach; ?></p>
+            <div class="mb-2">
+              <a href="<?php echo $agent['keep_site']; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
+            </div>
+          </div>
+          <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
+          <a href="<?= $agent['keep_detail']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
+            <form action="" method="POST" class="item-form">
+            <input type="hidden" name="id" value="<?= $result_agent['id']; ?>">
+            <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
+                <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
+              <!-- <input type="text" value="1" name="count"> -->
+              <button class="delete-btn" type="submit">
+                <i class="bi bi-star-fill black-star"></i>削除</button>
+            </form>
           </div>
         </div>
-        <div class="col-4 result-content ps-3">
-          <p class="first-size fw-bold">aaaaa</p>
-          <p class="forth-size">rrrrrrrrr</p>
-          <p class="forth-size">・企業情報</p>
-          <p class="forth-size">・企業情報</p>
-        </div>
-        <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="./agent-details/agent2.php" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細を見る</a>
-          <form action="" method="POST" class="item-form">
-            <input type="hidden" name="name" value="リクナビ">
-            <input type="hidden" name="tags" value="エントリーシート">
-            <!-- <input type="text" value="1" name="count"> -->
-            <button class="delete-btn" type="submit">
-              <i class="bi bi-star-fill black-star"></i>削除する</button>
-          </form>
-
-        </div>
-      </div>
+      <p class=""><?php echo $agent['keep_id']; ?></p>
+      <p class=""><?php echo $agent['keep_email']; ?></p>
+      <?php endforeach; ?>
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>

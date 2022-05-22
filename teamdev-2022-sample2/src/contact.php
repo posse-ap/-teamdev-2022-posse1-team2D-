@@ -103,7 +103,7 @@ if (!empty($_POST['btn_confirm'])) {
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
             <p class="Form-Item-Textarea"><?php echo $_POST['student-content']; ?></p>
           </div>
-          <input type="submit" name="btn_back" class="Form-Btn unchecked" value="戻る">
+          <input type="submit" name="btn_back" class="Form-Btn unchecked" click=onclick.historyback() value="戻る">
           <input type="submit" name="btn_submit" class="Form-Btn unchecked" value="送信">
         </form>
 
