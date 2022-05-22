@@ -40,7 +40,8 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <div class="float-end">
                     <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
-                    <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
+                    <a href="/admin/agent-index.php" class="h5 text-light d-none d-md-inline corporation-link me-5">エージェントの方へ</a>
+                    <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">CRAFT担当者へ</a>
                     <!-- キープマーク -->
                     <a href="keep.php" class="keep-star ms-5">
                         <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
@@ -130,9 +131,9 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="card recommend-function">
                     <p class="third-size text-light text-center fw-bold">自分にピッタリのエージェントを診断！</p>
                     <div class="row px-3 my-2 g-3">
-                        <img class="col-4" src="public/img/feature5.jpg" alt="">
-                        <img class="col-4" src="public/img/feature6.jpg" alt="">
-                        <img class="col-4" src="public/img/feature7.jpg" alt="">
+                        <img class="col-4" src="public/images/feature5.jpg" alt="">
+                        <img class="col-4" src="public/images/feature6.jpg" alt="">
+                        <img class="col-4" src="public/images/feature7.jpg" alt="">
                     </div>
                 </div>
             </div>
