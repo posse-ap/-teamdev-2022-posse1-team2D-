@@ -101,14 +101,19 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
 }
 // ------------------動的ページネーション(fin)-----------------------------------------
 
-// -----------------ページ切り替えごとに10件データ取得------------------------------------------------------------
+// -----------------ページ切り替えごとに10件、該当エージェントに送られた学生情報を取得------------------------------------------------------------
 $current_agent_id =  $_SESSION['agent_id'];
 echo $current_agent_id;
 
+// エージェントの名前を取得
+$stmt = $db->prepare('SELECT agent_name FROM agents INNER JOIN employees on agents.id = employees.agent_id WHERE employees.agent_id = :employees_agent_id');
+$stmt->bindValue(":employees_agent_id", $current_agent_id, PDO::PARAM_INT);
+$stmt->execute();
+$current_agent_name = $stmt->fetch(PDO::FETCH_COLUMN);
+var_dump($current_agent_name);
 // SELECT 申込者情報 FROM students 
 // INNER JOIN 中間テーブル on students.id = 中間テーブル.student_id
 // INNER JOIN agents on 中間テーブル.agent_id = agents.id
-// INNER JOIN employees on agents.id = employees.agent_id
 
 $page_change_record = $from_record - 1;
 $stmt = $db->prepare('SELECT * FROM students
@@ -120,9 +125,6 @@ $stmt->bindParam(1,  $current_agent_id, PDO::PARAM_INT);
 $stmt->bindParam(2, $page_change_record, PDO::PARAM_INT);
 $stmt->execute();
 $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// var_dump($students);
-// exit();
 // -------------------------------------------------------------------------------------------------------------
 ?>
 
@@ -159,6 +161,7 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <h1 class="ms-3 text-light">学生情報管理画面</h1>
 
+                <span class="h5 text-light">ようこそ、<span class="h3 text-light"><?=$current_agent_name." "?></span>さん</span>
                 <div class="float-end h5 text-light">
                     <form method="get" action="">
                         <input type="submit" name="btn_logout" value="ログアウト">
