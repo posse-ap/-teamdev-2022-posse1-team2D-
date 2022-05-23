@@ -143,6 +143,12 @@ SET
     email = 'test@boss.com',
     password = sha1('boss'),
     agent_id = 3;
+INSERT INTO
+    employees
+SET
+    email = 'test@agent4.com',
+    password = sha1('agent4'),
+    agent_id = 4;
 
 DROP TABLE IF EXISTS students;
 

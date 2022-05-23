@@ -94,7 +94,9 @@ if (!empty($_POST['btn_confirm'])) {
         <form action="/admin/agent-index.php" method="POST">
           <!-- どの企業をキープしたかのエージェントのid -->
           <!-- foreachでキープした企業の数だけ、以下のinputタグを生成し、valueに、キープしたエージェントidをセット -->
-          <!-- <input type="hidden" name="id" value="<?= $result_agent['id']; ?>"> -->
+          <?php foreach ($agents as $name => $agent) : ?>
+          <input type="hidden" name="keep_agent_id[]" value="<?= $agent['keep_id']; ?>">
+          <?php endforeach; ?>
           <div class="Form-Item">
             <p class="Form-Item-Label">
               <span class="Form-Item-Label-Required">必須</span>氏名
@@ -154,14 +156,7 @@ if (!empty($_POST['btn_confirm'])) {
 
 
       <?php else : ?>
-<<<<<<< HEAD
         <form action="" method="POST" onsubmit="return check(this)">
-=======
-        <form action="" method="POST">
-          <!-- どの企業をキープしたかのエージェントのid -->
-          <!-- foreachでキープした企業の数だけ、以下のinputタグを生成し、valueに、キープしたエージェントidをセット -->
-          <!-- <input type="hidden" name="id" value="<?= $result_agent['id']; ?>"> -->
->>>>>>> bc2b9218d857d362e09426d571c0a8f1987aa0a3
           <div class="Form-Item">
             <p class="Form-Item-Label">
               <span class="Form-Item-Label-Required">必須</span>氏名
@@ -183,11 +178,7 @@ if (!empty($_POST['btn_confirm'])) {
           <!-- プルダウンメニュー -->
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
-<<<<<<< HEAD
-            <select name="student-graduation" id="graduation" class="Form-Item-Input text-secondary" required>
-=======
             <select name="student_graduation" id="graduation" class="Form-Item-Input text-secondary" required>
->>>>>>> bc2b9218d857d362e09426d571c0a8f1987aa0a3
               <option value="" class="text-secondary default-word" hidden>選択してください</option>
               <option value="2023" class="text-dark graduation">2023年卒</option>
               <option value="2024" class="text-dark graduation">2024年卒</option>
