@@ -35,8 +35,7 @@ if (!empty($_POST)) {
 
         // 中間テーブルに入力するデータ
         //どの企業をキープしたか 
-        // $keep_ids = $_POST['keep_id'];
-        $keep_ids = [1,2];
+        $keep_ids = $_POST['keep_agent_id'];
         // いま送られた学生情報の主キー
         $student_id_joinTable = $db->lastInsertId();
 
