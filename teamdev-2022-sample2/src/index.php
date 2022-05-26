@@ -5,7 +5,12 @@ require(dirname(__FILE__) . "/dbconnect.php");
 // admin/index.phpでinsert処理等したeventsテーブルから、id, titleを検索
 $stmt = $db->query('SELECT id, title FROM events');
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+if(empty($_SESSION['keep_count'])){
+    $keep_count=0;
+    $_SESSION['keep_count']=$keep_count;
+}else{
+$keep_count=$_SESSION['keep_count'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -48,7 +53,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <!-- キープマーク -->
                     <a href="keep.php" class="keep-star ms-5">
                         <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-                        <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+                        <span class="d-inline bg-danger px-2 py-1 text-white circle"><?=$keep_count;?></span>
                     </a>
                     <!-- ハンバーガーメニューボタン -->
                     <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

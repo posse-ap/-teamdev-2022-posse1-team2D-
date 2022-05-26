@@ -31,65 +31,68 @@ if (isset($_POST['tag'])) {
 }
 ?>
 <?php
+// もし$_SESSION['keep_count']がなかったら、$keep_count=0と定義する
+if (empty($_SESSION['keep_count'])) {
+  $keep_count = 0;
+} 
+  //  $_SESSION['keep_count']=$keep_count;
+
+
 if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
-$keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):' ';
-$keep_id = isset($_POST['keep_id']) ? htmlspecialchars($_POST['keep_id'],ENT_QUOTES,'utf-8'):' ';
-$keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):' ';
+  $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_id = isset($_POST['keep_id']) ? htmlspecialchars($_POST['keep_id'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8') : ' ';
 
-$keep_tags = $_POST['tags'];
+  $keep_tags = $_POST['tags'];
 
-function myhtmlspecialchars($keep_tags) {
-  if (is_array($keep_tags)) {
-    return array_map("myhtmlspecialchars", $keep_tags);
-  } else {
-    return htmlspecialchars($keep_tags, ENT_QUOTES,'utf-8');
+  function myhtmlspecialchars($keep_tags)
+  {
+    if (is_array($keep_tags)) {
+      return array_map("myhtmlspecialchars", $keep_tags);
+    } else {
+      return htmlspecialchars($keep_tags, ENT_QUOTES, 'utf-8');
+    }
+  };
+
+
+  // $keep_tags = isset($_POST['tags']) ? htmlspecialchars($_POST['tags'],ENT_QUOTES):' ';
+  $keep_site = isset($_POST['official_site']) ? htmlspecialchars($_POST['official_site'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_detail = isset($_POST['detail']) ? htmlspecialchars($_POST['detail'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_logo = isset($_POST['logo']) ? htmlspecialchars($_POST['logo'], ENT_QUOTES, 'utf-8') : ' ';
+  // $keep_count = isset($_POST['count']) ? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
+  // $keep_count = 0;
+  // // もし、sessionにproductsがあったら
+  
+  
+  if ($keep_name != '' && $keep_id != '' && $keep_email != '' && $keep_tags != '' && $keep_site != '' && $keep_logo != '' && $keep_detail != '') {
+    $_SESSION['agents'][$keep_name] = [
+      'keep_id' => $keep_id,
+      'keep_email' => $keep_email,
+      'keep_tags' => $keep_tags,
+      'keep_site' => $keep_site,
+      'keep_detail' => $keep_detail,
+      'keep_logo' => $keep_logo,
+    ];
+    
   }
-};
-
-// $keep_tags = isset($_POST['tags']) ? htmlspecialchars($_POST['tags'],ENT_QUOTES):' ';
-$keep_site = isset($_POST['official_site']) ? htmlspecialchars($_POST['official_site'],ENT_QUOTES,'utf-8'):' ';
-$keep_detail = isset($_POST['detail']) ? htmlspecialchars($_POST['detail'],ENT_QUOTES,'utf-8'):' ';
-$keep_logo = isset($_POST['logo']) ? htmlspecialchars($_POST['logo'],ENT_QUOTES,'utf-8'):' ';
-
-
-if($keep_name !=''&&$keep_id !=''&&$keep_email !=''&&$keep_tags !=''&&$keep_site != ''&&$keep_logo != ''&&$keep_detail != ''){
-  $_SESSION['agents'][$keep_name] = [
-    'keep_id' => $keep_id,
-    'keep_email' => $keep_email,
-    'keep_tags' => $keep_tags,
-    'keep_site' => $keep_site,
-    'keep_detail' => $keep_detail,
-    'keep_logo' => $keep_logo,
-  ];
+  foreach($_SESSION['agents'] as $post_name){
+    $keep_count = $keep_count+1;
+  }
+  
+  // var_dump($_POST['name']);
+  // echo "<pre>";
+  // var_dump(count($_SESSION['agents'])-1);
+  // echo "</pre>";
+  // exit();
+  
+  $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
 }
-// var_dump($_POST['name']);
-
-// echo "<pre>";
-// var_dump($_SESSION['agents']);
-// echo "</pre>";
-// exit();
-
-$agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
-}
+$_SESSION['keep_count']= $keep_count;
 ?>
 <?php
 // $_SESSION['agents'][$keep_name] = $count;
 // $array_count = count($count);
 
-//もし、sessionにproductsがあったら
-// $count = 0;
-//    if(isset($_SESSION['agents'])){  
-//   //$_SESSION['agents']を$agentsという変数にいれる
-//        $agents = $_SESSION['agents']; 
-//   //$productsをforeachで回し、キー(商品名)と値（金額・個数）取得
-//        foreach($agents as $key => $agent){  
-//       //もし、キーとPOSTで受け取った商品名が一致したら、
-//            if($key == $keep_name){ 
-//           //既に企業がカートに入っているので、個数を足し算する     
-//                $count += intcount($agent['keep_name']);
-//            }
-//        }
-//  }  
 ?>
 
 <!DOCTYPE html>
@@ -129,7 +132,7 @@ $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <!-- <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $count; ?></span> -->
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -190,14 +193,14 @@ $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
         <!-- １つ１つのエージェントのカードタイル -->
         <div class="col-md-6 my-3 my-md-4 d-flex flex-row">
           <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-              <img src="public/images/<?php echo $result_agent['img']; ?>" class="" alt="企業ロゴ">
+            <img src="public/images/<?php echo $result_agent['img']; ?>" class="" alt="企業ロゴ">
           </div>
           <div class="col-5 col-md-6 result-content ps-3 my-0">
             <p class="second-size fw-bold"><?= $result_agent['agent_name']; ?></p>
             <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
             <p class="forth-size">
               <?php foreach ($result_agents_tags as $key => $result_agents_tag) {
-                echo $result_agents_tag , ' ';
+                echo $result_agents_tag, ' ';
                 // echo $key;
               } ?>
             </p>
@@ -206,25 +209,30 @@ $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
             </div>
           </div>
           <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-            <a href="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {echo $result_agents_tag . ' ';} ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
+            <a href="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {
+                                                                                                                                    echo $result_agents_tag . ' ';
+                                                                                                                                  } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
             <!-- キープした時にセッションでエージェントの情報を保持 -->
-              <form action="" method="POST">
-                <!-- tagのid -->
-                <?php foreach ($tags as $tag) : ?>
-                  <input type="hidden" name="tag[]" value="<?= $tag; ?>">
-                <?php endforeach; ?>
-                <input type="hidden" name="keep_id" value="<?= $result_agent['id']; ?>">
-                <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
-                <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
-                <!-- tagの名前 -->
-                <?php foreach ($result_agents_tags as $key => $result_agents_tag) : ?>
-                  <input type="hidden" name="tags[]" value="<?= $result_agents_tag ?>">
-                <?php endforeach; ?>
-                <input type="hidden" name="official_site" value="<?= $result_agent['agent_url']; ?>">
-                <input type="hidden" name="detail" value="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {echo $result_agents_tag . ' ';} ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>?>">
-                <input type="hidden" name="logo" value="<?= $result_agent['img']; ?>">
-                <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
-              </form>
+            <form action="" method="POST">
+              <!-- tagのid -->
+              <?php foreach ($tags as $tag) : ?>
+                <input type="hidden" name="tag[]" value="<?= $tag; ?>">
+              <?php endforeach; ?>
+              <input type="hidden" name="keep_id" value="<?= $result_agent['id']; ?>">
+              <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
+              <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
+              <!-- tagの名前 -->
+              <?php foreach ($result_agents_tags as $key => $result_agents_tag) : ?>
+                <input type="hidden" name="tags[]" value="<?= $result_agents_tag ?>">
+              <?php endforeach; ?>
+              <input type="hidden" name="official_site" value="<?= $result_agent['agent_url']; ?>">
+              <input type="hidden" name="detail" value="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {
+                                                                                                                                                                        echo $result_agents_tag . ' ';
+                                                                                                                                                                      } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>?>">
+              <input type="hidden" name="logo" value="<?= $result_agent['img']; ?>">
+              <input type="hidden" value="1" name="count">
+              <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
+            </form>
           </div>
         </div>
       <?php endforeach; ?>
