@@ -21,23 +21,25 @@
 //   });
 // });
 
-// 指定箇所へのスムーススクロール
-$(function () {
-  // #で始まるアンカーをクリックした場合に処理
-  $("a[href^=#]").click(function () {
-    // スクロールの速度
-    var speed = 400; // ミリ秒
-    // アンカーの値取得
-    var href = $(this).attr("href");
-    // 移動先を取得
-    var target = $(href == "#" || href == "" ? "html" : href);
-    // 移動先を数値で取得
-    var position = target.offset().top;
-    // スムーススクロール
-    $("body,html").animate({ scrollTop: position }, speed, "swing");
-    return false;
-  });
-});
+// blurTriggerにblurというクラス名を付ける定義
+
+function BlurTextAnimeControl() {
+  $('.blurTrigger').each(function(){ //blurTriggerというクラス名が
+    var elemPos = $(this).offset().top-50;//要素より、50px上の
+    var scroll = $(window).scrollTop();
+    var windowHeight = $(window).height();
+    if (scroll >= elemPos - windowHeight){
+    $(this).addClass('blur');// 画面内に入ったらblurというクラス名を追記
+    }else{
+    $(this).removeClass('blur');// 画面外に出たらblurというクラス名を外す
+    }
+    });
+}
+
+// 画面が読み込まれたらすぐに動かしたい場合の記述
+$(window).on('load', function () {
+  BlurTextAnimeControl();/* アニメーション用の関数を呼ぶ*/
+});// ここまで画面が読み込まれたらすぐに動かしたい場合の記述
 
 // ドロップダウンメニュー項目を押してもドロップダウンメニューが閉じないようにする
 $(".dropdown-item").on("click.bs.dropdown.data-api", (event) =>

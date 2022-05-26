@@ -31,9 +31,11 @@ if (isset($_POST['tag'])) {
 }
 ?>
 <?php
+if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
 $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):' ';
 $keep_id = isset($_POST['keep_id']) ? htmlspecialchars($_POST['keep_id'],ENT_QUOTES,'utf-8'):' ';
 $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):' ';
+
 $keep_tags = $_POST['tags'];
 
 function myhtmlspecialchars($keep_tags) {
@@ -68,6 +70,7 @@ if($keep_name !=''&&$keep_id !=''&&$keep_email !=''&&$keep_tags !=''&&$keep_site
 // exit();
 
 $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
+}
 ?>
 <?php
 // $_SESSION['agents'][$keep_name] = $count;

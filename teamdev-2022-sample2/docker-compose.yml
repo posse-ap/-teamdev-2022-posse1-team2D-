@@ -23,6 +23,7 @@ services:
     image: mysql:8.0
     environment:
       - MYSQL_DATABASE=mysql
+      - TZ=Asia/Tokyo
       - MYSQL_USER=team2D
       - MYSQL_PASSWORD=password
       - MYSQL_ROOT_PASSWORD=password

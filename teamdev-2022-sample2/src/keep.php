@@ -110,7 +110,7 @@ $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>
-      <a class="btn continue-btn my-5" href="result.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
+      <a class="btn continue-btn my-5" href="index.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
     </div>
   </div>
 </body>
