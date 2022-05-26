@@ -44,13 +44,38 @@ function myhtmlspecialchars($keep_tags) {
   }
 };
 
+$keep_count = 0;
+
 // $keep_tags = isset($_POST['tags']) ? htmlspecialchars($_POST['tags'],ENT_QUOTES):' ';
 $keep_site = isset($_POST['official_site']) ? htmlspecialchars($_POST['official_site'],ENT_QUOTES,'utf-8'):' ';
 $keep_detail = isset($_POST['detail']) ? htmlspecialchars($_POST['detail'],ENT_QUOTES,'utf-8'):' ';
 $keep_logo = isset($_POST['logo']) ? htmlspecialchars($_POST['logo'],ENT_QUOTES,'utf-8'):' ';
+$keep_count = isset($_POST['count'])? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
+$keep_count = intval($keep_count);
+// もし、sessionにproductsがあったら
+if(isset($_SESSION['agents'])){  
+  //$_SESSION['agents']を$agentsという変数にいれる
+  //  $agents = $_SESSION['agents']; 
+  //$productsをforeachで回し、キーと値取得
+  //  foreach($agents as $key => $agent){  
+    //もし、キーとPOSTで受け取った企業名が一致したら、
+    //  if($keep_name == $keep_name){ 
+      //既に企業がカートに入っているので、個数を足し算する  
+      $keep_count += $keep_count;
+      
+      echo $keep_count;
+      // exit();
+    }
+$_SESSION['keep_count']= $keep_count;
+      //  }
+//  }
+//  $_SESSION['keep_count'] =$keep_count;
+//  echo "<pre>";
+//  var_dump($_SESSION['keep_count']);
+//  echo "</pre>";
+//  exit();
 
-
-if($keep_name !=''&&$keep_id !=''&&$keep_email !=''&&$keep_tags !=''&&$keep_site != ''&&$keep_logo != ''&&$keep_detail != ''){
+if($keep_name !=''&&$keep_id !=''&&$keep_email !=''&&$keep_tags !=''&&$keep_site != ''&&$keep_logo != ''&&$keep_detail != ''&&$keep_count != ''){
   $_SESSION['agents'][$keep_name] = [
     'keep_id' => $keep_id,
     'keep_email' => $keep_email,
@@ -58,10 +83,12 @@ if($keep_name !=''&&$keep_id !=''&&$keep_email !=''&&$keep_tags !=''&&$keep_site
     'keep_site' => $keep_site,
     'keep_detail' => $keep_detail,
     'keep_logo' => $keep_logo,
+    'keep_count' => $keep_count
   ];
+  // var_dump($keep_name);
+  // exit;
 }
 // var_dump($_POST['name']);
-
 // echo "<pre>";
 // var_dump($_SESSION['agents']);
 // echo "</pre>";
@@ -73,20 +100,6 @@ $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
 // $_SESSION['agents'][$keep_name] = $count;
 // $array_count = count($count);
 
-//もし、sessionにproductsがあったら
-// $count = 0;
-//    if(isset($_SESSION['agents'])){  
-//   //$_SESSION['agents']を$agentsという変数にいれる
-//        $agents = $_SESSION['agents']; 
-//   //$productsをforeachで回し、キー(商品名)と値（金額・個数）取得
-//        foreach($agents as $key => $agent){  
-//       //もし、キーとPOSTで受け取った商品名が一致したら、
-//            if($key == $keep_name){ 
-//           //既に企業がカートに入っているので、個数を足し算する     
-//                $count += intcount($agent['keep_name']);
-//            }
-//        }
-//  }  
 ?>
 
 <!DOCTYPE html>
@@ -126,7 +139,7 @@ $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <!-- <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $count; ?></span> -->
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -220,6 +233,7 @@ $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
                 <input type="hidden" name="official_site" value="<?= $result_agent['agent_url']; ?>">
                 <input type="hidden" name="detail" value="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {echo $result_agents_tag . ' ';} ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>?>">
                 <input type="hidden" name="logo" value="<?= $result_agent['img']; ?>">
+                <input type="hidden" value="1" name="count">
                 <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
               </form>
           </div>

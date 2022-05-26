@@ -1,9 +1,29 @@
 <?php
 session_start();
+
+  
+$agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
+$delete_name = isset($_POST['delete_name'])? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
+
 require(dirname(__FILE__) . "/dbconnect.php");
+
+
+if($delete_name != '') unset($_SESSION['agents'][$delete_name]);
 $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
 ?>
+<?php
+// $keep_count = 0;
+// $keep_count = isset($_POST['count'])? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
+// $keep_count = intval($keep_count);
 
+// $keep_count=filter_input(INPUT_POST,'keep_count');
+$keep_count = $_SESSION['keep_count'];
+$keep_count = intval($keep_count);
+var_dump($keep_count);
+// exit();
+// echo $keep_count;
+// exit();
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -41,7 +61,7 @@ $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,13 +114,12 @@ $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
           </div>
           <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
           <a href="<?= $agent['keep_detail']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
-            <form action="" method="POST" class="item-form">
+            <form action="keep.php" method="POST">
             <input type="hidden" name="id" value="<?= $result_agent['id']; ?>">
             <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
-                <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
-              <!-- <input type="text" value="1" name="count"> -->
-              <button class="delete-btn" type="submit">
-                <i class="bi bi-star-fill black-star"></i>削除</button>
+            <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
+            <input type="hidden" name="delete_name" value="<?= $name; ?>">
+            <button class="delete-btn" type="submit"><i class="bi bi-star-fill black-star"></i>削除</button>
             </form>
           </div>
         </div>
@@ -110,7 +129,7 @@ $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>
-      <a class="btn continue-btn my-5" href="result.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
+      <a class="btn continue-btn my-5 text-light" href="index.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
     </div>
   </div>
 </body>
