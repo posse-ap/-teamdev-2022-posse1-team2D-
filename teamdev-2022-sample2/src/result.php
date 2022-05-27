@@ -34,8 +34,9 @@ if (isset($_POST['tag'])) {
 // もし$_SESSION['keep_count']がなかったら、$keep_count=0と定義する
 if (empty($_SESSION['keep_count'])) {
   $keep_count = 0;
-} 
-  //  $_SESSION['keep_count']=$keep_count;
+} else {
+   $keep_count = $_SESSION['keep_count'];
+}
 
 
 if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
@@ -75,6 +76,7 @@ if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
     ];
     
   }
+  $keep_count = null;
   foreach($_SESSION['agents'] as $post_name){
     $keep_count = $keep_count+1;
   }
@@ -168,7 +170,7 @@ $_SESSION['keep_count']= $keep_count;
   <!-- コンテンツ -->
   <div class="wrapper">
     <p class="h2 fw-bold text-center">検索結果一覧</p>
-    <div class="d-inline h4 me-3">選択したタグ: </div>
+    <div class="d-inline h4 me-1">選択したタグ: </div>
     <?php foreach ($tags as $tag) : ?>
       <? $sql = "SELECT id, name FROM tags where id = :tag_id";
       $stmt = $db->prepare($sql);
@@ -178,7 +180,7 @@ $_SESSION['keep_count']= $keep_count;
       ?>
       <!-- なんのタグを選択したか表示 -->
       <?php foreach ($checked_tags as $checked_tag) : ?>
-        <div class="d-inline h4 me-2"><?= $checked_tag['name']; ?></div>
+        <div class="d-inline third-size fw-bold me-1"><?= $checked_tag['name']; ?></div>
       <?php endforeach; ?>
     <?php endforeach; ?>
     <div class="row">
