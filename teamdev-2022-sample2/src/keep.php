@@ -24,6 +24,16 @@ var_dump($keep_count);
 // echo $keep_count;
 // exit();
 ?>
+<?php 
+if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
+  $_SESSION['emails'][$agent['keep_id']] = [
+    'keep_email' => $agent['keep_email'],
+  ];
+}
+$emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
+// var_dump($agents['keep_email']);
+// exit();
+?>
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -125,7 +135,13 @@ var_dump($keep_count);
         </div>
       <p class=""><?php echo $agent['keep_id']; ?></p>
       <p class=""><?php echo $agent['keep_email']; ?></p>
+      <?php $email = $agent['keep_email'] ?>
+      <?php $aaa = array(); ?>
+      <?php $emails = array_push($aaa, $email);
+       var_dump($emails);?>
       <?php endforeach; ?>
+      <!-- <?php echo $emails; ?> -->
+
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>
