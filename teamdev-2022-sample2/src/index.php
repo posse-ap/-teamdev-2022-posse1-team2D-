@@ -5,7 +5,12 @@ require(dirname(__FILE__) . "/dbconnect.php");
 // admin/index.phpでinsert処理等したeventsテーブルから、id, titleを検索
 $stmt = $db->query('SELECT id, title FROM events');
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+if(empty($_SESSION['keep_count'])){
+    $keep_count=0;
+    $_SESSION['keep_count']=$keep_count;
+}else{
+$keep_count=$_SESSION['keep_count'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -14,13 +19,16 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>CRAFT｜TOPページ</title>
+    <title>TOPページ｜CRAFT</title>
     <!-- Bootstrap CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Bootstrap Icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- 私たちのCSS -->
     <link href="public/css/style.css" rel="stylesheet">
+    <!--==============レイアウトを制御する独自のCSSを読み込み===============-->
+    <link rel="stylesheet" type="text/css" href="http://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/move02/8-9/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="http://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/move02/8-9/css/8-9.css">
     <!-- Bootstrap JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
@@ -45,7 +53,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <!-- キープマーク -->
                     <a href="keep.php" class="keep-star ms-5">
                         <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-                        <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+                        <span class="d-inline bg-danger px-2 py-1 text-white circle"><?=$keep_count;?></span>
                     </a>
                     <!-- ハンバーガーメニューボタン -->
                     <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,22 +88,11 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </header>
     <!-- コンテンツ -->
     <div class="wrapper">
-        <div class="first-size fw-bold text-center">あなたにぴったりの<br>就活エージェントを見つけよう</div>
-        <div class="second-size fw-bold text-center mt-4">
-            <p class="d-inline-block">就活エージェントってなに？</p>
-            <div class="d-inline-block ms-3 updown">
-                <a href="#jobHuntingSec" class="text-danger" style="text-decoration: none;">
-                    <p class="mb-0 fourth-size">詳細はこちら</p>
-                    <span>
-                        <i class="bi bi-arrow-down-circle-fill text-danger first-size"></i>
-                    </span>
-                </a>
-            </div>
-        </div>
+        <div class="first-size fw-bold text-center blurTrigger">あなたにぴったりの<br>就活エージェントを見つけよう！</div>
         <div class="row justify-content-around my-3">
-            <div class="col-md-4 mb-4">
+            <div class="col-md-4 mt-md-4 mb-4">
                 <form action="/result.php" method="POST">
-                    <p class="second-size fw-bold">タグで絞り込む<i class="bi bi-check-all"></i></p>
+                    <p class="second-size fw-bold text-center">タグで絞り込む<i class="bi bi-check-all"></i></p>
                     <ul class="tags row">
                         <?php //tagを取得する
                         $stmt = $db->query('SELECT id, name FROM tags');
@@ -126,15 +123,65 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button type="submit" class="search-agents btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
                 </form>
             </div>
-            <div class="col-md-4">
-                <p class="second-size fw-bold">お困りのあなたへ（仮）</p>
-                <div class="card recommend-function">
-                    <p class="third-size text-light text-center fw-bold">自分にピッタリのエージェントを診断！</p>
-                    <div class="row px-3 my-2 g-3">
-                        <img class="col-4" src="public/images/feature5.jpg" alt="">
-                        <img class="col-4" src="public/images/feature6.jpg" alt="">
-                        <img class="col-4" src="public/images/feature7.jpg" alt="">
+            <div class="col-md-4 mt-md-4 mb-4">
+                <div class="text-center">
+                    <p class="second-size fw-bold">就活エージェントとは<i class="ps-2 bi bi-question-diamond"></i></p>
+                    <div class="mx-auto">
+                        <p class="third-size text-start lh-base">
+                            コンサルタントに相談し、プロフェッショナルな視点から、強みの引き出しや適職の紹介を受けることができるサービスです。
+                        </p>
                     </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success mt-md-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        クリックで詳細表示
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade pe-0" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">就活エージェントを活用するメリット</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-flex" style="border-bottom: 1px solid #dee2e6;">
+                                        <img src="public/images/resume.png" class="w-50" alt="">
+                                        <img src="public/images/job hunting.png" class="w-50" alt="">
+                                    </div>
+                                    <section class="p-2 mb-2" style="background-color: #f5f5f5;">
+                                        <p class="third-size fw-bold text-start mt-0">1. 就職情報サイトで出会えない、優良企業と出会えます。</p>
+                                        <div class="fourth-size fw-bold text-start">
+                                            就職情報サイト に掲載されていない非公開求人も含め、徹底審査・取材の結果、弊社がホワイト企業と認定した企業を厳選しています。
+                                        </div>
+                                    </section>
+                                    <section class="p-2 mb-2" style="background-color: #f5f5f5;">
+                                        <p class="third-size fw-bold text-start mt-0">2. 自分ひとりでは気づきづらい情報を得られます。</p>
+                                        <div class="fourth-size fw-bold text-start">
+                                            皆さんの隠れた適性や価値観、インターネット上では手に入れることが困難なリアルな採用情報も、個別カウンセリングを通してお伝えしています。
+                                        </div>
+                                    </section>
+                                    <section class="p-2 mb-2" style="background-color: #f5f5f5;">
+                                        <p class="third-size fw-bold text-start mt-0">3. 履歴書1枚で、何社でも企業にエントリ－ができます。</p>
+                                        <div class="fourth-size fw-bold text-start">
+                                            効率的に企業と接触する機会を増やせ、自分自身の可能性を広げられます。
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="modal-footer">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="d-inline-block ms-3 updown">
+                        <a href="#jobHuntingSec" class="text-danger" style="text-decoration: none;">
+                            <p class="mb-0 fourth-size">詳細はこちら</p>
+                            <span>
+                                <i class="bi bi-arrow-down-circle-fill text-danger first-size"></i>
+                            </span>
+                        </a>
+                    </div> -->
                 </div>
             </div>
         </div>

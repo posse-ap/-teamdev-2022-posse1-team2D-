@@ -1,7 +1,7 @@
 <?php
 require('../dbconnect.php');
-// エージェント登録のフォームデータを受け取り、データベースにいれる
-if (!empty($_POST)) {
+// 学生登録のフォームデータを受け取り、データベースにいれる
+if (!empty($_POST["btn_submit"])) {
     try {
         // echo "<pre>";
         // var_dump($_POST);
@@ -14,7 +14,7 @@ if (!empty($_POST)) {
         $student_graduation = $_POST['student_graduation'];
         $student_phone_number = $_POST['student_tel'];
         $student_email = $_POST['student_email'];
-        $student_address = $_POST['student_address'];
+        $student_address = $_POST['addr21'];
         $student_content = $_POST['student_content'];
 
         // studentsテーブルにinsert
@@ -31,7 +31,6 @@ if (!empty($_POST)) {
         $stmt->bindValue(":student_address",  $student_address, PDO::PARAM_STR);
         $stmt->bindValue(":content",  $student_content, PDO::PARAM_STR);
         $stmt->execute();
-
 
         // 中間テーブルに入力するデータ
         //どの企業をキープしたか 
@@ -102,20 +101,19 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
 
 // -----------------ページ切り替えごとに10件、該当エージェントに送られた学生情報を取得------------------------------------------------------------
 $current_agent_id =  $_SESSION['agent_id'];
-echo $current_agent_id;
+// echo $current_agent_id;
 
 // エージェントの名前を取得
 $stmt = $db->prepare('SELECT agent_name FROM agents INNER JOIN employees on agents.id = employees.agent_id WHERE employees.agent_id = :employees_agent_id');
 $stmt->bindValue(":employees_agent_id", $current_agent_id, PDO::PARAM_INT);
 $stmt->execute();
 $current_agent_name = $stmt->fetch(PDO::FETCH_COLUMN);
-var_dump($current_agent_name);
 // SELECT 申込者情報 FROM students 
 // INNER JOIN 中間テーブル on students.id = 中間テーブル.student_id
 // INNER JOIN agents on 中間テーブル.agent_id = agents.id
 
 $page_change_record = $from_record - 1;
-$stmt = $db->prepare('SELECT * FROM students
+$stmt = $db->prepare('SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
 INNER JOIN agents ON students_agents.agent_id = agents.id
 WHERE agents.id = ?
@@ -124,6 +122,46 @@ $stmt->bindParam(1,  $current_agent_id, PDO::PARAM_INT);
 $stmt->bindParam(2, $page_change_record, PDO::PARAM_INT);
 $stmt->execute();
 $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 指定月の学生データを取得
+if (isset($_POST["month_search"])) {
+    $selected_search = $_POST["selected_month"];
+    // var_dump($selected_search);
+    // var_dump(date("Y/m", strtotime($selected_search)));
+    $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :selected_search
+LIMIT :start_number, 10 ");
+    $stmt->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+    $stmt->bindValue(":start_number", $page_change_record, PDO::PARAM_INT);
+    $stmt->bindValue(":selected_search", $selected_search, PDO::PARAM_INT);
+    $stmt->execute();
+    $students_selected_month = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo "<pre>";
+    var_dump($students_selected_month);
+    echo "</pre>";
+    exit();
+}
+// 今月のお問い合わせ件数を取得
+$stmt_month = $db->prepare("SELECT count(students.id) FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = ? AND DATE_FORMAT(students.created_at, '%Y%m') = DATE_FORMAT(now(), '%Y%m')");
+$stmt_month->bindParam(1,  $current_agent_id, PDO::PARAM_INT);
+$stmt_month->execute();
+$students_number_per_moth = $stmt_month->fetch(PDO::FETCH_COLUMN);
+
+// 自社の情報だけを表示
+$stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period FROM agents
+WHERE agents.id = ?');
+$stmt->bindParam(1,  $current_agent_id, PDO::PARAM_INT);
+$stmt->execute();
+$my_agent = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// tagを取得する
+$stmt = $db->query('SELECT id, name FROM tags');
+$tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // -------------------------------------------------------------------------------------------------------------
 ?>
 
@@ -160,7 +198,7 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 <h1 class="ms-3 text-light">学生情報管理画面</h1>
 
-                <span class="h5 text-light">ようこそ、<span class="h3 text-light"><?=$current_agent_name." "?></span>さん</span>
+                <span class="h5 text-light">ようこそ、<span class="h3 text-light"><?= $current_agent_name . " " ?></span>さん</span>
                 <div class="float-end h5 text-light">
                     <form method="get" action="">
                         <input type="submit" name="btn_logout" value="ログアウト">
@@ -172,11 +210,29 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </header>
     <!-- コンテンツ -->
     <div class="admin-wrapper">
+        <div class="d-flex justify-content-between">
+            <h4 class="my-3">今月のお問い合わせ件数:
+                <span class="px-2"><?= $students_number_per_moth ?></span>
+                件
+            </h4>
+            <div class="d-flex my-3">
+                <form action="" method="POST">
+                    <select name="selected_month" id="graduation" class="text-secondary me-3" required>
+                        <option value="" class="text-secondary default-word" hidden>選択してください</option>
+                        <option value="202204" class="text-dark graduation">2022/04</option>
+                        <option value="202205" class="text-dark graduation">2022/05</option>
+                        <option value="202206" class="text-dark graduation">2022/06</option>
+                        <option value="202207" class="text-dark graduation">2022/07</option>
+                    </select>
+                    <input class="btn btn-primary me-5" type="submit" name="month_search" value="指定月で検索">
+                </form>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12 mb-lg-0">
                 <div class="card">
                     <h5 class="card-header">学生情報</h5>
-                    <?php echo $_SESSION['agent_id'];?>
+                    <!-- <?php echo $_SESSION['agent_id']; ?> -->
                     <div class="card-body pb-0">
                         <div class="table-responsive">
                             <table class="table">
@@ -191,6 +247,7 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         <th scope="col">メールアドレス</th>
                                         <th scope="col">住所</th>
                                         <th scope="col">問い合わせ内容</th>
+                                        <th>お問い合わせ日時</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -205,6 +262,7 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                             <td><?= $student["student_email"]; ?></td>
                                             <td><?= $student["student_address"]; ?></td>
                                             <td><?= $student["content"]; ?></td>
+                                            <td><?= date("Y/m/d H:i", strtotime($student["created_at"])); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -214,32 +272,91 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-    </div>
-    <!--ページネーション  -->
-    <div class="pagination">
-        <?php if ($page >= 2) : ?>
-            <a href="index.php?page=<?php echo ($page - 1); ?>" class="page_feed">&laquo;</a>
-        <?php else :; ?>
-            <span class="first_last_page">&laquo;</span>
-        <?php endif; ?>
 
-        <?php for ($i = 1; $i <= $max_page; $i++) : ?>
-            <?php if ($i >= $page - $range && $i <= $page + $range) : ?>
-                <?php if ($i == $page) : ?>
-                    <span class="now_page_number"><?php echo $i; ?></span>
-                <?php else : ?>
-                    <a href="?page=<?php echo $i; ?>" class="page_number"><?php echo $i; ?></a>
-                <?php endif; ?>
+        <!--ページネーション  -->
+        <div class="pagination">
+            <?php if ($page >= 2) : ?>
+                <a href="index.php?page=<?php echo ($page - 1); ?>" class="page_feed">&laquo;</a>
+            <?php else :; ?>
+                <span class="first_last_page">&laquo;</span>
             <?php endif; ?>
-        <?php endfor; ?>
 
-        <?php if ($page < $max_page) : ?>
-            <a href="index.php?page=<?php echo ($page + 1); ?>" class="page_feed">&raquo;</a>
-        <?php else : ?>
-            <span class="first_last_page">&raquo;</span>
-        <?php endif; ?>
-    </div>
-    <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
+            <?php for ($i = 1; $i <= $max_page; $i++) : ?>
+                <?php if ($i >= $page - $range && $i <= $page + $range) : ?>
+                    <?php if ($i == $page) : ?>
+                        <span class="now_page_number"><?php echo $i; ?></span>
+                    <?php else : ?>
+                        <a href="?page=<?php echo $i; ?>" class="page_number"><?php echo $i; ?></a>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php endfor; ?>
+
+            <?php if ($page < $max_page) : ?>
+                <a href="index.php?page=<?php echo ($page + 1); ?>" class="page_feed">&raquo;</a>
+            <?php else : ?>
+                <span class="first_last_page">&raquo;</span>
+            <?php endif; ?>
+        </div>
+        <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
+
+
+
+
+        <!-- 自社情報の表示 -->
+        <div class="row">
+            <div class="col-12 mb-lg-0">
+                <div class="card">
+                    <h5 class="card-header">自社情報</h5>
+                    <div class="card-body pb-0">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">社名</th>
+                                        <th scope="col">会社URL</th>
+                                        <th scope="col">代表者名</th>
+                                        <th scope="col">契約担当者名</th>
+                                        <th scope="col">部署</th>
+                                        <th scope="col">メールアドレス</th>
+                                        <th scope="col">電話番号</th>
+                                        <th scope="col">住所</th>
+                                        <th scope="col">掲載期間</th>
+                                        <th scope="col">タグ</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($my_agent as $key => $my_agent_info) : ?>
+                                        <tr>
+                                            <td><?= $my_agent_info["agent_name"]; ?></td>
+                                            <td><?= $my_agent_info["agent_url"]; ?></td>
+                                            <td><?= $my_agent_info["representative"]; ?></td>
+                                            <td><?= $my_agent_info["contractor"]; ?></td>
+                                            <td><?= $my_agent_info["department"]; ?></td>
+                                            <td><?= $my_agent_info["email"]; ?></td>
+                                            <td><?= $my_agent_info["phone_number"]; ?></td>
+                                            <td><?= $my_agent_info["address"]; ?></td>
+                                            <td><?= $my_agent_info["post_period"]; ?></td>
+                                            <td>
+                                                <?php $sql = "SELECT name FROM tags inner join agents_tags on tags.id = agents_tags.tag_id inner join agents on agents_tags.agent_id = agents.id WHERE agents.id <=> :agent_id";
+                                                $stmt_for_joinTable = $db->prepare($sql);
+                                                //  エージェントの名前毎に、タグの名前を取得する
+                                                $stmt_for_joinTable->bindValue(":agent_id", $current_agent_id, PDO::PARAM_STR);
+                                                $stmt_for_joinTable->execute();
+                                                $tags_with_agents = $stmt_for_joinTable->fetchAll(PDO::FETCH_COLUMN);
+                                                foreach ($tags_with_agents as $key => $each_tag) {
+                                                    echo $each_tag . ' ';
+                                                } ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- ログアウト機能作る -->
     <!-- jQuery -->

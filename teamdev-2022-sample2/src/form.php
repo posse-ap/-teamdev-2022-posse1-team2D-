@@ -1,19 +1,22 @@
 <?php
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
-$agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
+require(dirname(__FILE__) . "/uni-info.php");
+$agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
 
 // 変数の初期化
 $page_flag = 0;
 
 if (!empty($_POST['btn_confirm'])) {
-
   $page_flag = 1;
 } elseif (!empty($_POST['btn_submit'])) {
+
 
   $page_flag = 2;
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -26,11 +29,13 @@ if (!empty($_POST['btn_confirm'])) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <!-- Bootstrap Icon -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" />
   <!-- 私たちのCSS -->
   <link href="public/css/style.css" rel="stylesheet">
   <!-- Bootstrap JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" />
+  <!-- 郵便番号→住所自動化プラグイン -->
+  <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 
 </head>
 
@@ -67,7 +72,7 @@ if (!empty($_POST['btn_confirm'])) {
               <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark"  href="agents.php">エージェント一覧</a>
+              <a class="h6 nav-link text-dark" href="agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
@@ -88,52 +93,58 @@ if (!empty($_POST['btn_confirm'])) {
   </header>
   <div class="wrapper">
     <h2>お問い合わせ手続き</h2>
-    <p>必須事項をご記入の上、お問い合わせ内容を入力してください。</p>
     <div class="Form">
       <?php if ($page_flag === 1) : ?>
         <form action="/admin/agent-index.php" method="POST">
+          <p class="mb-2 h5 text-center">ご入力情報の確認</p>
           <!-- どの企業をキープしたかのエージェントのid -->
           <!-- foreachでキープした企業の数だけ、以下のinputタグを生成し、valueに、キープしたエージェントidをセット -->
           <?php foreach ($agents as $name => $agent) : ?>
-          <input type="hidden" name="keep_agent_id[]" value="<?= $agent['keep_id']; ?>">
+            <input type="hidden" name="keep_agent_id[]" value="<?= $agent['keep_id']; ?>">
           <?php endforeach; ?>
           <div class="Form-Item">
             <p class="Form-Item-Label">
               <span class="Form-Item-Label-Required">必須</span>氏名
             </p>
-            <input type="text" name="student_name" class="Form-Item-Input" value="<?=$_POST['student_name']; ?>" required>
+            <input type="text" name="student_name" class="Form-Item-Input" value="<?= $_POST['student_name']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
-            <input type="text" name="student_university" class="Form-Item-Input" value="<?=$_POST['student_university']; ?>" required>
+            <input type="text" name="student_university" class="Form-Item-Input" value="<?= $_POST['student_university']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
-            <input type="text" name="student_faculty" class="Form-Item-Input" value="<?=$_POST['student_faculty']; ?>" required>
+            <input type="text" name="student_faculty" class="Form-Item-Input" value="<?= $_POST['student_faculty']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学科名</p>
-            <input type="text" name="student_department" class="Form-Item-Input" value="<?=$_POST['student_department']; ?>" required>
+            <input type="text" name="student_department" class="Form-Item-Input" value="<?= $_POST['student_department']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>年度卒</p>
-            <input type="text" name="student_graduation" class="Form-Item-Input" value="<?=$_POST['student_graduation']; ?>" required>
+            <input type="text" name="student_graduation" class="Form-Item-Input" value="<?= $_POST['student_graduation']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>電話</p>
-            <input type="tel" name="student_tel" pattern="\d{2,4}-\d{3,4}-\d{3,4}" class="Form-Item-Input" value="<?=$_POST['student_tel']; ?>" required>
+            <input type="tel" name="student_tel" pattern="\d{2,4}-\d{3,4}-\d{3,4}" class="Form-Item-Input" value="<?= $_POST['student_tel']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
-            <input type="email" name="student_email" class="Form-Item-Input" value="<?=$_POST['student_email']; ?>"  required>
+            <input type="email" name="student_email" class="Form-Item-Input" value="<?= $_POST['student_email']; ?>" required>
+          </div>
+          <div class="Form-Item">
+            <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>郵便番号</p>
+            <!-- ▼郵便番号入力フィールド(3桁+4桁) -->
+            <input type="text" name="zip21" style="background-color: #eaedf2; border: 1px solid #ddd; border-radius: 6px; margin-left: 40px;" size="4" maxlength="3" value="<?= $_POST['zip21']; ?>"> － <input type="text" name="zip22" style="background-color: #eaedf2; border: 1px solid #ddd; border-radius: 6px;" value="<?= $_POST['zip22']; ?>" size="5" maxlength="4" onKeyUp="AjaxZip3.zip2addr('zip21','zip22','addr21','addr21');">
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
-            <input type="text" name="student_address" class="Form-Item-Input" value="<?=$_POST['student_address']; ?>" required>
+            <!-- ▼住所入力フィールド(都道府県+以降の住所) -->
+            <input type="text" name="addr21" class="Form-Item-Input" value="<?= $_POST['addr21']; ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
-            <textarea name="student_content" class="Form-Item-Textarea"><?=$_POST['student_content']; ?></textarea>
+            <textarea name="student_content" class="Form-Item-Textarea"><?= $_POST['student_content']; ?></textarea>
           </div>
           <p>この内容で送信してよろしいですか？</p>
           <input type="submit" name="btn_back" class="Form-Btn unchecked" onclick=history.back() value="修正する">
@@ -155,8 +166,10 @@ if (!empty($_POST['btn_confirm'])) {
         </div>
 
 
+        <!-- 1. 最初の入力画面 -->
       <?php else : ?>
         <form action="" method="POST" onsubmit="return check(this)">
+          <p class="mb-2 h6 text-center">必須事項をご記入の上、<br>お問い合わせ内容を入力してください。</p>
           <div class="Form-Item">
             <p class="Form-Item-Label">
               <span class="Form-Item-Label-Required">必須</span>氏名
@@ -165,8 +178,43 @@ if (!empty($_POST['btn_confirm'])) {
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
-            <input type="text" name="student_university" class="Form-Item-Input" placeholder="例）慶應義塾大学" required>
+            <!-- <input type="text" name="student_university" class="Form-Item-Input" placeholder="例）慶應義塾大学" required> -->
+
+            <!-- 大学の分類ラジオボタン -->
+            <div class="d-flex" style="margin-left: 40px;">
+              <div class="">
+                <input class="" type="radio" name="maker" onclick="formSwitch()">
+                <label class=""> 国立大学</label>
+              </div>
+              <div class="">
+                <input class="" type="radio" name="maker" onclick="formSwitch()">
+                <label class=""> 私立大学</label>
+              </div>
+            </div>
           </div>
+          <!-- ラジオボタンで分岐 -->
+          <div class="">
+            <div id="nationalList" class="Form-Item">
+              <p class="Form-Item-Label">国立大学：</p>
+              <input type="text" value="" name="student_university" class="Form-Item-Input" list="nationalUniv" placeholder="例）入力すると候補が表示されます" autocomplete="off">
+              <datalist id="nationalUniv" class="target">
+                <?php foreach ($national_universities as $key => $national_university) : ?>
+                  <option value="<?= $national_university; ?>"></option>
+                <?php endforeach; ?>
+              </datalist>
+            </div>
+            <div id="PrivateList" class="Form-Item">
+              <p class="Form-Item-Label">私立大学：</p>
+              <input type="text" value="" name="student_university" class="Form-Item-Input" list="privateUniv" placeholder="例）入力すると候補が表示されます" autocomplete="off">
+              <datalist id="privateUniv">
+                <?php foreach ($private_universities as $key => $private_university) : ?>
+                  <option value="<?= $private_university; ?>">
+                  <?php endforeach; ?>
+              </datalist>
+            </div>
+          </div>
+          <!-- 大学ここまで -->
+
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
             <input type="text" name="student_faculty" class="Form-Item-Input" placeholder="例）理工学部" required>
@@ -194,9 +242,15 @@ if (!empty($_POST['btn_confirm'])) {
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>メールアドレス</p>
             <input type="email" name="student_email" class="Form-Item-Input" placeholder="例）example@gmail.com" required>
           </div>
+          <!-- ▼郵便番号入力フィールド(3桁+4桁) -->
+          <div class="Form-Item">
+            <p style="font-size: 14px;">※郵便番号のご入力で住所が自動表示されます。</p>
+            <input type="text" name="zip21" style="background-color: #eaedf2; border: 1px solid #ddd; border-radius: 6px;" size="4" maxlength="3"> － <input type="text" name="zip22" style="background-color: #eaedf2; border: 1px solid #ddd; border-radius: 6px;" size="5" maxlength="4" onKeyUp="AjaxZip3.zip2addr('zip21','zip22','addr21','addr21');">
+          </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>住所</p>
-            <input type="text" name="student_address" class="Form-Item-Input" placeholder="例）東京都世田谷区１丁目" required>
+            <!-- ▼住所入力フィールド(都道府県+以降の住所) -->
+            <input type="text" name="addr21" class="Form-Item-Input" size="60" placeholder="例）東京都世田谷区１丁目" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
@@ -221,6 +275,24 @@ if (!empty($_POST['btn_confirm'])) {
 
   <!-- 私たちのJS -->
   <script src="public/js/app.js"></script>
+  <script>
+    function formSwitch() {
+      hoge = document.getElementsByName('maker')
+      if (hoge[0].checked) {
+        // 好きな食べ物が選択されたら下記を実行します
+        document.getElementById('nationalList').style.display = "";
+        document.getElementById('PrivateList').style.display = "none";
+      } else if (hoge[1].checked) {
+        // 好きな場所が選択されたら下記を実行します
+        document.getElementById('nationalList').style.display = "none";
+        document.getElementById('PrivateList').style.display = "";
+      } else {
+        document.getElementById('nationalList').style.display = "none";
+        document.getElementById('PrivateList').style.display = "none";
+      }
+    }
+    window.addEventListener('load', formSwitch());
+  </script>
 </body>
 
 </html>
