@@ -61,7 +61,7 @@ var_dump($keep_count);
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count ?></span>
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

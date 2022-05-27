@@ -94,38 +94,6 @@ changeStars.forEach((changeStar) => {
 });
 
 
-//バリデーション
-// function check(form) {
-//   if (form.student-name.value == "") {
-//     alert("名前が入力されていません。");
-//     form.student-name.focus();
-//     return false;
-//   }
-//   if (form.student-university.value == "") {
-//     alert("大学名が入力されていません。");
-//     form.student-university.focus();
-//     return false;
-//   }
-
-
-  // if (form.student-name.value == "") {
-  //   alert("名前が入力されていません。");
-  //   form.student-name.focus();
-  //   return false;
-  // }
-  // if (form.student-name.value == "") {
-  //   alert("名前が入力されていません。");
-  //   form.student-name.focus();
-  //   return false;
-  // }
-  // if (form.addr.value == "") {
-  //   alert("住所が入力されていません。");
-  //   form.addr.focus();
-  //   return false;
-  
-//   return true;
-// }
-
 // プライバシーポリシーに同意したらお申込み送信
 $(function(){
    $('.Form-CheckItem-Label').on('click', function(){
@@ -136,39 +104,6 @@ $(function(){
    }
    });
    });
-
-// $(function () {
-//   //始めにjQueryで送信ボタンを無効化する
-//   $(".send").prop("disabled", true);
-
-//   //始めにjQueryで必須欄を加工する
-//   $("form input:required").each(function () {
-//     $(this).prev("label").addClass("required");
-//   });
-
-//   //入力欄の操作時
-//   $("form input:required").change(function () {
-//     //必須項目が空かどうかフラグ
-//     let flag = true;
-//     //必須項目をひとつずつチェック
-//     $("form input:required").each(function (e) {
-//       //もし必須項目が空なら
-//       if ($("form input:required").eq(e).val() === "") {
-//         flag = false;
-//       }
-//     });
-//     //全て埋まっていたら
-//     if (flag) {
-//       //送信ボタンを復活
-//       $(".send").prop("disabled", false);
-//     } else {
-//       //送信ボタンを閉じる
-//       $(".send").prop("disabled", true);
-//     }
-//   });
-// });
-
-
 
 //お申し込みフォーム画面の年度卒欄、灰色の選択肢を押したら黒色で入力される
 let graduation = document.getElementById("graduation");
