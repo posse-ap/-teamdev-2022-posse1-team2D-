@@ -1,12 +1,13 @@
 <?php
 session_start();
 require('../dbconnect.php');
+$current_agent_id =  $_SESSION['agent_id'];
 // 学生登録のフォームデータを受け取り、データベースにいれる
 if (!empty($_POST["btn_submit"])) {
     try {
         $emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
         $from = 'craft@gmail.com';
-        $to = implode(',',$emails);
+        $to = implode(',', $emails);
         $to_second = "second@gamil.com";
         $subject = 'お申し込み完了メール';
         $body = 'メールの送信テストです。';
@@ -77,9 +78,12 @@ if (isset($_SESSION['employee_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()
 
 // ------------------データベースの件数に対応させた動的ページネーション-----------------------------------------
 
-//$count_sqlはデータの件数取得に使うための変数。
-// デフォルトでは、自社に送られた件数を
-$count_sql = 'SELECT COUNT(*) as cnt FROM students';
+// デフォルトでは、自社に送られた全てのお問い合わせ件数を取得
+$count_sql = 'SELECT COUNT(*) as cnt FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = ?';
+
 
 //ページ数を取得する。GETでページが渡ってこなかった時(最初のページ)のときは$pageに１を格納する。
 if (isset($_GET['page']) && is_numeric($_GET['page'])) {
@@ -90,8 +94,12 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
 
 //最大ページ数を取得する。
 //10件ずつ表示させているので、$count['cnt']に入っている件数を10で割って小数点は切りあげると最大ページ数になる。
-$counts = $db->query($count_sql);
+$counts = $db->prepare($count_sql);
+$counts->bindParam(1,  $current_agent_id, PDO::PARAM_INT);
+$counts->execute();
+
 $count = $counts->fetch(PDO::FETCH_ASSOC);
+
 $max_page = ceil($count['cnt'] / 10);
 
 if ($page == 1 || $page == $max_page) {
@@ -112,19 +120,15 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
 // ------------------動的ページネーション(fin)-----------------------------------------
 
 // -----------------ページ切り替えごとに10件、該当エージェントに送られた学生情報を取得------------------------------------------------------------
-$current_agent_id =  $_SESSION['agent_id'];
-// echo $current_agent_id;
 
 // エージェントの名前を取得
 $stmt = $db->prepare('SELECT agent_name FROM agents INNER JOIN employees on agents.id = employees.agent_id WHERE employees.agent_id = :employees_agent_id');
 $stmt->bindValue(":employees_agent_id", $current_agent_id, PDO::PARAM_INT);
 $stmt->execute();
 $current_agent_name = $stmt->fetch(PDO::FETCH_COLUMN);
-// SELECT 申込者情報 FROM students 
-// INNER JOIN 中間テーブル on students.id = 中間テーブル.student_id
-// INNER JOIN agents on 中間テーブル.agent_id = agents.id
 
 $page_change_record = $from_record - 1;
+// エージェントに送られた全ての学生データを取得
 $stmt = $db->prepare('SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
 INNER JOIN agents ON students_agents.agent_id = agents.id
@@ -135,11 +139,10 @@ $stmt->bindParam(2, $page_change_record, PDO::PARAM_INT);
 $stmt->execute();
 $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// 指定月の学生データを取得
+// -------------------------指定月の学生データを取得----------------------------------------------------------
 if (isset($_POST["month_search"])) {
     $selected_search = $_POST["selected_month"];
-    // var_dump($selected_search);
-    // var_dump(date("Y/m", strtotime($selected_search)));
+    //検索した年月の学生の詳細情報 
     $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
 INNER JOIN agents ON students_agents.agent_id = agents.id
@@ -150,12 +153,22 @@ LIMIT :start_number, 10 ");
     $stmt->bindValue(":selected_search", $selected_search, PDO::PARAM_INT);
     $stmt->execute();
     $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // echo "<pre>";
-    // var_dump($students);
-    // echo "</pre>";
-    // exit();
+    //検索した年月のお問い合わせ件数
+    $count_sql = "SELECT COUNT(*) as cnt FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :selected_search";
+
+    $counts = $db->prepare($count_sql);
+    $counts->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+    $counts->bindValue(":selected_search", $selected_search, PDO::PARAM_INT);
+    $counts->execute();
+
+    $count = $counts->fetch(PDO::FETCH_ASSOC);
 }
-// 今月のお問い合わせ件数を取得
+// --------------------------------指定月の学生データを取得(fin)-----------------------------------------------------
+
+// ----------------------------今月のお問い合わせ件数を取得----------------------------------------------------------
 $stmt_month = $db->prepare("SELECT count(students.id) FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
 INNER JOIN agents ON students_agents.agent_id = agents.id
@@ -309,7 +322,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <span class="first_last_page">&raquo;</span>
             <?php endif; ?>
         </div>
-        <p class="from_to text-center mt-3"><?php echo $count['cnt']; ?>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
+        <p class="from_to text-center mt-3"><span class="fw-bold h5"><?php echo $count['cnt']; ?></span>件中 <?php echo $from_record; ?> - <?php echo $to_record; ?> 件目を表示</p>
 
 
 
