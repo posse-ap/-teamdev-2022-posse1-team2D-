@@ -34,6 +34,7 @@ if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
 ?>
 
 <?php $emails = array(); ?>
+<?php $names = array(); ?>
 
 
 <!DOCTYPE html>
@@ -137,13 +138,16 @@ if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
         </div>
       <p class=""><?php echo $agent['keep_id']; ?></p>
       <p class=""><?php echo $agent['keep_email']; ?></p>
+      <p class=""><?php echo $name; ?></p>
       <?php $email = $agent['keep_email']; ?>
     <!-- <?php var_dump($email); ?> -->
 
     <?php  array_push($emails, $email);
+          array_push($names, $name);
     // var_dump($emails);
     $_SESSION['emails']=$emails;
-    var_dump($_SESSION['emails']);?>
+    $_SESSION['names']=$names;
+    // var_dump($_SESSION['emails']);?>
    
 
       <?php endforeach; ?>
