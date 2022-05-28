@@ -40,7 +40,6 @@ if (empty($_SESSION['keep_count'])) {
         <nav class="navbar navbar-dark fixed-top py-1 px-4" id="header">
             <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
             <div class="container-fluid">
-
                 <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
                     <h1 class="mb-0">CRAFT</h1>
                     <div class="h6">by 就活.com</div>
@@ -203,15 +202,43 @@ if (empty($_SESSION['keep_count'])) {
                 <p class="third-size">テキストテキストテキストテキストテキスト</p>
                 <p class="third-size">テキストテキストテキストテキストテキスト</p>
             </div>
-            <p id="jobHuntingSec" class="second-size fw-bold text-center">就活エージェントとは</p>
-            <div class="text-center my-3 my-md-5">
-                <p class="third-size">テキストテキストテキストテキストテキスト</p>
-                <p class="third-size">テキストテキストテキストテキストテキスト</p>
-            </div>
         </div>
         <!-- <a href="/admin/index.php">管理者ページ</a> -->
         <!-- <button type="button" class="ps-3 btn btnx--outline"><i class="bi bi-pencil-square"></i>お問い合わせはこちら</button> -->
     </div>
+    <!-- フッター -->
+    <footer>
+        <div id="footer">
+            <div class="text-center">
+                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+            </div>
+            <div class="text-center">
+                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+            </div>
+            <div class="footer-nav">
+                <ul>
+                    <li>
+                        <a class="text-light" href="index.php">トップページ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="#">よくあるご質問</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
