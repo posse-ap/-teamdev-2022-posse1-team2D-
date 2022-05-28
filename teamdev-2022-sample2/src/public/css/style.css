@@ -63,12 +63,17 @@ img {
 .footer-nav li {
   display: inline-block;
   font-size: 10pt;
-  padding: 0px 10px;
+  padding: 0 1rem;
 }
 .footer-nav li a{
   color: black;
 }
-
+@media screen and (max-width: 480px) {
+  .footer-nav li {
+    display: block;
+    font-size: 10pt;
+  }
+}
 
 
 /* -----------------------------------フッター共通部分（fin）-------------------------------------------------- */
