@@ -1,14 +1,14 @@
 <?php
 session_start();
-
+require(dirname(__FILE__) . "/dbconnect.php");
   
 $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
+
 $delete_name = isset($_POST['delete_name'])? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
-
-require(dirname(__FILE__) . "/dbconnect.php");
-
-
 if($delete_name != '') unset($_SESSION['agents'][$delete_name]);
+
+
+
 $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
 ?>
 <?php
@@ -30,10 +30,12 @@ if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
     'keep_email' => $agent['keep_email'],
   ];
 }
-$emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
-// var_dump($agents['keep_email']);
-// exit();
+// $emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
 ?>
+
+<?php $emails = array(); ?>
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -135,10 +137,15 @@ $emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
         </div>
       <p class=""><?php echo $agent['keep_id']; ?></p>
       <p class=""><?php echo $agent['keep_email']; ?></p>
-      <?php $email = $agent['keep_email'] ?>
-      <?php $aaa = array(); ?>
-      <?php $emails = array_push($aaa, $email);
-       var_dump($emails);?>
+      <?php $email = $agent['keep_email']; ?>
+    <!-- <?php var_dump($email); ?> -->
+
+    <?php  array_push($emails, $email);
+    // var_dump($emails);
+    $_SESSION['emails']=$emails;
+    var_dump($_SESSION['emails']);?>
+   
+
       <?php endforeach; ?>
       <!-- <?php echo $emails; ?> -->
 
