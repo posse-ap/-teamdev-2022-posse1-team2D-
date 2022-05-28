@@ -191,16 +191,50 @@ if (empty($_SESSION['keep_count'])) {
         </div>
         <div class="wrapper pt-0">
             <p id="CRAFTSec" class="second-size fw-bold text-center">CRAFTを利用した就活の流れ</p>
-            <div class="d-flex align-items-center justify-content-center my-3 my-md-5 fourth-size">
-                <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
-                <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
-                <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
-                <div class="service-circle d-flex align-items-center justify-content-center mx-2 mx-md-4 text-light"><span class="">サンプル</span></div>
+            <div class="d-flex flex-wrap align-items-center justify-content-center my-3 my-md-5">
+                <div class="text-center col-md-4 col-6">
+                    <p class="third-size">①クラフト使用</p>
+                    <img src="public/images/logo_4.png" alt="" class="w-25">
+                </div>
+                <div class="text-center col-md-4 col-6">
+                    <p class="third-size">②エージェント比較</p>
+                    <img src="public/images/logo_2.png" alt="" class="w-25">
+                </div>
+                <div class="text-center col-md-4 col-6">
+                    <p class="third-size">③エンジェンシーに問い合わせ</p>
+                    <img src="public/images/logo_3.png" alt="" class="w-25">
+                </div>
+                <div class="text-center col-md-4 col-6">
+                    <p class="third-size">④エージェントを登録</p>
+                    <img src="public/images/logo_1.png" alt="" class="w-25">
+                </div>
+                <div class="text-center col-md-4 col-6">
+                    <p class="third-size">⑤企業紹介</p>
+                    <img src="public/images/logo_5.png" alt="" class="w-25">
+                </div>
+                <div class="text-center col-md-4 col-6">
+                    <p class="third-size">⑥内定</p>
+                    <img src="public/images/logo_6.png" alt="" class="w-25">
+                </div>
             </div>
             <p class="second-size fw-bold text-center">CRAFTを利用するメリット</p>
-            <div class="text-center my-3 my-md-5">
-                <p class="third-size">テキストテキストテキストテキストテキスト</p>
-                <p class="third-size">テキストテキストテキストテキストテキスト</p>
+            <div class="d-flex flex-wrap align-items-center justify-content-center my-3 my-md-5 bg-light">
+                <div class="text-center col-md-6 col-6">
+                    <p class="third-size">自分の希望に合った<br>エージェントが絞り込める</p>
+                    <img src="public/images/logo_10.png" alt="" style="width: 250px; height: 200; object-fit: cover;">
+                </div>
+                <div class="text-center col-md-6 col-6">
+                    <p class="third-size">就活エージェントを<br>中立的な立場で比較できる</p>
+                    <img src="public/images/logo_8.png" alt="" style="width: 250px; height: 200; object-fit: cover;">
+                </div>
+                <div class="text-center col-md-6 col-6">
+                    <p class="third-size">就活エージェントに<br>一度に複数お問い合わせできる</p>
+                    <img src="public/images/logo_7.png" alt="" class="w-" style="width: 250px; height: 200px; object-fit: cover;">
+                </div>
+                <div class="text-center col-md-6 col-6">
+                    <p class="third-size">自分に適正な<br>エージェントを発見できる</p>
+                    <img src="public/images/logo_9.png" alt="" class="w-" style="width: 250px; height: 200px; object-fit: cover;">
+                </div>
             </div>
         </div>
         <!-- <a href="/admin/index.php">管理者ページ</a> -->
@@ -216,7 +250,7 @@ if (empty($_SESSION['keep_count'])) {
                 <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
             </div>
             <div class="footer-nav">
-                <ul>
+                <ul class="ps-0">
                     <li>
                         <a class="text-light" href="index.php">トップページ</a>
                     </li>
