@@ -1,8 +1,19 @@
 <?php
+session_start();
 require('../dbconnect.php');
 // 学生登録のフォームデータを受け取り、データベースにいれる
 if (!empty($_POST["btn_submit"])) {
     try {
+        $emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
+        $from = 'craft@gmail.com';
+        $to = implode(',',$emails);
+        $to_second = "second@gamil.com";
+        $subject = 'お申し込み完了メール';
+        $body = 'メールの送信テストです。';
+        $ret = mb_send_mail($to, $subject, $body, "From: {$from} \r\n");
+        $ret = mb_send_mail($to_second, $subject, $body, "From: {$from} \r\n");
+        // var_dump($ret);
+
         // echo "<pre>";
         // var_dump($_POST);
         // echo "</pre>";
@@ -56,7 +67,7 @@ if (!empty($_POST["btn_submit"])) {
 }
 
 // エージェントのログイン操作
-session_start();
+// session_start();
 if (isset($_SESSION['employee_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
     $_SESSION['time'] = time();
 } else {
