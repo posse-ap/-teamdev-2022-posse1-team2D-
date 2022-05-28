@@ -22,7 +22,7 @@ if (!empty($_POST)) {
     $_SESSION = array();
     $_SESSION['employee_id'] = $employee['id'];
     $_SESSION['agent_id'] = $employee['agent_id'];
-    $_SESSION['time'] = time();
+    $_SESSION['agent_time'] = time();
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/agent-index.php');
     exit();
   } else {

@@ -1,27 +1,6 @@
 <?php
 session_start();
 require('../dbconnect.php');
-// if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
-//     $_SESSION['time'] = time();
-
-//     if (!empty($_POST)) {
-//         // echo __LINE__ . PHP_EOL;
-//         $stmt = $db->prepare('INSERT INTO events SET title=?');
-//         $stmt->execute(array(
-//             $_POST['title']
-//         ));
-
-//         header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/index.php');
-//         exit();
-//     }
-// } else {
-//     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/login.php');
-//     exit();
-// }
-// // admin/index.phpでinsert処理等したeventsテーブルから、id, titleを検索
-// $stmt = $db->query('SELECT id, title FROM events');
-// $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 // ---------------------エージェント登録の処理-------------------------------------------------------------------------------------
 if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
     $_SESSION['time'] = time();
@@ -74,8 +53,8 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
 
             $stmt->bindValue(":img", $image, PDO::PARAM_STR);
             // 
-            if (!empty($_FILES['logo']['name'])) {//ファイルが選択されていれば$imageにファイル名を代入
-                move_uploaded_file($_FILES['logo']['tmp_name'], '../public/images/' . $image);//imagesディレクトリにファイル保存
+            if (!empty($_FILES['logo']['name'])) { //ファイルが選択されていれば$imageにファイル名を代入
+                move_uploaded_file($_FILES['logo']['tmp_name'], '../public/images/' . $image); //imagesディレクトリにファイル保存
                 $stmt->execute();
             }
 
@@ -134,11 +113,7 @@ if ($page == 1 || $page == $max_page) {
 
 $from_record = ($page - 1) * 10 + 1;
 
-if ($page == $max_page && $count['cnt'] % 10 !== 0) {
-    $to_record = ($page - 1) * 10 + $count['cnt'] % 10;
-} else {
-    $to_record = $page * 10;
-}
+
 // ------------------動的ページネーション(fin)-----------------------------------------
 
 // -----------------ページ切り替えごとに10件データ取得------------------------------------------------------------
@@ -153,19 +128,32 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // 検索機能
 $search_word = $_POST['word'];
-        if ($search_word == "") {
-            $comment = "キーワードを入力してください。";
-        } else {
-            $stmt = $db->prepare("SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, img FROM agents WHERE agent_name like '".$search_word."%'");
-            // $stmt->bindParam(1, $page_change_record, PDO::PARAM_INT);
-            $stmt->execute();
-            $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($agents) {
-                
-            } else {
-                echo "not found";
-            }
-        }
+if ($search_word == "") {
+    $comment = "キーワードを入力してください。";
+} else {
+    $stmt = $db->prepare("SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, img FROM agents
+     WHERE agent_name LIKE ? OR agent_url LIKE ? OR representative LIKE ? OR contractor LIKE ? OR department LIKE ? OR email LIKE ? OR phone_number LIKE ? OR address LIKE ?");
+    $stmt->bindValue(1, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(2, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(3, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(4, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(5, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(6, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(7, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(8, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->execute();
+    $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($agents) {
+    } else {
+        echo "not found";
+    }
+}
+// ページの何件目までを表示しているか
+if ($page == $max_page && $count['cnt'] % 10 !== 0) {
+    $to_record = ($page - 1) * 10 + $count['cnt'] % 10;
+} else {
+    $to_record = $page * 10;
+}
 // -------------------------------------------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -201,10 +189,11 @@ $search_word = $_POST['word'];
 
                 <h1 class="ms-3 text-light">エージェント情報管理画面</h1>
 
-                <div class="float-end h5 text-light">
-                    <form method="get" action="">
-                        <input type="submit" name="btn_logout" value="ログアウト">
-                    </form>
+                <div class="float-end h5">
+                    <a class="text-light" href='logout.php' onClick="return confirm('本当にログアウトしますか？')">
+                        ログアウト
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
                 </div>
 
             </div>
@@ -255,8 +244,8 @@ $search_word = $_POST['word'];
 
             <div class="content col-6">
                 <form action="" method="POST">
-                    <label>Name：</label>
-                    <input type="text" name="word" /><input type="submit" value="検索" />
+                    <input type="text" class="me-3" name="word" placeholder="キーワードで検索" /><input class="btn btn-primary" type="submit" value="検索" />
+                    <span>（※空白でクリックすると指定した条件がクリアされます）</span>
                 </form>
             </div>
         </div>
