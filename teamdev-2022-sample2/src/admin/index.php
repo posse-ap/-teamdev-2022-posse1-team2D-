@@ -189,10 +189,11 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
 
                 <h1 class="ms-3 text-light">エージェント情報管理画面</h1>
 
-                <div class="float-end h5 text-light">
-                    <form method="get" action="">
-                        <input type="submit" name="btn_logout" value="ログアウト">
-                    </form>
+                <div class="float-end h5">
+                    <a class="text-light" href='logout.php' onClick="return confirm('本当にログアウトしますか？')">
+                        ログアウト
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
                 </div>
 
             </div>
@@ -244,7 +245,7 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
             <div class="content col-6">
                 <form action="" method="POST">
                     <input type="text" class="me-3" name="word" placeholder="キーワードで検索" /><input class="btn btn-primary" type="submit" value="検索" />
-                    <span>（※全て空白でクリックすると指定した条件がクリアされます）</span>
+                    <span>（※空白でクリックすると指定した条件がクリアされます）</span>
                 </form>
             </div>
         </div>

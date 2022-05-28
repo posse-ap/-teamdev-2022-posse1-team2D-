@@ -295,10 +295,11 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <h1 class="ms-3 text-light">学生情報管理画面</h1>
 
                 <span class="h5 text-light">ようこそ、<span class="h3 text-light"><?= $current_agent_name . " " ?></span>さん</span>
-                <div class="float-end h5 text-light">
-                    <form method="get" action="">
-                        <input type="submit" name="btn_logout" value="ログアウト">
-                    </form>
+                <div class="float-end h5">
+                    <a class="text-light" href='agent-logout.php' onClick="return confirm('本当にログアウトしますか？')">
+                        ログアウト
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
                 </div>
 
             </div>
@@ -314,7 +315,7 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="d-flex my-3">
                 <form action="" method="POST">
                     <select name="selected_month" id="month" class="text-secondary me-3">
-                        <option value="" class="text-secondary default-word" hidden>年月の選択</option>
+                        <option value="" class="text-secondary default-word" hidden>お問い合わせ年月の選択</option>
                         <option value="202204" class="text-dark graduation">2022/04</option>
                         <option value="202205" class="text-dark graduation">2022/05</option>
                         <option value="202206" class="text-dark graduation">2022/06</option>
