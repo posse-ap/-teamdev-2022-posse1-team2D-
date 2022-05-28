@@ -105,21 +105,6 @@ if (empty($_SESSION['keep_count'])) {
                                     </li>
                                 </label>
                             <?php endforeach; ?>
-
-                            <li class="other-tag dropdown col-6">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    職種
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <?php foreach ($tags as $key => $tag) : ?>
-                                        <li class="dropdown-item">
-                                            <label for="<?= $tag["id"]; ?>" class="tag col-12">
-                                                <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
-                                            </label>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </li>
                         </ul>
                         <button type="submit" class="search-agents mb-3 btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
                     </form>
