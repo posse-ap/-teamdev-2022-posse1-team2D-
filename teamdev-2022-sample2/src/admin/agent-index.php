@@ -78,8 +78,8 @@ if (!empty($_POST["btn_submit"])) {
 
 // エージェントのログイン操作
 // session_start();
-if (isset($_SESSION['employee_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
-    $_SESSION['time'] = time();
+if (isset($_SESSION['employee_id']) && $_SESSION['agent_time'] + 60 * 60 * 24 > time()) {
+    $_SESSION['agent_time'] = time();
 } else {
     header('Location: http://' . $_SERVER['HTTP_HOST'] . '/admin/agent-login.php');
     exit();
@@ -121,11 +121,7 @@ if ($page == 1 || $page == $max_page) {
 
 $from_record = ($page - 1) * 10 + 1;
 
-if ($page == $max_page && $count['cnt'] % 10 !== 0) {
-    $to_record = ($page - 1) * 10 + $count['cnt'] % 10;
-} else {
-    $to_record = $page * 10;
-}
+
 // ------------------動的ページネーション(fin)-----------------------------------------
 
 // -----------------ページ切り替えごとに10件、該当エージェントに送られた学生情報を取得------------------------------------------------------------
@@ -149,9 +145,10 @@ $stmt->execute();
 $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // -------------------------指定月の学生データを取得----------------------------------------------------------
+// 絞り込み機能
 if (isset($_POST["month_search"])) {
-    // もし年月が○、年度卒が×の時、
-    if (isset($_POST["selected_month"]) && empty($_POST["selected_graduation"])) {
+    // もし年月・年度卒の組み合わせで場合分け、
+    if (!empty($_POST["selected_month"]) && empty($_POST["selected_graduation"])) {
         $selected_month = $_POST["selected_month"];
         //検索した年月の学生の詳細情報 
         $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
@@ -176,13 +173,9 @@ WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :sele
         $counts->execute();
 
         $count = $counts->fetch(PDO::FETCH_ASSOC);
-    }
-    else if (!empty($_POST["selected_month"]) && !empty($_POST["selected_graduation"])){
+    } else if (!empty($_POST["selected_month"]) && !empty($_POST["selected_graduation"])) {
         $selected_month = $_POST["selected_month"];
         $selected_graduation = $_POST["selected_graduation"];
-        // var_dump($_POST["selected_graduation"]);
-        // exit();
-
         //検索した年月の学生の詳細情報 
         $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
@@ -195,7 +188,7 @@ LIMIT :start_number, 10 ");
         $stmt->bindValue(":graduation", $selected_graduation, PDO::PARAM_INT);
         $stmt->execute();
         $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         //検索した年月のお問い合わせ件数
         $count_sql = "SELECT COUNT(*) as cnt FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
@@ -209,9 +202,7 @@ WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :sele
         $counts->execute();
 
         $count = $counts->fetch(PDO::FETCH_ASSOC);
-        
-    } 
-    else if (isset($_POST["selected_graduation"]) && empty($_POST["selected_month"])) {
+    } else if (!empty($_POST["selected_graduation"]) && empty($_POST["selected_month"])) {
         $selected_graduation = $_POST["selected_graduation"];
         // var_dump($selected_graduation);
         //検索した年月の学生の詳細情報 
@@ -225,7 +216,7 @@ LIMIT :start_number, 10 ");
         $stmt->bindValue(":start_number", $page_change_record, PDO::PARAM_INT);
         $stmt->execute();
         $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+
         //検索した年月のお問い合わせ件数
         $count_sql = "SELECT COUNT(*) as cnt FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
@@ -239,6 +230,12 @@ WHERE agents.id = :agent_id AND students.graduation = :graduation";
 
         $count = $counts->fetch(PDO::FETCH_ASSOC);
     }
+}
+// ページの何件目までを表示しているか
+if ($page == $max_page && $count['cnt'] % 10 !== 0) {
+    $to_record = ($page - 1) * 10 + $count['cnt'] % 10;
+} else {
+    $to_record = $page * 10;
 }
 // --------------------------------指定月の学生データを取得(fin)-----------------------------------------------------
 
@@ -331,7 +328,8 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <option value="2025" class="text-dark graduation">2025</option>
                         <option value="2026" class="text-dark graduation">2026</option>
                     </select>
-                    <input class="btn btn-primary me-5 search-students" type="submit" name="month_search" value="指定条件で検索">
+                    <input class="btn btn-primary me-1 search-students" type="submit" name="month_search" value="指定条件で絞り込み">
+                    <span>（※全て空白でクリックすると指定した条件がクリアされます）</span>
                 </form>
             </div>
         </div>
