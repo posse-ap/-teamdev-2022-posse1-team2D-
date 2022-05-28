@@ -27,7 +27,7 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
     $_SESSION['time'] = time();
 
     // エージェント登録のフォームデータを受け取り、データベースにいれる
-    if (!empty($_POST)) {
+    if (!empty($_POST['register_agents'])) {
         try {
             // 送信された値を取得
             $agent_name = $_POST['agent_name'];
@@ -150,6 +150,22 @@ $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // tagを取得する
 $stmt = $db->query('SELECT id, name FROM tags');
 $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// 検索機能
+$search_word = $_POST['word'];
+        if ($search_word == "") {
+            $comment = "キーワードを入力してください。";
+        } else {
+            $stmt = $db->prepare("SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, img FROM agents WHERE agent_name like '".$search_word."%'");
+            // $stmt->bindParam(1, $page_change_record, PDO::PARAM_INT);
+            $stmt->execute();
+            $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($agents) {
+                
+            } else {
+                echo "not found";
+            }
+        }
 // -------------------------------------------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -231,14 +247,14 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="modal-bottom">
                             <a class="js-modal-close btn btn-secondary mx-2" href="">閉じる</a>
-                            <input class="d-block btn btn-success" type="submit" value="登録する">
+                            <input name="register_agents" class="d-block btn btn-success" type="submit" value="登録する">
                         </div>
                     </form>
                 </div>
             </div>
 
             <div class="content col-6">
-                <form action="/admin/buzzer_search.php" method="POST">
+                <form action="" method="POST">
                     <label>Name：</label>
                     <input type="text" name="word" /><input type="submit" value="検索" />
                 </form>

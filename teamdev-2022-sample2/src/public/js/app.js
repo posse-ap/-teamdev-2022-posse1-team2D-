@@ -56,6 +56,7 @@ $('.search-agents').on("click",function(){
         $('.q2').prop("required",true); //required属性の付与
    }
 });
+
 // エージェント登録用のモーダルの動作
 $(function () {
   $(".js-modal-open").on("click", function () {

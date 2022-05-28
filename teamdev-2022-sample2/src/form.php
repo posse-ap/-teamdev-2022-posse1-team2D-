@@ -1,6 +1,8 @@
 <?php
 session_start();
+
 use LDAP\Result;
+
 require(dirname(__FILE__) . "/dbconnect.php");
 require(dirname(__FILE__) . "/uni-info.php");
 $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
@@ -124,7 +126,11 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>大学名</p>
-            <input type="text" name="student_university" class="Form-Item-Input" value="<?= $_POST['student_university']; ?>" required>
+            <input type="text" name="student_university" class="Form-Item-Input" value="<?php
+                                                                                        for ($i = 0; $i < count($_POST["student_university"]); $i++) {
+                                                                                          echo $_POST["student_university"][$i];
+                                                                                        }
+                                                                                        ?>" required>
           </div>
           <div class="Form-Item">
             <p class="Form-Item-Label"><span class="Form-Item-Label-Required">必須</span>学部名</p>
@@ -210,7 +216,7 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
           <div class="">
             <div id="nationalList" class="Form-Item">
               <p class="Form-Item-Label">国立大学：</p>
-              <input type="text" value="" name="student_university" class="Form-Item-Input" list="nationalUniv" placeholder="例）入力すると候補が表示されます" autocomplete="off">
+              <input type="text" value="" name="student_university[]" class="Form-Item-Input" list="nationalUniv" placeholder="例）入力すると候補が表示されます" autocomplete="off">
               <datalist id="nationalUniv" class="target">
                 <?php foreach ($national_universities as $key => $national_university) : ?>
                   <option value="<?= $national_university; ?>"></option>
@@ -219,7 +225,7 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
             </div>
             <div id="PrivateList" class="Form-Item">
               <p class="Form-Item-Label">私立大学：</p>
-              <input type="text" value="" name="student_university" class="Form-Item-Input" list="privateUniv" placeholder="例）入力すると候補が表示されます" autocomplete="off">
+              <input type="text" value="" name="student_university[]" class="Form-Item-Input" list="privateUniv" placeholder="例）入力すると候補が表示されます" autocomplete="off">
               <datalist id="privateUniv">
                 <?php foreach ($private_universities as $key => $private_university) : ?>
                   <option value="<?= $private_university; ?>">
