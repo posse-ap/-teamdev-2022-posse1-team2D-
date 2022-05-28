@@ -7,7 +7,7 @@ if (!empty($_POST["btn_submit"])) {
     try {
         $emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
         $from = 'craft@gmail.com';
-        $to = implode(',',$emails);
+        $to = implode(',', $emails);
         $subject = 'お申し込み完了メール';
         $body = '学生情報が登録されました。';
         $ret = mb_send_mail($to, $subject, $body, "From: {$from} \r\n");
@@ -17,9 +17,9 @@ if (!empty($_POST["btn_submit"])) {
         $names = isset($_SESSION['names']) ? $_SESSION['names'] : [];
         $to_student = isset($_SESSION['student_email']) ? $_SESSION['student_email'] : [];
         $subject_student = 'お問い合わせ完了メール';
-        $body_student = '※このメールはシステムからの自動返信です。<br />お問い合わせありがとうございます。' 
-        . implode(',',$names) . 'にお問い合わせしました。'.
-        'お問い合わせ内容に関する返信を追ってご連絡いたしますので
+        $body_student = '※このメールはシステムからの自動返信です。<br />お問い合わせありがとうございます。'
+            . implode(',', $names) . 'にお問い合わせしました。' .
+            'お問い合わせ内容に関する返信を追ってご連絡いたしますので
         今しばらくお待ちくださいませ。';
         $ret = mb_send_mail($to_student, $subject_student, $body_student, "From: {$from} \r\n");
         // var_dump($ret);
@@ -150,30 +150,95 @@ $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // -------------------------指定月の学生データを取得----------------------------------------------------------
 if (isset($_POST["month_search"])) {
-    $selected_search = $_POST["selected_month"];
-    //検索した年月の学生の詳細情報 
-    $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
+    // もし年月が○、年度卒が×の時、
+    if (isset($_POST["selected_month"]) && empty($_POST["selected_graduation"])) {
+        $selected_month = $_POST["selected_month"];
+        //検索した年月の学生の詳細情報 
+        $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
 INNER JOIN agents ON students_agents.agent_id = agents.id
 WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :selected_search
 LIMIT :start_number, 10 ");
-    $stmt->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
-    $stmt->bindValue(":start_number", $page_change_record, PDO::PARAM_INT);
-    $stmt->bindValue(":selected_search", $selected_search, PDO::PARAM_INT);
-    $stmt->execute();
-    $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //検索した年月のお問い合わせ件数
-    $count_sql = "SELECT COUNT(*) as cnt FROM students
+        $stmt->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+        $stmt->bindValue(":start_number", $page_change_record, PDO::PARAM_INT);
+        $stmt->bindValue(":selected_search", $selected_month, PDO::PARAM_INT);
+        $stmt->execute();
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //検索した年月のお問い合わせ件数
+        $count_sql = "SELECT COUNT(*) as cnt FROM students
 INNER JOIN students_agents ON students.id = students_agents.student_id
 INNER JOIN agents ON students_agents.agent_id = agents.id
 WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :selected_search";
 
-    $counts = $db->prepare($count_sql);
-    $counts->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
-    $counts->bindValue(":selected_search", $selected_search, PDO::PARAM_INT);
-    $counts->execute();
+        $counts = $db->prepare($count_sql);
+        $counts->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+        $counts->bindValue(":selected_search", $selected_month, PDO::PARAM_INT);
+        $counts->execute();
 
-    $count = $counts->fetch(PDO::FETCH_ASSOC);
+        $count = $counts->fetch(PDO::FETCH_ASSOC);
+    }
+    else if (!empty($_POST["selected_month"]) && !empty($_POST["selected_graduation"])){
+        $selected_month = $_POST["selected_month"];
+        $selected_graduation = $_POST["selected_graduation"];
+        // var_dump($_POST["selected_graduation"]);
+        // exit();
+
+        //検索した年月の学生の詳細情報 
+        $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :selected_search AND students.graduation = :graduation
+LIMIT :start_number, 10 ");
+        $stmt->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+        $stmt->bindValue(":start_number", $page_change_record, PDO::PARAM_INT);
+        $stmt->bindValue(":selected_search", $selected_month, PDO::PARAM_INT);
+        $stmt->bindValue(":graduation", $selected_graduation, PDO::PARAM_INT);
+        $stmt->execute();
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        //検索した年月のお問い合わせ件数
+        $count_sql = "SELECT COUNT(*) as cnt FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = :agent_id AND DATE_FORMAT(students.created_at, '%Y%m') = :selected_search  AND students.graduation = :graduation";
+
+        $counts = $db->prepare($count_sql);
+        $counts->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+        $counts->bindValue(":selected_search", $selected_month, PDO::PARAM_INT);
+        $counts->bindValue(":graduation", $selected_graduation, PDO::PARAM_INT);
+        $counts->execute();
+
+        $count = $counts->fetch(PDO::FETCH_ASSOC);
+        
+    } 
+    else if (isset($_POST["selected_graduation"]) && empty($_POST["selected_month"])) {
+        $selected_graduation = $_POST["selected_graduation"];
+        // var_dump($selected_graduation);
+        //検索した年月の学生の詳細情報 
+        $stmt = $db->prepare("SELECT students.id, name, university, faculty, student_department, graduation, student_phone_number, student_email, student_address, content, students.created_at FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = :agent_id AND students.graduation = :graduation
+LIMIT :start_number, 10 ");
+        $stmt->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+        $stmt->bindValue(":graduation", $selected_graduation, PDO::PARAM_INT);
+        $stmt->bindValue(":start_number", $page_change_record, PDO::PARAM_INT);
+        $stmt->execute();
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        //検索した年月のお問い合わせ件数
+        $count_sql = "SELECT COUNT(*) as cnt FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.id = :agent_id AND students.graduation = :graduation";
+
+        $counts = $db->prepare($count_sql);
+        $counts->bindValue(":agent_id",  $current_agent_id, PDO::PARAM_INT);
+        $counts->bindValue(":graduation", $selected_graduation, PDO::PARAM_INT);
+        $counts->execute();
+
+        $count = $counts->fetch(PDO::FETCH_ASSOC);
+    }
 }
 // --------------------------------指定月の学生データを取得(fin)-----------------------------------------------------
 
@@ -251,14 +316,22 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </h4>
             <div class="d-flex my-3">
                 <form action="" method="POST">
-                    <select name="selected_month" id="graduation" class="text-secondary me-3" required>
+                    <select name="selected_month" id="month" class="text-secondary me-3">
                         <option value="" class="text-secondary default-word" hidden>年月の選択</option>
                         <option value="202204" class="text-dark graduation">2022/04</option>
                         <option value="202205" class="text-dark graduation">2022/05</option>
                         <option value="202206" class="text-dark graduation">2022/06</option>
                         <option value="202207" class="text-dark graduation">2022/07</option>
                     </select>
-                    <input class="btn btn-primary me-5" type="submit" name="month_search" value="指定年月で検索">
+
+                    <select name="selected_graduation" id="graduation" class="text-secondary me-3">
+                        <option value="" class="text-secondary default-word" hidden>年度卒の選択</option>
+                        <option value="2023" class="text-dark graduation">2023</option>
+                        <option value="2024" class="text-dark graduation">2024</option>
+                        <option value="2025" class="text-dark graduation">2025</option>
+                        <option value="2026" class="text-dark graduation">2026</option>
+                    </select>
+                    <input class="btn btn-primary me-5 search-students" type="submit" name="month_search" value="指定条件で検索">
                 </form>
             </div>
         </div>
