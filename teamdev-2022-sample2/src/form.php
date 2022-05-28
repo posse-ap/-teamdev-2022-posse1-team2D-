@@ -1,5 +1,6 @@
 <?php
 session_start();
+use LDAP\Result;
 require(dirname(__FILE__) . "/dbconnect.php");
 require(dirname(__FILE__) . "/uni-info.php");
 $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
@@ -10,11 +11,12 @@ $page_flag = 0;
 if (!empty($_POST['btn_confirm'])) {
   $page_flag = 1;
 } elseif (!empty($_POST['btn_submit'])) {
-
-
   $page_flag = 2;
 }
 ?>
+
+
+
 
 
 <!DOCTYPE html>

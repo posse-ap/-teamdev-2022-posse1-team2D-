@@ -3,6 +3,8 @@ services:
   web:
     platform: linux/amd64
     image: nginx:1.21
+    container_name: docker-compose-mailhog-web
+    build: ./web
     ports:
       - "80:80"
     depends_on:
@@ -27,3 +29,11 @@ services:
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./mysql/etc/mysql/conf.d:/etc/mysql/conf.d
       - ./mysql/data:/var/lib/mysql
+  
+    # mailhogの設定を追記
+  mailhog:
+    container_name: docker-compose-mailhog-mailhog
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - '1025:1025'
+      - '8025:8025'

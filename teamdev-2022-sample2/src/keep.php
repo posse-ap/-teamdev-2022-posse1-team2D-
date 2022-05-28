@@ -1,14 +1,14 @@
 <?php
 session_start();
-
+require(dirname(__FILE__) . "/dbconnect.php");
   
 $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
+
 $delete_name = isset($_POST['delete_name'])? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
-
-require(dirname(__FILE__) . "/dbconnect.php");
-
-
 if($delete_name != '') unset($_SESSION['agents'][$delete_name]);
+
+
+
 $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
 ?>
 <?php
@@ -24,6 +24,18 @@ var_dump($keep_count);
 // echo $keep_count;
 // exit();
 ?>
+<?php 
+if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
+  $_SESSION['emails'][$agent['keep_id']] = [
+    'keep_email' => $agent['keep_email'],
+  ];
+}
+// $emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
+?>
+
+<?php $emails = array(); ?>
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -61,7 +73,7 @@ var_dump($keep_count);
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count ?></span>
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,7 +137,18 @@ var_dump($keep_count);
         </div>
       <p class=""><?php echo $agent['keep_id']; ?></p>
       <p class=""><?php echo $agent['keep_email']; ?></p>
+      <?php $email = $agent['keep_email']; ?>
+    <!-- <?php var_dump($email); ?> -->
+
+    <?php  array_push($emails, $email);
+    // var_dump($emails);
+    $_SESSION['emails']=$emails;
+    var_dump($_SESSION['emails']);?>
+   
+
       <?php endforeach; ?>
+      <!-- <?php echo $emails; ?> -->
+
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>
