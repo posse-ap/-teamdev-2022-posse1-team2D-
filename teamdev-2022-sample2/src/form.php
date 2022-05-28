@@ -16,6 +16,18 @@ if (!empty($_POST['btn_confirm'])) {
   $page_flag = 2;
 }
 ?>
+<?php
+// 使ってない
+if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_faculty'], $_POST['student_department'], $_POST['student_graduation'], $_POST['student_tel'], $_POST['student_department'])) {
+  $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_id = isset($_POST['keep_id']) ? htmlspecialchars($_POST['keep_id'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8') : ' ';
+}
+?>
+<?php 
+  $student_email = isset($_POST['student_email']) ? htmlspecialchars($_POST['student_email'], ENT_QUOTES, 'utf-8') : ' ';
+  $_SESSION['student_email']=$student_email;
+?>
 
 
 
