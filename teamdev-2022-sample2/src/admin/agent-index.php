@@ -67,6 +67,7 @@ if (isset($_SESSION['employee_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()
 // ------------------データベースの件数に対応させた動的ページネーション-----------------------------------------
 
 //$count_sqlはデータの件数取得に使うための変数。
+// デフォルトでは、自社に送られた件数を
 $count_sql = 'SELECT COUNT(*) as cnt FROM students';
 
 //ページ数を取得する。GETでページが渡ってこなかった時(最初のページ)のときは$pageに１を格納する。
@@ -137,11 +138,11 @@ LIMIT :start_number, 10 ");
     $stmt->bindValue(":start_number", $page_change_record, PDO::PARAM_INT);
     $stmt->bindValue(":selected_search", $selected_search, PDO::PARAM_INT);
     $stmt->execute();
-    $students_selected_month = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo "<pre>";
-    var_dump($students_selected_month);
-    echo "</pre>";
-    exit();
+    $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // echo "<pre>";
+    // var_dump($students);
+    // echo "</pre>";
+    // exit();
 }
 // 今月のお問い合わせ件数を取得
 $stmt_month = $db->prepare("SELECT count(students.id) FROM students
@@ -218,13 +219,13 @@ $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="d-flex my-3">
                 <form action="" method="POST">
                     <select name="selected_month" id="graduation" class="text-secondary me-3" required>
-                        <option value="" class="text-secondary default-word" hidden>選択してください</option>
+                        <option value="" class="text-secondary default-word" hidden>年月の選択</option>
                         <option value="202204" class="text-dark graduation">2022/04</option>
                         <option value="202205" class="text-dark graduation">2022/05</option>
                         <option value="202206" class="text-dark graduation">2022/06</option>
                         <option value="202207" class="text-dark graduation">2022/07</option>
                     </select>
-                    <input class="btn btn-primary me-5" type="submit" name="month_search" value="指定月で検索">
+                    <input class="btn btn-primary me-5" type="submit" name="month_search" value="指定年月で検索">
                 </form>
             </div>
         </div>
