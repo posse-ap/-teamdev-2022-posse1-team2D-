@@ -2,6 +2,7 @@
 require('../dbconnect.php');
 if (isset($_GET)) {
   try {
+    $id = $_GET['id'];
     $name = $_GET['name'];
     $img = $_GET['img'];
     $url = $_GET['url'];
@@ -14,6 +15,63 @@ if (isset($_GET)) {
   }
 }
 ?>
+<?php 
+$keep_count = $_SESSION['keep_count'];
+$keep_count = intval($keep_count);
+?>
+
+<!-- やばいここ↓、result.phpの詳細ページリンクもいじった -->
+<!-- <?php
+if (isset($_POST['name'], $_POST['keep_id'],$_POST['tags'])) {
+  $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_id = isset($_POST['keep_id']) ? htmlspecialchars($_POST['keep_id'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_tags = $_POST['tags'];
+
+  function myhtmlspecialchars($keep_tags)
+  {
+    if (is_array($keep_tags)) {
+      return array_map("myhtmlspecialchars", $keep_tags);
+    } else {
+      return htmlspecialchars($keep_tags, ENT_QUOTES, 'utf-8');
+    }
+  };
+
+  $keep_site = isset($_POST['official_site']) ? htmlspecialchars($_POST['official_site'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_detail = isset($_POST['detail']) ? htmlspecialchars($_POST['detail'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_logo = isset($_POST['logo']) ? htmlspecialchars($_POST['logo'], ENT_QUOTES, 'utf-8') : ' ';
+ 
+  // // もし、sessionにproductsがあったら
+  if ($keep_name != '' && $keep_id != ''&& $keep_tags != '' && $keep_site != '' && $keep_logo != '' && $keep_detail != '') {
+    $_SESSION['agents'][$keep_name] = [
+      'keep_id' => $keep_id,
+      'keep_tags' => $keep_tags,
+      'keep_site' => $keep_site,
+      'keep_detail' => $keep_detail,
+      'keep_logo' => $keep_logo,
+    ];
+  }
+  $keep_count = null;
+  foreach ($_SESSION['agents'] as $post_name) {
+    $keep_count = $keep_count + 1;
+  }
+
+  $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
+}
+
+if(isset($agents)){
+         foreach($agents as $key => $agent){
+             echo $key;      //商品名
+             echo "<br>";
+             echo $agent['keep_site'];  //商品の個数
+             echo "<br>";
+             echo $agent['keep_detail']; //商品の金額
+             echo "<br>";
+         }
+     }
+  
+$_SESSION['keep_count'] = $keep_count;
+?> -->
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -51,7 +109,7 @@ if (isset($_GET)) {
           <!-- キープマーク -->
           <a href="../keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +144,6 @@ if (isset($_GET)) {
   </header>
   <!-- コンテンツ -->
   <div class="wrapper">
-    <!-- ⚠戻る押したらタブが消えて検索結果画面に遷移するのを同時にやりたい⚠ -->
     <div class="first-size"><a href="../result.php"><i class="bi bi-arrow-left-circle link-dark" type="button" onclick="window.close();" value="window.close()" href="../result.php"></i></a>エージェント企業一覧に戻る</div>
     <div class="container rounded">
       <div class="row d-flex py-2">
@@ -108,13 +165,55 @@ if (isset($_GET)) {
       </div>
     </div>
     <div class="d-flex flex-column align-items-center">
-      <form action="" method="POST" class="item-form ">
-        <input type="hidden" name="name" value="リクルート">
-        <input type="hidden" name="tags" value="理系">
-        <button type="submit" class="keep-btn bi bi-star white-star my-3 px-5">キープする</button>
+      <form action="" method="POST">
+        <input type="hidden" name="keep_id" value="<?= $id; ?>">
+        <input type="hidden" name="name" value="<?= $name; ?>">
+        <!-- tagの名前 -->
+        <?php foreach ((array)$tags as $key => $tag) : ?>
+            <input type="hidden" name="tags[]" value="<?= $tag; ?>">
+        <?php endforeach; ?>
+        <input type="hidden" name="official_site" value="<?= $url; ?>">
+        <input type="hidden" name="detail" value="agent-details/agent1.php?name=<?= $name; ?>&url=<?= $url; ?>&tag=<?php foreach ($tags as $key => $tag) {
+                                                                                                                                                                        echo $tag . ' ';
+                                                                                                                                                                    } ?>&representative=<?= $representative; ?>&address=<?= $address; ?>&img=<?= $img; ?>?>">
+        <input type="hidden" name="logo" value="<?= $img; ?>">
+        <button type="submit" class="keep-btn bi bi-star white-star my-5 px-5">キープする</button>
       </form>
     </div>
   </div>
+   <!-- フッター -->
+   <footer>
+        <div id="footer">
+            <div class="text-center">
+                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+            </div>
+            <div class="text-center">
+                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+            </div>
+            <div class="footer-nav">
+                <ul class="ps-0">
+                    <li>
+                        <a class="text-light" href="index.php">トップページ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="#">よくあるご質問</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

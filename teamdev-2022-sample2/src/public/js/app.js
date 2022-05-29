@@ -82,29 +82,63 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 })
 // ---------------Miu's area----------------------------------------------
 
-let changeStars = document.querySelectorAll(".keep-btn");
+// let changeStars = document.getElementsByName("keep_id");
 
-changeStars.forEach((changeStar) => {
-  changeStar.addEventListener("click", function () {
-    console.log("a");
-    changeStar.classList.remove("bi-star");
+// var keep_name = document.getElementsByName("name");
+// localStorage.setItem(keep_name, keep_id);
+
+// $('.keep').submit(function(){
+  
+  function stars () {
+  let changeStars = document.querySelectorAll(".keep-btn");
+  changeStars.forEach((changeStar) => {
+    changeStar.addEventListener("click", function () {
+      console.log("a");
+      changeStar.classList.remove("bi-star");
     changeStar.classList.remove("white-star");
     changeStar.classList.add("bi-star-fill");
     changeStar.classList.add("black-star");
   });
 });
+}
+stars();
+
+// })
+// localStorage.setItem(stars, changeStars);
+
+
+// $('body').on('submit', function(e) {
+//   if() {
+//       $('keep').trigger('click');
+//   }
+// })
+// $('.keep').on('click',function(){
+//   let changeStars = document.querySelectorAll(".keep-btn");
+//   changeStars.forEach((changeStar) => {
+//     changeStar.addEventListener("click", function () {
+//       console.log("a");
+//       changeStar.classList.remove("bi-star");
+//     changeStar.classList.remove("white-star");
+//     changeStar.classList.add("bi-star-fill");
+//     changeStar.classList.add("black-star");
+//   });
+//   });
+// });
+
 
 
 // プライバシーポリシーに同意したらお申込み送信
 $(function(){
    $('.Form-CheckItem-Label').on('click', function(){
-   if ($('#JS_CheckItem').prop("checked") == true) {
+   if ($('#check').prop("checked") == true) {
    $('.send').addClass('isActive');
    } else {
    $('.send').removeClass('isActive');
    }
    });
    });
+
+
 
 //お申し込みフォーム画面の年度卒欄、灰色の選択肢を押したら黒色で入力される
 let graduation = document.getElementById("graduation");
@@ -116,27 +150,11 @@ let defaultWord = document.querySelector(".default-word");
      defaultWord.style.display="none";
   });
 
-changeStars.forEach(changeStar => {
-   changeStar.addEventListener('click', function () {
-      console.log("a")
-      changeStar.classList.remove('bi-star');
-      changeStar.classList.remove('white-star');
-      changeStar.classList.add('bi-star-fill');
-      changeStar.classList.add('black-star');
-   })
-})
 
-// プライバシーポリシーに同意したらお申込み送信
-$(function(){
-   $('.Form-CheckItem-Label').on('click', function(){
-   if ($('#JS_CheckItem').prop("checked") == true) {
-   $('.send').addClass('isActive');
-   } else {
-   $('.send').removeClass('isActive');
-   }
-   });
-   });
-
-
-
-
+// プライバシーポリシーのドロップダウン
+let box = document.getElementsByClassName('box');
+box[0].onscroll = (event) => {
+  if (event.target.clientHeight + event.target.scrollTop === event.target.scrollHeight) {
+    document.getElementById('check').disabled = false;
+  }       
+}

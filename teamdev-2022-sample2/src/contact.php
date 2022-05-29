@@ -6,12 +6,27 @@ require(dirname(__FILE__) . "/dbconnect.php");
 $page_flag = 0;
 
 if (!empty($_POST['btn_confirm'])) {
-
   $page_flag = 1;
+  try {
+    $from = $_POST['student-email'];
+    $to   = 'boozer@gmail.com';
+    $subject = $_POST['student-name'].'様からのお問い合わせ';
+    $body = $_POST['student-content'];
+
+$ret = mb_send_mail($to, $subject, $body, "From: {$from} \r\n");
+
+  }
+  catch (PDOException $e) {
+    exit('データベースに接続できませんでした。' . $e->getMessage());
+}
+
 } elseif (!empty($_POST['btn_submit'])) {
 
   $page_flag = 2;
 }
+
+$keep_count = $_SESSION['keep_count'];
+$keep_count = intval($keep_count);
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -41,7 +56,7 @@ if (!empty($_POST['btn_confirm'])) {
       <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
       <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+        <a class="navbar-brand fw-bold me-md-5 text-light" href="index.php">
           <h1 class="mb-0">CRAFT</h1>
           <div class="h6">by 就活.com</div>
         </a>
@@ -52,7 +67,7 @@ if (!empty($_POST['btn_confirm'])) {
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,16 +81,13 @@ if (!empty($_POST['btn_confirm'])) {
               <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">エージェント一覧</a>
+              <a class="h6 nav-link text-dark" href="agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
@@ -109,7 +121,7 @@ if (!empty($_POST['btn_confirm'])) {
 
         <!-- サンクスページ -->
       <?php elseif ($page_flag === 2) : ?>
-        <div class="card thanks p-3 align-items-center justify-content-center">
+        <div class="card thanks p-3 m-3 align-items-center justify-content-center">
           <h1>Thanks!!</h1>
           <p class="second-size">お問い合わせを受け付けました。</p>
           <p> お問い合わせ内容を確認のうえ、回答させて頂きます。 </p>
@@ -141,7 +153,38 @@ if (!empty($_POST['btn_confirm'])) {
     </div>
 
   </div>
+      <!-- フッター -->
+      <footer>
+        <div id="footer">
+            <div class="text-center">
+                <a class="h1 mb-0 me-md-5 text-light" href="index.php">CRAFT</a>
+            </div>
+            <div class="text-center">
+                <a class="h6 me-md-5 text-light" href="index.php">by 就活.com</a>
+            </div>
+            <div class="footer-nav">
+                <ul class="ps-0">
+                    <li>
+                        <a class="text-light" href="index.php">トップページ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
+</div>
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

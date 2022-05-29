@@ -125,11 +125,10 @@ $_SESSION['keep_count'] = $keep_count;
       <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
       <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+        <a class="navbar-brand fw-bold me-md-5 text-light" href="index.php#">
           <h1 class="mb-0">CRAFT</h1>
           <div class="h6">by 就活.com</div>
         </a>
-
         <div class="float-end">
           <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
           <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
@@ -140,9 +139,9 @@ $_SESSION['keep_count'] = $keep_count;
           </a>
           <!-- お問い合わせへの導線を表示 -->
           <div id="popup" class="updown mx-auto card shadow text-light p-1" style="position: absolute; right: 20px; width: 200px; background-color: rgba(70, 68, 68, 0.6);">
-                        ★クリックで、キープしたエージェントへお問い合わせ
-                        <button id="no" class="btn btn-danger py-0" onclick="nofunc()">OK</button>
-                    </div>
+            ★クリックで、キープしたエージェントへお問い合わせ
+            <button id="no" class="btn btn-danger py-0" onclick="nofunc()">OK</button>
+          </div>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -158,13 +157,10 @@ $_SESSION['keep_count'] = $keep_count;
               <a class="h6 nav-link text-dark" href="agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">CRAFTを利用した就活の流れ</a>
+              <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">就活エージェントとは</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
+              <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
@@ -196,13 +192,13 @@ $_SESSION['keep_count'] = $keep_count;
         <!-- 各エージェントのお問い合わせ数の取得 -->
         <?
         $stmt_month = $db->prepare("SELECT count(students.id) FROM students
-INNER JOIN students_agents ON students.id = students_agents.student_id
-INNER JOIN agents ON students_agents.agent_id = agents.id
-WHERE agents.agent_name = :agent_name
-");
+  INNER JOIN students_agents ON students.id = students_agents.student_id
+  INNER JOIN agents ON students_agents.agent_id = agents.id
+  WHERE agents.agent_name = :agent_name
+  ");
         $stmt_month->bindValue(":agent_name",  $result_agent['agent_name'], PDO::PARAM_STR);
         $stmt_month->execute();
-        $students_count = $stmt_month->fetch(PDO::FETCH_COLUMN)?: 0;
+        $students_count = $stmt_month->fetch(PDO::FETCH_COLUMN) ?: 0;
         ?>
         <!-- エージェント毎のタグを全て取得する -->
         <? $stmt = $db->prepare('SELECT name FROM tags inner join agents_tags on tags.id = agents_tags.tag_id inner join agents on agents_tags.agent_id = agents.id WHERE agents.agent_name = :agent_name');
@@ -211,7 +207,7 @@ WHERE agents.agent_name = :agent_name
         $result_agents_tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
         ?>
         <!-- １つ１つのエージェントのカードタイル -->
-        <div class="col-md-6 my-3 my-md-4 d-flex flex-row">
+        <div class="col-md-6 my-2 my-md-4 d-flex flex-row">
           <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
             <img src="public/images/<?php echo $result_agent['img']; ?>" class="" alt="企業ロゴ">
           </div>
@@ -255,7 +251,7 @@ WHERE agents.agent_name = :agent_name
               <input type="hidden" name="industry" value="<?= $result_agent['appeal']; ?>">
               <input type="hidden" name="students_count" value="<?= $students_count; ?>">
               <input type="hidden" value="1" name="count">
-              <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
+              <button type="submit" class="keep-btn bi bi-star white-star keep">キープ</button>
             </form>
           </div>
         </div>
@@ -263,19 +259,51 @@ WHERE agents.agent_name = :agent_name
     </div>
   </div>
   </div>
+  <!-- フッター -->
+  <footer>
+    <div id="footer">
+      <div class="text-center">
+        <a class="h1 mb-0 me-md-5 text-light" href="index.php">CRAFT</a>
+      </div>
+      <div class="text-center">
+        <a class="h6 me-md-5 text-light" href="index.php">by 就活.com</a>
+      </div>
+      <div class="footer-nav">
+        <ul class="ps-0">
+          <li>
+            <a class="text-light" href="index.php">トップページ</a>
+          </li>
+          <li>
+            <a class="text-light" href="agents.php">エージェント一覧</a>
+          </li>
+          <li>
+            <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+          </li>
+          <li>
+            <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+          </li>
+          <li>
+            <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- 私たちのJS -->
   <script src="public/js/app.js"></script>
   <script>
     let confirm = document.getElementById("confirm")
-    window.onload = function (){
-        document.getElementById('popup').style.display = 'block';
+    window.onload = function() {
+      document.getElementById('popup').style.display = 'block';
     }
+
     function nofunc() { // キャンセルをクリックした場合
-        document.getElementById('popup').style.display = 'none';
+      document.getElementById('popup').style.display = 'none';
     }
-</script>
+  </script>
 </body>
 
 </html>
