@@ -2,10 +2,6 @@
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
 
-// admin/index.phpでinsert処理等したeventsテーブルから、id, titleを検索
-$stmt = $db->query('SELECT id, title FROM events');
-$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 <!DOCTYPE html>
 <html lang="ja">
