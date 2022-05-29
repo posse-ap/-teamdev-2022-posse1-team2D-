@@ -172,7 +172,7 @@ if (isset($_POST['remove'])) {
                             </p>
                         </div>
                         <!-- Button trigger modal -->
-                        <button type="button" class="search-details btn mt-md-4 mb-3 text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="search-details btn mt-2 mb-3 text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             クリックで詳細表示
                             <i class="bi bi-arrow-left-circle"></i>
                         </button>
@@ -215,14 +215,6 @@ if (isset($_POST['remove'])) {
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="d-inline-block ms-3 updown">
-                        <a href="#jobHuntingSec" class="text-danger" style="text-decoration: none;">
-                            <p class="mb-0 fourth-size">詳細はこちら</p>
-                            <span>
-                                <i class="bi bi-arrow-down-circle-fill text-danger first-size"></i>
-                            </span>
-                        </a>
-                    </div> -->
                     </div>
                 </section>
             </main>
@@ -283,8 +275,6 @@ if (isset($_POST['remove'])) {
                 </div>
             </div>
         </div>
-        <!-- <a href="/admin/index.php">管理者ページ</a> -->
-        <!-- <button type="button" class="ps-3 btn btnx--outline"><i class="bi bi-pencil-square"></i>お問い合わせはこちら</button> -->
     </div>
     <!-- フッター -->
     <footer class="mt-3">
