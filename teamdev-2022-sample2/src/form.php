@@ -7,6 +7,13 @@ require(dirname(__FILE__) . "/dbconnect.php");
 require(dirname(__FILE__) . "/uni-info.php");
 $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
 
+if (empty($_SESSION['keep_count'])) {
+  $keep_count = 0;
+  $_SESSION['keep_count'] = $keep_count;
+} else {
+  $keep_count = $_SESSION['keep_count'];
+}
+
 // 変数の初期化
 $page_flag = 0;
 
@@ -24,9 +31,9 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
   $keep_email = isset($_POST['email']) ? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8') : ' ';
 }
 ?>
-<?php 
-  $student_email = isset($_POST['student_email']) ? htmlspecialchars($_POST['student_email'], ENT_QUOTES, 'utf-8') : ' ';
-  $_SESSION['student_email']=$student_email;
+<?php
+$student_email = isset($_POST['student_email']) ? htmlspecialchars($_POST['student_email'], ENT_QUOTES, 'utf-8') : ' ';
+$_SESSION['student_email'] = $student_email;
 ?>
 
 
@@ -63,7 +70,7 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
       <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
       <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+        <a class="navbar-brand fw-bold me-md-5 text-light" href="index.php">
           <h1 class="mb-0">CRAFT</h1>
           <div class="h6">by 就活.com</div>
         </a>
@@ -74,7 +81,7 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,9 +102,6 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
@@ -276,18 +280,57 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
             <p class="Form-Item-Label isMsg"><span class="Form-Item-Label-Required">任意</span>お問い合わせ内容</p>
             <textarea name="student_content" class="Form-Item-Textarea"></textarea>
           </div>
+          <div id="hoge" class="box px-2 mx-3">
+            <p>プライバシーポリシー</p>
+            <p>CRAFT（以下,「当社」といいます。）は,本ウェブサイト上で提供するサービス（以下,「本サービス」といいます。）における，ユーザーの個人情報の取扱いについて，以下のとおりプライバシーポリシー（以下，「本ポリシー」といいます。）を定めます。</p>
+            <p>第1条（個人情報）<br>「個人情報」とは，個人情報保護法にいう「個人情報」を指すものとし，生存する個人に関する情報であって，当該情報に含まれる氏名，生年月日，住所，電話番号，連絡先その他の記述等により特定の個人を識別できる情報及び容貌，指紋，声紋にかかるデータ，及び健康保険証の保険者番号などの当該情報単体から特定の個人を識別できる情報（個人識別情報）を指します。</p>
+            <p>第2条</p>
+            <p>第3条</p>
+          </div>
           <label class="Form-CheckItem-Label">
-            <input type="checkbox" name="" value="" id="JS_CheckItem" class="Form-CheckItem-Label-Input">
+            <input type="checkbox" name="" value="" id="check" class="Form-CheckItem-Label-Input" disabled>
             <span class="Form-CheckItem-Label-CheckIcon"></span>
             <span class="Form-CheckItem-Label-SquareIcon"></span>
-            <span class="Form-CheckItem-Label-Text"><a href="#">プライバシーポリシー</a>に同意する</span>
+            <span class="Form-CheckItem-Label-Text">プライバシーポリシーに同意する</span>
           </label>
-          <input type="submit" name="btn_confirm" class="Form-Btn send" value="入力内容を確認する">
-        </form>
-      <?php endif; ?>
     </div>
+    <input type="submit" name="btn_confirm" class="Form-Btn send" value="入力内容を確認する">
+    </form>
+  <?php endif; ?>
+  </div>
 
   </div>
+  <!-- フッター -->
+  <footer class="">
+    <div id="footer">
+      <div class="text-center">
+        <a class="h1 mb-0 me-md-5 text-light" href="index.php">CRAFT</a>
+      </div>
+      <div class="text-center">
+        <a class="h6 me-md-5 text-light" href="index.php">by 就活.com</a>
+      </div>
+      <div class="footer-nav">
+        <ul class="ps-0">
+          <li>
+            <a class="text-light" href="index.php">トップページ</a>
+          </li>
+          <li>
+            <a class="text-light" href="agents.php">エージェント一覧</a>
+          </li>
+          <li>
+            <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+          </li>
+          <li>
+            <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+          </li>
+          <li>
+            <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
