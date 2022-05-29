@@ -17,7 +17,10 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $email = $_POST['email'];
             $phone_number = $_POST['phone_number'];
             $address = $_POST['address'];
+            $industry = $_POST['industry'];
             $post_period = $_POST['post_period'];
+            // var_dump($_POST);
+            // exit();
             // var_dump($_FILES);
             $image = uniqid(mt_rand(), true); //ファイル名をユニーク化
             $image .= '.' . substr(strrchr($_FILES['logo']['name'], '.'), 1); //アップロードされたファイルの拡張子を取得
@@ -26,8 +29,8 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             // imgの名前、どこにあるのかのパスはDB、画像のデータはimgディレクトリで管理
 
             // INSERT文を変数に格納。プレスホルダーは、値を入れるための空箱
-            $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, img) VALUES 
-        (:agent_name, :agent_url, :representative, :contractor, :department, :email, :phone_number, :address, :post_period, :img)";
+            $sql = "INSERT INTO agents (agent_name, agent_url, representative, contractor, department, email, phone_number, address, appeal, post_period, img) VALUES 
+        (:agent_name, :agent_url, :representative, :contractor, :department, :email, :phone_number, :address, :industry, :post_period, :img)";
             $stmt = $db->prepare($sql); //挿入する値は空のまま、SQL実行の準備をする
 
             //送信された値を、データベースのカラムに結びつける
@@ -48,6 +51,8 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $stmt->bindValue(":phone_number",  $phone_number, PDO::PARAM_STR);
             // 
             $stmt->bindValue(":address",  $address, PDO::PARAM_STR);
+
+            $stmt->bindValue(":industry",  $industry, PDO::PARAM_STR);
             // 
             $stmt->bindValue(":post_period", date("Y-m-d", strtotime($post_period)), PDO::PARAM_STR);
 
@@ -118,7 +123,7 @@ $from_record = ($page - 1) * 10 + 1;
 
 // -----------------ページ切り替えごとに10件データ取得------------------------------------------------------------
 $page_change_record = $from_record - 1;
-$stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period,  img FROM agents WHERE deleted_at = 0 LIMIT ?, 10');
+$stmt = $db->prepare('SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, appeal, post_period,  img FROM agents WHERE deleted_at = 0 LIMIT ?, 10');
 $stmt->bindParam(1, $page_change_record, PDO::PARAM_INT);
 $stmt->execute();
 $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -224,6 +229,19 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                 メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
                                 電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                                 住所：<input class="d-block" type="text" name="address" required>
+                                特徴：
+                                <select name="industry" class="text-secondary me-3">
+                                    <option value="" class="text-secondary default-word" hidden>強みの業界</option>
+                                    <!-- <option value="" class="text-dark"></option> -->
+                                    <option value="メーカー" class="text-dark">メーカー</option>
+                                    <option value="小売" class="text-dark">小売</option>
+                                    <option value="サービス" class="text-dark">サービス</option>
+                                    <option value="ソフトウェア・通信" class="text-dark">ソフトウェア・通信</option>
+                                    <option value="商社" class="text-dark">商社</option>
+                                    <option value="金融" class="text-dark">金融</option>
+                                    <option value="マスコミ" class="text-dark">マスコミ</option>
+                                    <option value="官公庁・公社・団体" class="text-dark">官公庁・公社・団体</option>
+                                </select>
                             </div>
                             <div class="col-6">
                                 掲載期間：<input class="d-block" type="date" name="post_period" required>
@@ -269,6 +287,7 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                         <th scope="col">電話番号</th>
                                         <th scope="col">住所</th>
                                         <th scope="col">掲載期間</th>
+                                        <th scope="col">強みの業界</th>
                                         <th scope="col">タグ</th>
                                         <th scope="col"></th>
                                     </tr>
@@ -285,6 +304,7 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                             <td><?= $agent["phone_number"]; ?></td>
                                             <td><?= $agent["address"]; ?></td>
                                             <td><?= $agent["post_period"]; ?></td>
+                                            <td><?= $agent["appeal"]; ?></td>
                                             <td>
                                                 <?php $sql = "SELECT name FROM tags inner join agents_tags on tags.id = agents_tags.tag_id inner join agents on agents_tags.agent_id = agents.id WHERE agents.agent_name <=> :agent_name";
                                                 $stmt_for_joinTable = $db->prepare($sql);
@@ -322,6 +342,18 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                                                             メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
                                                                             電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                                                                             住所：<input class="d-block" type="text" name="address" required>
+                                                                            <select name="industry" class="text-secondary me-3">
+                                                                                <option value="" class="text-secondary default-word" hidden>強みの業界</option>
+                                                                                <!-- <option value="" class="text-dark"></option> -->
+                                                                                <option value="メーカー" class="text-dark">メーカー</option>
+                                                                                <option value="小売" class="text-dark">小売</option>
+                                                                                <option value="サービス" class="text-dark">サービス</option>
+                                                                                <option value="ソフトウェア・通信" class="text-dark">ソフトウェア・通信</option>
+                                                                                <option value="商社" class="text-dark">商社</option>
+                                                                                <option value="金融" class="text-dark">金融</option>
+                                                                                <option value="マスコミ" class="text-dark">マスコミ</option>
+                                                                                <option value="官公庁・公社・団体" class="text-dark">官公庁・公社・団体</option>
+                                                                            </select>
                                                                         </div>
                                                                         <div class="col-6">
                                                                             掲載期間：<input class="d-block" type="date" name="post_period" required>

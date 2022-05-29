@@ -3,8 +3,9 @@ session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
 
 // admin/index.phpでinsert処理等したeventsテーブルから、id, titleを検索
-$stmt = $db->query('SELECT id, title FROM events');
-$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// $stmt = $db->query('SELECT id, title FROM events');
+// $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 if (empty($_SESSION['keep_count'])) {
     $keep_count = 0;
     $_SESSION['keep_count'] = $keep_count;
@@ -140,19 +141,19 @@ if (empty($_SESSION['keep_count'])) {
                                         </div>
                                         <section class="p-2 mb-2" style="background-color: #f5f5f5;">
                                             <p class="third-size fw-bold text-start mt-0">1. 就職情報サイトで出会えない、優良企業と出会えます。</p>
-                                            <div class="fourth-size fw-bold text-start">
+                                            <div class="forth-size fw-bold text-start">
                                                 就職情報サイト に掲載されていない非公開求人も含め、徹底審査・取材の結果、弊社がホワイト企業と認定した企業を厳選しています。
                                             </div>
                                         </section>
                                         <section class="p-2 mb-2" style="background-color: #f5f5f5;">
                                             <p class="third-size fw-bold text-start mt-0">2. 自分ひとりでは気づきづらい情報を得られます。</p>
-                                            <div class="fourth-size fw-bold text-start">
+                                            <div class="forth-size fw-bold text-start">
                                                 皆さんの隠れた適性や価値観、インターネット上では手に入れることが困難なリアルな採用情報も、個別カウンセリングを通してお伝えしています。
                                             </div>
                                         </section>
                                         <section class="p-2 mb-2" style="background-color: #f5f5f5;">
                                             <p class="third-size fw-bold text-start mt-0">3. 履歴書1枚で、何社でも企業にエントリ－ができます。</p>
-                                            <div class="fourth-size fw-bold text-start">
+                                            <div class="forth-size fw-bold text-start">
                                                 効率的に企業と接触する機会を増やせ、自分自身の可能性を広げられます。
                                             </div>
                                         </section>
