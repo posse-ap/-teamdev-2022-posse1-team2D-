@@ -37,7 +37,6 @@ $keep_count = intval($keep_count);
 </head>
 
 <body>
-<div class="all-wrapper">
   <!-- ヘッダー -->
   <header>
     <!-- ナヴィゲーション -->
@@ -45,7 +44,7 @@ $keep_count = intval($keep_count);
       <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
       <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+        <a class="navbar-brand fw-bold me-md-5 text-light" href="index.php">
           <h1 class="mb-0">CRAFT</h1>
           <div class="h6">by 就活.com</div>
         </a>
@@ -79,10 +78,7 @@ $keep_count = intval($keep_count);
               <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
+              <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
             </li>
           </ul>
         </div>
@@ -134,10 +130,10 @@ $keep_count = intval($keep_count);
   <footer>
     <div id="footer">
       <div class="text-center">
-        <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+        <a class="h1 mb-0 me-md-5 text-light" href="index.php">CRAFT</a>
       </div>
       <div class="text-center">
-        <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+        <a class="h6 me-md-5 text-light" href="index.php">by 就活.com</a>
       </div>
       <div class="footer-nav">
         <ul class="ps-0">
@@ -154,17 +150,12 @@ $keep_count = intval($keep_count);
             <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
           </li>
           <li>
-            <a class="text-light" href="#">よくあるご質問</a>
-          </li>
-          <li>
             <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
           </li>
         </ul>
       </div>
     </div>
   </footer>
-
-</div>
 
 
 

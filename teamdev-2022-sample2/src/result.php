@@ -290,6 +290,15 @@ $_SESSION['keep_count'] = $keep_count;
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- 私たちのJS -->
   <script src="public/js/app.js"></script>
+  <script>
+    let confirm = document.getElementById("confirm")
+    window.onload = function (){
+        document.getElementById('popup').style.display = 'block';
+    }
+    function nofunc() { // キャンセルをクリックした場合
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
 </body>
 
 </html>
