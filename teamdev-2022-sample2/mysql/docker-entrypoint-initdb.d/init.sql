@@ -18,22 +18,22 @@ INSERT INTO
     users
 SET
     email = 'test@posse-ap.com',
-    password = sha1('password');
+    password = sha1('posse');
 
-DROP TABLE IF EXISTS events;
+-- DROP TABLE IF EXISTS events;
 
-CREATE TABLE events (
-    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+-- CREATE TABLE events (
+--     id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+--     title VARCHAR(255) NOT NULL,
+--     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+--     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+-- );
 
-INSERT INTO events SET title = 'イベント1';
+-- INSERT INTO events SET title = 'イベント1';
 
-INSERT INTO events SET title = 'イベント2';
+-- INSERT INTO events SET title = 'イベント2';
 
-INSERT INTO events SET title = 'イベント3';
+-- INSERT INTO events SET title = 'イベント3';
 
 DROP TABLE IF EXISTS agents;
 
@@ -47,6 +47,7 @@ CREATE TABLE agents (
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR(255) UNIQUE NOT NULL,
     address VARCHAR(255) UNIQUE NOT NULL,
+    appeal VARCHAR(255) NOT NULL,
     post_period DATETIME NOT NULL,
     img VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -54,32 +55,32 @@ CREATE TABLE agents (
     deleted_at INT DEFAULT 0
 );
 
-INSERT INTO
-    agents (
-        agent_name,
-        agent_url,
-        representative,
-        contractor,
-        department,
-        email,
-        phone_number,
-        address,
-        post_period,
-        img
-    )
-VALUES
-    (
-        "Apple",
-        "Apple.com",
-        "Alexander",
-        "Robertson",
-        "sales",
-        "AppleInfo@gmail.com",
-        "0120-076-231",
-        "sampleAddress",
-        "2023-05-05",
-        "feature5.png"
-    );
+-- INSERT INTO
+--     agents (
+--         agent_name,
+--         agent_url,
+--         representative,
+--         contractor,
+--         department,
+--         email,
+--         phone_number,
+--         address,
+--         post_period,
+--         img
+--     )
+-- VALUES
+--     (
+--         "Apple",
+--         "Apple.com",
+--         "Alexander",
+--         "Robertson",
+--         "sales",
+--         "AppleInfo@gmail.com",
+--         "0120-076-231",
+--         "sampleAddress",
+--         "2023-05-05",
+--         "feature5.png"
+--     );
 
 DROP TABLE IF EXISTS tags;
 
@@ -93,10 +94,14 @@ CREATE TABLE tags (
 INSERT INTO
     tags (name)
 VALUES
-    ("IT"),
-    ("Finance"),
-    ("Marketing"),
-    ("Insurance");
+    ("北東部"),
+    ("中央部"),
+    ("南西部"),
+    ("大企業"),
+    ("中小企業"),
+    ("ヴェンチャー企業"),
+    ("理系"),
+    ("文系");
 
 DROP TABLE IF EXISTS agents_tags;
 
@@ -117,6 +122,12 @@ CREATE TABLE employees (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+INSERT INTO
+    employees
+SET
+    email = 'test@agent1.com',
+    password = sha1('1employee1'),
+    agent_id = 1;
 INSERT INTO
     employees
 SET

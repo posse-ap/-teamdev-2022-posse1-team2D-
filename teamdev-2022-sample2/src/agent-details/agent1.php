@@ -6,6 +6,7 @@ if (isset($_GET)) {
     $name = $_GET['name'];
     $img = $_GET['img'];
     $url = $_GET['url'];
+    $industry = $_GET['industry'];
     $tag = $_GET['tag'];
     $representative = $_GET['representative'];
     $address = $_GET['address'];
@@ -153,10 +154,12 @@ $_SESSION['keep_count'] = $keep_count;
           <p class="forth-size">
             <?= $tag; ?>
           </p>
-          <p class="forth-size"><span class="fw-bold">・代表者：</span><?=$representative?></p>
-          <p class="forth-size"><span class="fw-bold">・所在地：</span><?=$address?></p>
-          <div class="">
-            <a href="<?= $url; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
+          <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1"></i>強みの業界</p>
+          <p class="forth-size"><?= $industry; ?></p>
+          <p class="forth-size"><span class="fw-bold">・代表者：</span><?= $representative ?></p>
+          <p class="forth-size"><span class="fw-bold">・所在地：</span><?= $address ?></p>
+          <div class="py-2">
+            <a href="<?= $url; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト<i class="bi bi-box-arrow-up-right"></i></a>
           </div>
         </div>
       </div>

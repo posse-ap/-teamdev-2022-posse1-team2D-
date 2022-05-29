@@ -124,7 +124,7 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
     <p class="h2 fw-bold text-center">キープ企業一覧</p>
     <div class="row">
       <?php foreach ($agents as $name => $agent) : ?>
-        <div class="col-md-6 my-5 d-flex flex-row">
+        <div class="col-md-6 my-3 my-md-4 d-flex flex-row">
           <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
             <div class="">
               <img src="public/images/<?php echo $agent['keep_logo']; ?>" class="" alt="">
@@ -133,10 +133,13 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
           <div class="col-4 result-content ps-3">
             <p class="first-size fw-bold"><?php echo $name; ?></p>
             <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
-            <p class="forth-size"><?php foreach ($agent['keep_tags'] as $key => $agent_keep_tag) : ?><?php echo $agent_keep_tag . " "; ?><?php endforeach; ?></p>
-            <div class="mb-2">
-              <a href="<?php echo $agent['keep_site']; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
+            <p class="forth-size mb-1"><?php foreach ($agent['keep_tags'] as $key => $agent_keep_tag) : ?><?php echo $agent_keep_tag . " "; ?><?php endforeach; ?></p>
+            <div class="mb-1">
+              <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1"></i>強みの業界</p>
+              <p class="forth-size mb-0"><?= $agent['keep_industry']; ?></p>
             </div>
+            <p class="forth-size mb-0"><i class="bi bi-envelope-fill pe-1"></i>お問い合わせ数</p>
+            <p class="forth-size mb-0"><?= $agent["keep_students_count"]; ?><span class="ps-1">件</span></p>
           </div>
           <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
             <a href="<?= $agent['keep_detail']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
