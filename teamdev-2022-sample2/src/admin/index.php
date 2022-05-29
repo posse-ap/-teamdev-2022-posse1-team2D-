@@ -152,6 +152,7 @@ if ($search_word == "") {
         echo "not found";
     }
 }
+
 // ページの何件目までを表示しているか
 if ($page == $max_page && $count['cnt'] % 10 !== 0) {
     $to_record = ($page - 1) * 10 + $count['cnt'] % 10;
@@ -341,9 +342,11 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                                                             メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
                                                                             電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                                                                             住所：<input class="d-block" type="text" name="address" required>
+                                                                        </div>
+                                                                        <div class="col-6">
+                                                                            <div class="h6 mt-2">強みの業界</div>
                                                                             <select name="industry" class="text-secondary me-3">
                                                                                 <option value="" class="text-secondary default-word" hidden>強みの業界</option>
-                                                                                <!-- <option value="" class="text-dark"></option> -->
                                                                                 <option value="メーカー" class="text-dark">メーカー</option>
                                                                                 <option value="小売" class="text-dark">小売</option>
                                                                                 <option value="サービス" class="text-dark">サービス</option>
@@ -353,10 +356,10 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                                                                 <option value="マスコミ" class="text-dark">マスコミ</option>
                                                                                 <option value="官公庁・公社・団体" class="text-dark">官公庁・公社・団体</option>
                                                                             </select>
-                                                                        </div>
-                                                                        <div class="col-6">
-                                                                            掲載期間：<input class="d-block" type="date" name="post_period" required>
-                                                                            企業ロゴ：<input class="d-block" type="file" name="logo" accept="image/*" required>
+                                                                            <div class="h6 mt-2">掲載期間：</div>
+                                                                            <input class="d-block" type="date" name="post_period" required>
+                                                                            <div class="h6 mt-2">企業ロゴ：</div>
+                                                                            <input class="d-block" type="file" name="logo" accept="image/*" required>
                                                                             <div class="h6 mt-2">タグの選択</div>
                                                                             <?php foreach ($tags as $key => $tag) : ?>
                                                                                 <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1 h5" id="flexCheckDefault"><?= $tag["name"]; ?>
