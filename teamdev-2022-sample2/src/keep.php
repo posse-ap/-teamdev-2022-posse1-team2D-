@@ -1,43 +1,44 @@
 <?php
 session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
-  
-$agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
 
+$agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
+
+
+
+// $agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
+?>
+<?php
+// $keep_count = 0;
+// $keep_count = isset($_POST['count'])? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
+// $keep_count = intval($keep_count);
+
+// 他のページからカウントを引き継ぐ
 $keep_count = $_SESSION['keep_count'];
 $keep_count = intval($keep_count);
 
-
-// foreach($_SESSION['agents'] as $post_name){
-  if (isset($_POST['delete_name'])) {
-    $delete_name = isset($_POST['delete_name'])? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
-    // echo $delete_name;
-    // var_dump($_SESSION['agents'][]);
-    // exit();
-    foreach($_SESSION['agents'] as $pop_name){
-    if($delete_name != '') unset($_SESSION['agents'][$delete_name]); 
-      // foreach($agents as $name){
-        //   $keep_count = $keep_count-1;
-        // }}
-          // $keep_count = $keep_count-1;
-          $keep_count --;
-
-        }
-        // ↓ないと、２度削除押さないと実行されない
-        $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
-        echo $keep_count;
-        // いるのかわからん
-        // $delete_name = isset($_SESSION['delete_name']) ?$_SESSION['delete_name'] : [];
+// もし削除ボタンが押されたら
+if (isset($_POST['delete_name'])) {
+  $delete_name = $_POST['delete_name'];
+  // 該当のセッションをunset
+  unset($_SESSION['agents'][$delete_name]);
+  // カウントの初期化
+  $keep_count = 0;
+  if (!empty($_SESSION['agents'])) {
+    // 残されたセッションの数だけ、カウントをプラスし、それをセッションとして持つ
+    foreach ($_SESSION['agents'] as $post_name) {
+      $keep_count = $keep_count + 1;
+      $_SESSION['keep_count'] = $keep_count;
+    }
+  } elseif (count($_SESSION['agents']) == 0) {
+    $keep_count = 0;
+    $_SESSION['keep_count'] = $keep_count;
   }
-      // $keep_count = null;
-      // $keep_count = $keep_count-1;
-      // }
-      // echo $keep_count;
-      // exit();
-      
-    ?>
-<?php 
-if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
+  header('Location: http://' . $_SERVER['HTTP_HOST'] . '/keep.php');
+}
+?>
+<?php
+if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
   $_SESSION['emails'][$agent['keep_id']] = [
     'keep_email' => $agent['keep_email'],
   ];
@@ -120,31 +121,31 @@ if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
     </nav>
   </header>
   <div class="wrapper">
-    <p class="first-size">キープ企業一覧</p>
+    <p class="h2 fw-bold text-center">キープ企業一覧</p>
     <div class="row">
       <?php foreach ($agents as $name => $agent) : ?>
-      <div class="col-md-6 my-5 d-flex flex-row">
-        <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
-          <div class="">
-            <img src="public/images/<?php echo $agent['keep_logo']; ?>" class="" alt="">
+        <div class="col-md-6 my-5 d-flex flex-row">
+          <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
+            <div class="">
+              <img src="public/images/<?php echo $agent['keep_logo']; ?>" class="" alt="">
+            </div>
           </div>
-        </div>
           <div class="col-4 result-content ps-3">
             <p class="first-size fw-bold"><?php echo $name; ?></p>
             <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
-            <p class="forth-size"><?php foreach ($agent['keep_tags'] as $key => $agent_keep_tag) : ?><?php echo $agent_keep_tag." "; ?><?php endforeach; ?></p>
+            <p class="forth-size"><?php foreach ($agent['keep_tags'] as $key => $agent_keep_tag) : ?><?php echo $agent_keep_tag . " "; ?><?php endforeach; ?></p>
             <div class="mb-2">
               <a href="<?php echo $agent['keep_site']; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
             </div>
           </div>
           <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-          <a href="<?= $agent['keep_detail']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
+            <a href="<?= $agent['keep_detail']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
             <form action="keep.php" method="POST">
-            <input type="hidden" name="id" value="<?= $result_agent['id']; ?>">
-            <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
-            <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
-            <input type="hidden" name="delete_name" value="<?= $name; ?>">
-            <button class="delete-btn" type="submit"><i class="bi bi-star-fill black-star"></i>削除</button>
+              <input type="hidden" name="id" value="<?= $result_agent['id']; ?>">
+              <input type="hidden" name="email" value="<?= $result_agent['email']; ?>">
+              <input type="hidden" name="name" value="<?= $result_agent['agent_name']; ?>">
+              <input type="hidden" name="delete_name" value="<?= $name; ?>">
+              <button class="delete-btn" type="submit"><i class="bi bi-star-fill black-star"></i>削除</button>
             </form>
           </div>
         </div>

@@ -95,31 +95,17 @@ if (empty($_SESSION['keep_count'])) {
                     <form action="/result.php" method="POST">
                         <p class="second-size fw-bold text-center my-2 mt-md-2">タグで絞り込む<i class="bi bi-check-all"></i></p>
                         <ul class="tags row">
+                            <li class="tag col-6 fw-bold text-center pt-2">分野</li>
                             <?php //tagを取得する
                             $stmt = $db->query('SELECT id, name FROM tags');
                             $tags = $stmt->fetchAll(PDO::FETCH_ASSOC); ?>
                             <?php foreach ($tags as $key => $tag) : ?>
-                                <label for="<?= $tag["id"]; ?>" class="tag col-6">
+                                <label for="<?= $tag["id"]; ?>" class="tag col-6 pt-2">
                                     <li>
                                         <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
                                     </li>
                                 </label>
                             <?php endforeach; ?>
-
-                            <li class="other-tag dropdown col-6">
-                                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    職種
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <?php foreach ($tags as $key => $tag) : ?>
-                                        <li class="dropdown-item">
-                                            <label for="<?= $tag["id"]; ?>" class="tag col-12">
-                                                <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
-                                            </label>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </li>
                         </ul>
                         <button type="submit" class="search-agents mb-3 btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
                     </form>
