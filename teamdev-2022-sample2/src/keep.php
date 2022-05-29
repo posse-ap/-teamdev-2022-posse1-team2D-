@@ -4,37 +4,49 @@ require(dirname(__FILE__) . "/dbconnect.php");
   
 $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
 
-$delete_name = isset($_POST['delete_name'])? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
-if($delete_name != '') unset($_SESSION['agents'][$delete_name]);
-
-
-
-$agents = isset($_SESSION['agents'])? $_SESSION['agents']:[];
-?>
-<?php
-// $keep_count = 0;
-// $keep_count = isset($_POST['count'])? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
-// $keep_count = intval($keep_count);
-
-// $keep_count=filter_input(INPUT_POST,'keep_count');
 $keep_count = $_SESSION['keep_count'];
 $keep_count = intval($keep_count);
-var_dump($keep_count);
-// exit();
-// echo $keep_count;
-// exit();
-?>
+
+
+// foreach($_SESSION['agents'] as $post_name){
+  if (isset($_POST['delete_name'])) {
+    $delete_name = isset($_POST['delete_name'])? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
+    // echo $delete_name;
+    // var_dump($_SESSION['agents'][]);
+    // exit();
+    foreach($_SESSION['agents'] as $pop_name){
+    if($delete_name != '') unset($_SESSION['agents'][$delete_name]); 
+      // foreach($agents as $name){
+        //   $keep_count = $keep_count-1;
+        // }}
+          // $keep_count = $keep_count-1;
+          $keep_count --;
+
+        }
+        // ↓ないと、２度削除押さないと実行されない
+        $agents = isset($_SESSION['agents']) ?$_SESSION['agents']:[];
+        echo $keep_count;
+        // いるのかわからん
+        // $delete_name = isset($_SESSION['delete_name']) ?$_SESSION['delete_name'] : [];
+  }
+      // $keep_count = null;
+      // $keep_count = $keep_count-1;
+      // }
+      // echo $keep_count;
+      // exit();
+      
+    ?>
 <?php 
 if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
   $_SESSION['emails'][$agent['keep_id']] = [
     'keep_email' => $agent['keep_email'],
   ];
 }
-// $emails = isset($_SESSION['emails']) ? $_SESSION['emails'] : [];
 ?>
-
 <?php $emails = array(); ?>
 <?php $names = array(); ?>
+
+
 
 
 <!DOCTYPE html>
@@ -136,12 +148,7 @@ if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
             </form>
           </div>
         </div>
-      <p class=""><?php echo $agent['keep_id']; ?></p>
-      <p class=""><?php echo $agent['keep_email']; ?></p>
-      <p class=""><?php echo $name; ?></p>
       <?php $email = $agent['keep_email']; ?>
-    <!-- <?php var_dump($email); ?> -->
-
     <?php  array_push($emails, $email);
           array_push($names, $name);
     // var_dump($emails);
@@ -159,4 +166,42 @@ if ($agent['keep_id'] != '' &&$agent['keep_email'] != '') {
       <a class="btn continue-btn my-5 text-light" href="index.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
     </div>
   </div>
+      <!-- フッター -->
+      <footer>
+        <div id="footer">
+            <div class="text-center">
+                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+            </div>
+            <div class="text-center">
+                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+            </div>
+            <div class="footer-nav">
+                <ul class="ps-0">
+                    <li>
+                        <a class="text-light" href="index.php">トップページ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="#">よくあるご質問</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+     <!-- jQuery -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- 私たちのJS -->
+    <script src="public/js/app.js"></script>
+
 </body>

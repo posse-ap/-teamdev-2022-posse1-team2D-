@@ -35,7 +35,7 @@ if (isset($_POST['tag'])) {
 if (empty($_SESSION['keep_count'])) {
   $keep_count = 0;
 } else {
-   $keep_count = $_SESSION['keep_count'];
+  $keep_count = $_SESSION['keep_count'];
 }
 
 
@@ -63,8 +63,8 @@ if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
   // $keep_count = isset($_POST['count']) ? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
   // $keep_count = 0;
   // // もし、sessionにproductsがあったら
-  
-  
+
+
   if ($keep_name != '' && $keep_id != '' && $keep_email != '' && $keep_tags != '' && $keep_site != '' && $keep_logo != '' && $keep_detail != '') {
     $_SESSION['agents'][$keep_name] = [
       'keep_id' => $keep_id,
@@ -74,28 +74,27 @@ if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
       'keep_detail' => $keep_detail,
       'keep_logo' => $keep_logo,
     ];
-    
   }
   $keep_count = null;
-  foreach($_SESSION['agents'] as $post_name){
-    $keep_count = $keep_count+1;
+  foreach ($_SESSION['agents'] as $post_name) {
+    $keep_count = $keep_count + 1;
   }
-  
+
   // var_dump($_POST['name']);
   // echo "<pre>";
   // var_dump(count($_SESSION['agents'])-1);
   // echo "</pre>";
   // exit();
-  
+
   $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
 }
-$_SESSION['keep_count']= $keep_count;
+$_SESSION['keep_count'] = $keep_count;
 ?>
 <?php
-// $_SESSION['agents'][$keep_name] = $count;
-// $array_count = count($count);
-
+// 配列をJSON形式に変更する。
+// $jsonArray = json_encode($agents);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -233,7 +232,7 @@ $_SESSION['keep_count']= $keep_count;
                                                                                                                                                                       } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>?>">
               <input type="hidden" name="logo" value="<?= $result_agent['img']; ?>">
               <input type="hidden" value="1" name="count">
-              <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
+              <button type="submit" class="keep-btn bi bi-star white-star keep">キープ</button>
             </form>
           </div>
         </div>
@@ -241,6 +240,40 @@ $_SESSION['keep_count']= $keep_count;
     </div>
   </div>
   </div>
+      <!-- フッター -->
+      <footer>
+        <div id="footer">
+            <div class="text-center">
+                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+            </div>
+            <div class="text-center">
+                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+            </div>
+            <div class="footer-nav">
+                <ul class="ps-0">
+                    <li>
+                        <a class="text-light" href="index.php">トップページ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="#">よくあるご質問</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- 私たちのJS -->

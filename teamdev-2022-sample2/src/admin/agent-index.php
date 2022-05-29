@@ -9,7 +9,7 @@ if (!empty($_POST["btn_submit"])) {
         $from = 'craft@gmail.com';
         $to = implode(',', $emails);
         $subject = 'お申し込み完了メール';
-        $body = '学生情報が登録されました。';
+        $body = '学生情報が登録されました。ご確認ください。';
         $ret = mb_send_mail($to, $subject, $body, "From: {$from} \r\n");
 
 
@@ -17,10 +17,11 @@ if (!empty($_POST["btn_submit"])) {
         $names = isset($_SESSION['names']) ? $_SESSION['names'] : [];
         $to_student = isset($_SESSION['student_email']) ? $_SESSION['student_email'] : [];
         $subject_student = 'お問い合わせ完了メール';
-        $body_student = '※このメールはシステムからの自動返信です。<br />お問い合わせありがとうございます。'
-            . implode(',', $names) . 'にお問い合わせしました。' .
-            'お問い合わせ内容に関する返信を追ってご連絡いたしますので
-        今しばらくお待ちくださいませ。';
+        $body_student = '※このメールはシステムからの自動返信です。'.
+        'お問い合わせありがとうございます。' .
+        implode(',',$names) . 'にお問い合わせしました。' . 
+        'お問い合わせ内容に関する返信を追ってご連絡いたしますので' .
+        '今しばらくお待ちくださいませ。';
         $ret = mb_send_mail($to_student, $subject_student, $body_student, "From: {$from} \r\n");
         // var_dump($ret);
 

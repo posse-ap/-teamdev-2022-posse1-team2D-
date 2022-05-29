@@ -33,12 +33,7 @@
 
                 <div class="float-end">
                     <!-- 法人ページ（ログインしている場合は管理画面、していない場合はログイン画面に遷移 -->
-                    <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">法人の方へ</a>
-                    <!-- キープマーク -->
-                    <a href="keep.php" class="keep-star ms-5">
-                        <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-                        <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
-                    </a>
+                    <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link mx-5">法人の方へ</a>
                     <!-- ハンバーガーメニューボタン -->
                     <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -86,6 +81,40 @@
     </div>
 
     </div>
+        <!-- フッター -->
+        <footer>
+        <div id="footer">
+            <div class="text-center">
+                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+            </div>
+            <div class="text-center">
+                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+            </div>
+            <div class="footer-nav">
+                <ul class="ps-0">
+                    <li>
+                        <a class="text-light" href="index.php">トップページ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="#">よくあるご質問</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
 
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

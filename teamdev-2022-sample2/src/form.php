@@ -7,6 +7,13 @@ require(dirname(__FILE__) . "/dbconnect.php");
 require(dirname(__FILE__) . "/uni-info.php");
 $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
 
+if (empty($_SESSION['keep_count'])) {
+  $keep_count = 0;
+  $_SESSION['keep_count'] = $keep_count;
+} else {
+  $keep_count = $_SESSION['keep_count'];
+}
+
 // 変数の初期化
 $page_flag = 0;
 
@@ -74,7 +81,7 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
           <!-- キープマーク -->
           <a href="keep.php" class="keep-star ms-5">
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
-            <span class="d-inline bg-danger px-2 py-1 text-white circle">1</span>
+            <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -288,6 +295,40 @@ if (isset($_POST['student_name'], $_POST['student_university'], $_POST['student_
     </div>
 
   </div>
+      <!-- フッター -->
+      <footer>
+        <div id="footer">
+            <div class="text-center">
+                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+            </div>
+            <div class="text-center">
+                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+            </div>
+            <div class="footer-nav">
+                <ul class="ps-0">
+                    <li>
+                        <a class="text-light" href="index.php">トップページ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="#">よくあるご質問</a>
+                    </li>
+                    <li>
+                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

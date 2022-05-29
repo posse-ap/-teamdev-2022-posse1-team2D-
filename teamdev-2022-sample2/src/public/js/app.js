@@ -82,6 +82,10 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 })
 // ---------------Miu's area----------------------------------------------
 
+// let changeStars = document.getElementsByName("keep_id");
+
+
+$('.keep').submit(function(){
 let changeStars = document.querySelectorAll(".keep-btn");
 
 changeStars.forEach((changeStar) => {
@@ -93,6 +97,8 @@ changeStars.forEach((changeStar) => {
     changeStar.classList.add("black-star");
   });
 });
+})
+// localStorage.setItem(changeStars, onclick);
 
 
 // プライバシーポリシーに同意したらお申込み送信
@@ -116,27 +122,10 @@ let defaultWord = document.querySelector(".default-word");
      defaultWord.style.display="none";
   });
 
-changeStars.forEach(changeStar => {
-   changeStar.addEventListener('click', function () {
-      console.log("a")
-      changeStar.classList.remove('bi-star');
-      changeStar.classList.remove('white-star');
-      changeStar.classList.add('bi-star-fill');
-      changeStar.classList.add('black-star');
-   })
-})
-
-// プライバシーポリシーに同意したらお申込み送信
-$(function(){
-   $('.Form-CheckItem-Label').on('click', function(){
-   if ($('#JS_CheckItem').prop("checked") == true) {
-   $('.send').addClass('isActive');
-   } else {
-   $('.send').removeClass('isActive');
-   }
-   });
-   });
 
 
 
+var keep_name = document.getElementsByName("name");
 
+
+localStorage.setItem(keep_name, keep_id);
