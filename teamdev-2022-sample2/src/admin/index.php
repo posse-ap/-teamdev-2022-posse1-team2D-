@@ -19,8 +19,6 @@ if (isset($_SESSION['user_id']) && $_SESSION['time'] + 60 * 60 * 24 > time()) {
             $address = $_POST['address'];
             $industry = $_POST['industry'];
             $post_period = $_POST['post_period'];
-            // var_dump($_POST);
-            // exit();
             // var_dump($_FILES);
             $image = uniqid(mt_rand(), true); //ファイル名をユニーク化
             $image .= '.' . substr(strrchr($_FILES['logo']['name'], '.'), 1); //アップロードされたファイルの拡張子を取得
@@ -136,8 +134,8 @@ $search_word = $_POST['word'];
 if ($search_word == "") {
     $comment = "キーワードを入力してください。";
 } else {
-    $stmt = $db->prepare("SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, img FROM agents
-     WHERE agent_name LIKE ? OR agent_url LIKE ? OR representative LIKE ? OR contractor LIKE ? OR department LIKE ? OR email LIKE ? OR phone_number LIKE ? OR address LIKE ?");
+    $stmt = $db->prepare("SELECT id, agent_name, agent_url, representative, contractor, department, email, phone_number, address, post_period, img, appeal FROM agents
+     WHERE agent_name LIKE ? OR agent_url LIKE ? OR representative LIKE ? OR contractor LIKE ? OR department LIKE ? OR email LIKE ? OR phone_number LIKE ? OR address LIKE ? OR appeal LIKE ?");
     $stmt->bindValue(1, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
     $stmt->bindValue(2, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
     $stmt->bindValue(3, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
@@ -146,6 +144,7 @@ if ($search_word == "") {
     $stmt->bindValue(6, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
     $stmt->bindValue(7, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
     $stmt->bindValue(8, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
+    $stmt->bindValue(9, '%' . addcslashes($search_word, '\_%') . '%', PDO::PARAM_STR);
     $stmt->execute();
     $agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
     if ($agents) {
@@ -191,7 +190,6 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                     <h1 class="mb-0">CRAFT</h1>
                     <div class="h6">by 就活.com</div>
                 </a>
-
                 <h1 class="ms-3 text-light">エージェント情報管理画面</h1>
 
                 <div class="float-end h5">
@@ -229,10 +227,11 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                 メールアドレス：<input class="d-block" type="email" name="email" placeholder="info@example.com" required>
                                 電話番号：<input class="d-block" type="tel" name="phone_number" placeholder="電話番号" required>
                                 住所：<input class="d-block" type="text" name="address" required>
-                                特徴：
+                            </div>
+                            <div class="col-6">
+                                <div class="h6 mt-2">強みの業界</div>
                                 <select name="industry" class="text-secondary me-3">
                                     <option value="" class="text-secondary default-word" hidden>強みの業界</option>
-                                    <!-- <option value="" class="text-dark"></option> -->
                                     <option value="メーカー" class="text-dark">メーカー</option>
                                     <option value="小売" class="text-dark">小売</option>
                                     <option value="サービス" class="text-dark">サービス</option>
@@ -242,10 +241,10 @@ if ($page == $max_page && $count['cnt'] % 10 !== 0) {
                                     <option value="マスコミ" class="text-dark">マスコミ</option>
                                     <option value="官公庁・公社・団体" class="text-dark">官公庁・公社・団体</option>
                                 </select>
-                            </div>
-                            <div class="col-6">
-                                掲載期間：<input class="d-block" type="date" name="post_period" required>
-                                企業ロゴ：<input class="d-block" type="file" name="logo" accept="image/*" required>
+                                <div class="h6 mt-2">掲載期間：</div>
+                                <input class="d-block" type="date" name="post_period" required>
+                                <div class="h6 mt-2">企業ロゴ：</div>
+                                <input class="d-block" type="file" name="logo" accept="image/*" required>
                                 <div class="h6 mt-2">タグの選択</div>
                                 <?php foreach ($tags as $key => $tag) : ?>
                                     <input type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="form-check-input me-1 h5" id="flexCheckDefault"><?= $tag["name"]; ?>

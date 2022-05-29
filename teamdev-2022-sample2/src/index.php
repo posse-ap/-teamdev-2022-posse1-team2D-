@@ -165,12 +165,14 @@ if (isset($_POST['remove'])) {
                     <div class="text-center">
                         <p id="jobHuntingSec" class="second-size fw-bold my-2 mt-md-2">就活エージェントとは<i class="ps-2 bi bi-question-diamond"></i></p>
                         <div class="mx-auto">
-                            <p class="third-size text-start lh-base">
-                                コンサルタントに相談し、プロフェッショナルな視点から、強みの引き出しや適職の紹介を受けることができるサービスです。
+                            <p class="third-size text-start lh-base m-0">
+                                自分で企業を探しエントリーするという一般のスタイルとは異なり、プロフェッショナルなコンサルタントの視点から、強みの引き出しや適職の紹介を受けることができるサービスです。
+                                応募書類や面接などに関する対策を、あなたの専任コンサルタントともに考えながら、
+                                “あなたにとってより望ましい就職”の実現に努めています。
                             </p>
                         </div>
                         <!-- Button trigger modal -->
-                        <button type="button" class="search-details btn mt-md-4 mb-3 text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="search-details btn mt-2 mb-3 text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             クリックで詳細表示
                             <i class="bi bi-arrow-left-circle"></i>
                         </button>
@@ -213,14 +215,6 @@ if (isset($_POST['remove'])) {
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="d-inline-block ms-3 updown">
-                        <a href="#jobHuntingSec" class="text-danger" style="text-decoration: none;">
-                            <p class="mb-0 fourth-size">詳細はこちら</p>
-                            <span>
-                                <i class="bi bi-arrow-down-circle-fill text-danger first-size"></i>
-                            </span>
-                        </a>
-                    </div> -->
                     </div>
                 </section>
             </main>
@@ -281,8 +275,6 @@ if (isset($_POST['remove'])) {
                 </div>
             </div>
         </div>
-        <!-- <a href="/admin/index.php">管理者ページ</a> -->
-        <!-- <button type="button" class="ps-3 btn btnx--outline"><i class="bi bi-pencil-square"></i>お問い合わせはこちら</button> -->
     </div>
     <!-- フッター -->
     <footer class="mt-3">

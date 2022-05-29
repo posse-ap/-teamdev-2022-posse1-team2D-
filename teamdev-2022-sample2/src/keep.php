@@ -164,7 +164,7 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>
-      <p>※一社以上のキープが必要です。</p>
+      <p class="mt-1">（※一社以上のキープが必要です。）</p>
       <a class="btn continue-btn my-3 text-light" href="index.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
     </div>
   </div>
