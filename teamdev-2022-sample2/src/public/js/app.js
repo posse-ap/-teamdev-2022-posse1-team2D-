@@ -84,21 +84,47 @@ $('#exampleModal').on('show.bs.modal', function (event) {
 
 // let changeStars = document.getElementsByName("keep_id");
 
+// var keep_name = document.getElementsByName("name");
+// localStorage.setItem(keep_name, keep_id);
 
-$('.keep').submit(function(){
-let changeStars = document.querySelectorAll(".keep-btn");
-
-changeStars.forEach((changeStar) => {
-  changeStar.addEventListener("click", function () {
-    console.log("a");
-    changeStar.classList.remove("bi-star");
+// $('.keep').submit(function(){
+  
+  function stars () {
+  let changeStars = document.querySelectorAll(".keep-btn");
+  changeStars.forEach((changeStar) => {
+    changeStar.addEventListener("click", function () {
+      console.log("a");
+      changeStar.classList.remove("bi-star");
     changeStar.classList.remove("white-star");
     changeStar.classList.add("bi-star-fill");
     changeStar.classList.add("black-star");
   });
 });
-})
-// localStorage.setItem(changeStars, onclick);
+}
+stars();
+
+// })
+// localStorage.setItem(stars, changeStars);
+
+
+// $('body').on('submit', function(e) {
+//   if() {
+//       $('keep').trigger('click');
+//   }
+// })
+// $('.keep').on('click',function(){
+//   let changeStars = document.querySelectorAll(".keep-btn");
+//   changeStars.forEach((changeStar) => {
+//     changeStar.addEventListener("click", function () {
+//       console.log("a");
+//       changeStar.classList.remove("bi-star");
+//     changeStar.classList.remove("white-star");
+//     changeStar.classList.add("bi-star-fill");
+//     changeStar.classList.add("black-star");
+//   });
+//   });
+// });
+
 
 
 // プライバシーポリシーに同意したらお申込み送信
@@ -111,6 +137,8 @@ $(function(){
    }
    });
    });
+
+
 
 //お申し込みフォーム画面の年度卒欄、灰色の選択肢を押したら黒色で入力される
 let graduation = document.getElementById("graduation");
@@ -125,7 +153,3 @@ let defaultWord = document.querySelector(".default-word");
 
 
 
-var keep_name = document.getElementsByName("name");
-
-
-localStorage.setItem(keep_name, keep_id);

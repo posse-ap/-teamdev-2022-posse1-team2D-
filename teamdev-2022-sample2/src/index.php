@@ -204,22 +204,30 @@ if (empty($_SESSION['keep_count'])) {
                 </div>
             </div>
             <p class="second-size fw-bold text-center">CRAFTを利用するメリット</p>
-            <div class="d-flex flex-wrap align-items-center justify-content-center my-3 my-md-5 bg-light">
-                <div class="text-center col-md-6 col-6">
+            <div class="d-flex flex-wrap align-items-center justify-content-center my-3 py-3 my-md-5 bg-light">
+                <div class="text-center col-md-5 col-6 px-2">
                     <p class="third-size">自分の希望に合った<br>エージェントが絞り込める</p>
-                    <img src="public/images/logo_10.png" alt="" style="width: 250px; height: 200; object-fit: cover;">
+                    <div class="image-trim">
+                    <img src="public/images/front1.png" alt="" class="img-responsive" >
                 </div>
-                <div class="text-center col-md-6 col-6">
+                </div>
+                <div class="text-center col-md-5 col-6 px-2">
                     <p class="third-size">就活エージェントを<br>中立的な立場で比較できる</p>
-                    <img src="public/images/logo_8.png" alt="" style="width: 250px; height: 200; object-fit: cover;">
+                    <div class="image-trim">
+                    <img src="public/images/front3.png" alt=""  class="img-responsive" >
+                    </div>
                 </div>
-                <div class="text-center col-md-6 col-6">
-                    <p class="third-size">就活エージェントに<br>一度に複数お問い合わせできる</p>
-                    <img src="public/images/logo_7.png" alt="" class="w-" style="width: 250px; height: 200px; object-fit: cover;">
+                <div class="text-center col-md-5 col-6 px-2">
+                    <p class="third-size">一度に複数のエージェントに<br>お問い合わせできる</p>
+                    <div class="image-trim">
+                    <img src="public/images/front4.png" alt=""class="img-responsive" >
+                    </div>
                 </div>
-                <div class="text-center col-md-6 col-6">
+                <div class="text-center col-md-5 col-6 px-2">
                     <p class="third-size">自分に適正な<br>エージェントを発見できる</p>
-                    <img src="public/images/logo_9.png" alt="" class="w-" style="width: 250px; height: 200px; object-fit: cover;">
+                    <div class="image-trim">
+                    <img src="public/images/front2.png" alt=""  class="img-responsive" >
+                    </div>
                 </div>
             </div>
         </div>
@@ -236,7 +244,7 @@ if (empty($_SESSION['keep_count'])) {
                 <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
             </div>
             <div class="footer-nav">
-                <ul class="ps-0">
+                <ul class="ps-0 my-0">
                     <li>
                         <a class="text-light" href="index.php">トップページ</a>
                     </li>
@@ -248,9 +256,6 @@ if (empty($_SESSION['keep_count'])) {
                     </li>
                     <li>
                         <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="#">よくあるご質問</a>
                     </li>
                     <li>
                         <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>

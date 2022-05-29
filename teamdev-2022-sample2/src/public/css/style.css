@@ -70,9 +70,11 @@ img {
 }
 @media screen and (max-width: 480px) {
   .footer-nav li {
-    display: block;
-    font-size: 10pt;
+    /* display: block; */
+    font-size: 5pt;
   }
+
+  
 }
 
 
@@ -308,6 +310,24 @@ ul .other-tag {
   color: var(--bs-orange);
   background: var(--bs-white);
   border: 2px solid #FFCC80;
+}
+
+
+/* 下部コンテンツ////////////////////////////////// */
+.image-trim {
+  position: relative;
+  overflow: hidden;
+  padding-top: 60%; /* 比率 */
+}
+.image-trim img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
 }
 /* --------------------------------------------------TOPページ(fin)--------------------------------------------------*/
 

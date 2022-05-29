@@ -90,11 +90,6 @@ if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
 }
 $_SESSION['keep_count'] = $keep_count;
 ?>
-<?php
-// 配列をJSON形式に変更する。
-// $jsonArray = json_encode($agents);
-?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -210,9 +205,9 @@ $_SESSION['keep_count'] = $keep_count;
             </div>
           </div>
           <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
-            <a href="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {
-                                                                                                                                    echo $result_agents_tag . ' ';
-                                                                                                                                  } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
+            <a href="agent-details/agent1.php?id=<?= $result_agent['agents_id']; ?>&name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {
+                                                                                                                                                                          echo $result_agents_tag . ' ';
+                                                                                                                                                                        } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
             <!-- キープした時にセッションでエージェントの情報を保持 -->
             <form action="" method="POST">
               <!-- tagのid -->
@@ -240,39 +235,39 @@ $_SESSION['keep_count'] = $keep_count;
     </div>
   </div>
   </div>
-      <!-- フッター -->
-      <footer>
-        <div id="footer">
-            <div class="text-center">
-                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
-            </div>
-            <div class="text-center">
-                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
-            </div>
-            <div class="footer-nav">
-                <ul class="ps-0">
-                    <li>
-                        <a class="text-light" href="index.php">トップページ</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="agents.php">エージェント一覧</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="#">よくあるご質問</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+  <!-- フッター -->
+  <footer>
+    <div id="footer">
+      <div class="text-center">
+        <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+      </div>
+      <div class="text-center">
+        <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+      </div>
+      <div class="footer-nav">
+        <ul class="ps-0">
+          <li>
+            <a class="text-light" href="index.php">トップページ</a>
+          </li>
+          <li>
+            <a class="text-light" href="agents.php">エージェント一覧</a>
+          </li>
+          <li>
+            <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+          </li>
+          <li>
+            <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+          </li>
+          <li>
+            <a class="text-light" href="#">よくあるご質問</a>
+          </li>
+          <li>
+            <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
