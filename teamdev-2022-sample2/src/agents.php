@@ -3,7 +3,7 @@ session_start();
 require(dirname(__FILE__) . "/dbconnect.php");
 
 try {
-  $stmt = $db->prepare('SELECT agents.id, agent_name, agent_url, representative, address, email, img
+  $stmt = $db->prepare('SELECT agents.id, agent_name, agent_url, representative, address, appeal, email, img
  FROM agents
  INNER JOIN agents_tags ON agents.id = agents_tags.agent_id
  GROUP BY agents.id');
@@ -90,6 +90,17 @@ $keep_count = intval($keep_count);
     <p class="first-size">エージェント企業一覧</p>
     <div class="row">
       <?php foreach ($all_agents as $key => $all_agent) : ?>
+        <!-- 各エージェントのお問い合わせ数の取得 -->
+        <?
+        $stmt_month = $db->prepare("SELECT count(students.id) FROM students
+  INNER JOIN students_agents ON students.id = students_agents.student_id
+  INNER JOIN agents ON students_agents.agent_id = agents.id
+  WHERE agents.agent_name = :agent_name
+  ");
+        $stmt_month->bindValue(":agent_name",  $all_agent['agent_name'], PDO::PARAM_STR);
+        $stmt_month->execute();
+        $students_count = $stmt_month->fetch(PDO::FETCH_COLUMN) ?: 0;
+        ?>
         <!-- エージェント毎のタグを全て取得する -->
         <? $stmt = $db->prepare('SELECT name FROM tags inner join agents_tags on tags.id = agents_tags.tag_id inner join agents on agents_tags.agent_id = agents.id WHERE agents.agent_name = :agent_name');
         $stmt->bindValue(":agent_name",  $all_agent['agent_name'], PDO::PARAM_STR);
@@ -97,27 +108,30 @@ $keep_count = intval($keep_count);
         $all_agents_tags = $stmt->fetchAll(PDO::FETCH_COLUMN);
         ?>
         <!-- １つ１つのエージェントのカードタイル -->
-        <div class="col-md-6 my-5 d-flex flex-row">
+        <div class="col-md-6 my-2 my-md-4 d-flex flex-row">
           <div class="rounded-start col-4 recommend-function d-flex align-items-center justify-content-center px-2">
             <img src="public/images/<?php echo $all_agent['img']; ?>" class="" alt="企業ロゴ">
           </div>
           <div class="col-5 col-md-6 result-content ps-3 my-0">
             <p class="second-size fw-bold"><?= $all_agent['agent_name']; ?></p>
-            <p class="forth-size mb-0"><i class="bi bi-tags-fill text-success"></i>タグ</p>
+            <p class="forth-size mb-0"><i class="bi bi-tags-fill text-success pe-1"></i>タグ</p>
             <p class="forth-size">
               <?php foreach ($all_agents_tags as $key => $all_agents_tag) {
                 echo $all_agents_tag, ' ';
                 // echo $key;
               } ?>
             </p>
-            <div class="mb-2">
-              <a href="<?= $all_agent['agent_url']; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
+            <div class="mb-1">
+              <p class="forth-size mb-0"><i class="bi bi-megaphone-fill text-success pe-1"></i>強みの業界</p>
+              <p class="forth-size mb-0"><?= $all_agent['appeal']; ?></p>
             </div>
+            <p class="forth-size mb-0"><i class="bi bi-envelope-fill text-success pe-1"></i>お問い合わせ数</p>
+            <p class="forth-size mb-0"><?= $students_count; ?><span class="ps-1">件</span></p>
           </div>
           <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
             <a href="agent-details/agent1.php?name=<?= $all_agent['agent_name']; ?>&url=<?= $all_agent['agent_url']; ?>&tag=<?php foreach ($all_agents_tags as $key => $all_agents_tag) {
                                                                                                                               echo $all_agents_tag . ' ';
-                                                                                                                            } ?>&representative=<?= $all_agent['representative']; ?>&address=<?= $all_agent['address']; ?>&img=<?= $all_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>            
+                                                                                                                            } ?>&representative=<?= $all_agent['representative']; ?>&address=<?= $all_agent['address']; ?>&industry=<?= $all_agent['appeal']; ?>&img=<?= $all_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>            
             <form action="" method="post">
               <!-- <button type="submit" class="keep-btn bi bi-star white-star keep">キープ</button> -->
             </form>

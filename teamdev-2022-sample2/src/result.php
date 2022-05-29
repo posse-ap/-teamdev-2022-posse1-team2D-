@@ -83,22 +83,10 @@ if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
   foreach ($_SESSION['agents'] as $post_name) {
     $keep_count = $keep_count + 1;
   }
-
-  // var_dump($_POST['name']);
-  // echo "<pre>";
-  // var_dump(count($_SESSION['agents'])-1);
-  // echo "</pre>";
-  // exit();
-
   $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
 }
 $_SESSION['keep_count'] = $keep_count;
 ?>
-<?php
-// $_SESSION['agents'][$keep_name] = $count;
-// $array_count = count($count);
-?>
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -139,7 +127,7 @@ $_SESSION['keep_count'] = $keep_count;
           </a>
           <!-- お問い合わせへの導線を表示 -->
           <div id="popup" class="updown mx-auto card shadow text-light p-1" style="position: absolute; right: 20px; width: 200px; background-color: rgba(70, 68, 68, 0.6);">
-            ★クリックで、キープしたエージェントへお問い合わせ
+            ★クリックで、キープしたエージェントへお問い合わせ（キープ企業削除もこちら）
             <button id="no" class="btn btn-danger py-0" onclick="nofunc()">OK</button>
           </div>
           <!-- ハンバーガーメニューボタン -->
@@ -220,17 +208,17 @@ $_SESSION['keep_count'] = $keep_count;
           </div>
           <div class="col-5 col-md-6 result-content ps-3 my-0">
             <p class="second-size fw-bold mb-1"><?= $result_agent['agent_name']; ?></p>
-            <p class="forth-size mb-0"><i class="bi bi-tags-fill pe-1"></i>タグ</p>
+            <p class="forth-size mb-0"><i class="bi bi-tags-fill text-success pe-1"></i>タグ</p>
             <p class="forth-size mb-1">
               <?php foreach ($result_agents_tags as $key => $result_agents_tag) {
                 echo $result_agents_tag, ' ';
               } ?>
             </p>
             <div class="mb-1">
-              <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1"></i>強みの業界</p>
+              <p class="forth-size mb-0"><i class="bi bi-megaphone-fill text-success pe-1"></i>強みの業界</p>
               <p class="forth-size mb-0"><?= $result_agent['appeal']; ?></p>
             </div>
-            <p class="forth-size mb-0"><i class="bi bi-envelope-fill pe-1"></i>お問い合わせ数</p>
+            <p class="forth-size mb-0"><i class="bi bi-envelope-fill text-success pe-1"></i>お問い合わせ数</p>
             <p class="forth-size mb-0"><?= $students_count; ?><span class="ps-1">件</span></p>
           </div>
           <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
