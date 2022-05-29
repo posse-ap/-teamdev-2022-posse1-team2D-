@@ -209,17 +209,17 @@ $_SESSION['keep_count'] = $keep_count;
             </div>
             <div class="col-5 col-md-6 result-content ps-3 my-0">
               <p class="second-size fw-bold mb-1"><?= $result_agent['agent_name']; ?></p>
-              <p class="forth-size mb-0"><i class="bi bi-tags-fill pe-1"></i>タグ</p>
+              <p class="forth-size mb-0"><i class="bi bi-tags-fill pe-1 text-success"></i>タグ</p>
               <p class="forth-size mb-1">
                 <?php foreach ($result_agents_tags as $key => $result_agents_tag) {
                   echo $result_agents_tag, ' ';
                 } ?>
               </p>
               <div class="mb-1">
-                <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1"></i>強みの業界</p>
+                <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1 text-success"></i>強みの業界</p>
                 <p class="forth-size mb-0"><?= $result_agent['appeal']; ?></p>
               </div>
-              <p class="forth-size mb-0"><i class="bi bi-envelope-fill pe-1"></i>お問い合わせ数</p>
+              <p class="forth-size mb-0"><i class="bi bi-envelope-fill pe-1 text-success"></i>お問い合わせ数</p>
               <p class="forth-size mb-0"><?= $students_count; ?><span class="ps-1">件</span></p>
             </div>
             <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
@@ -247,7 +247,27 @@ $_SESSION['keep_count'] = $keep_count;
                 <input type="hidden" name="industry" value="<?= $result_agent['appeal']; ?>">
                 <input type="hidden" name="students_count" value="<?= $students_count; ?>">
                 <input type="hidden" value="1" name="count">
-                <button type="submit" class="keep-btn bi bi-star white-star keep">キープ</button>
+                <button type="submit" class="keep-btn bi keep
+                <?php 
+                // if (empty($_SESSION['agents'])&&$result_agent['agent_name']!=$keep_name){
+                //   echo "bi-star";
+                //   echo " "."white-star";
+                // }
+                if (!empty($_SESSION['agents'])&&$result_agent['agent_name']==$keep_name){
+                  echo "bi-star-fill";
+                  echo " "."black-star";
+                }
+                else{
+                  echo "bi-star";
+                  echo " "."white-star";
+                }
+                
+                ?>"
+                >キープ</button>
+                <!-- <?php if (!empty($_SESSION['agents'])){
+                  echo "bi-star-fill";
+                  echo " "."black-star";
+                } ?>">キープ</button> -->
               </form>
             </div>
           </div>

@@ -330,6 +330,15 @@ ul .other-tag {
 }
 
 
+/* ボタン色変更 */
+.search-agents {
+  background-color: #F3AF56;
+}
+
+.search-details {
+  background-color: #F3AF56;
+}
+
 /* 下部コンテンツ////////////////////////////////// */
 .use-craft {
   background-color: #7DCBC4;
@@ -450,6 +459,7 @@ a.page_number:visited {color: black; text-decoration:none }
 
 .keep-btn {
   background-color: #F3AF56;
+  border-radius: 6px;
 }
 
 /*  極小デバイス（縦向きモバイル, 576px 未満） */
@@ -463,6 +473,7 @@ a.page_number:visited {color: black; text-decoration:none }
 /*////////////////////////////////// キープ企業確認画面//////////////////////////////// */
 .delete-btn {
   background-color: #F3AF56;
+  border-radius: 6px;
 }
 
 .contact-btn {
@@ -471,7 +482,7 @@ a.page_number:visited {color: black; text-decoration:none }
 }
 
 .continue-btn {
-  background-color: #6AB4AC;
+  background-color: #F3AF56;
 }
 
 
