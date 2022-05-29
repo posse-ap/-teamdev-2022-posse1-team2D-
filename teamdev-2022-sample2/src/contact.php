@@ -1,5 +1,6 @@
 <?php
 session_start();
+use LDAP\Result;
 require(dirname(__FILE__) . "/dbconnect.php");
 
 // 変数の初期化

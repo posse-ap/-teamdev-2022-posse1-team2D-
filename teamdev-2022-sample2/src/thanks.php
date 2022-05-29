@@ -1,3 +1,15 @@
+<?php 
+session_start();
+require(dirname(__FILE__) . "/dbconnect.php");
+$agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
+$keep_count = $_SESSION['keep_count'];
+$keep_count = intval($keep_count);
+
+$_SESSION['keep_count'] = $keep_count;
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -73,7 +85,10 @@
                 <p class="text-success">メールが届いていない場合<br>boozerへのお問い合わせ⇒</p>
                 <button onclick="location.href='contact.php'" class="contact-circle align-items-center justify-content-center mx-2 text-light"><i class="bi bi-envelope"></i></button>
             </div>
-            <a href="index.php" class="my-2 link-success"><i class="bi bi-skip-backward-circle"></i>Topページに戻る</a>
+            <!-- <a href="index.php" class="my-2 link-success"><i class="bi bi-skip-backward-circle"></i>Topページに戻る</a> -->
+            <form action="index.php" method="post">
+            <button type="submit" name="remove" class="bi bi-skip-backward-circle text-success border-0" value="">Topページに戻る</button>
+            </form>
         </div>
     </div>
 
