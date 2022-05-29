@@ -95,11 +95,12 @@ if (empty($_SESSION['keep_count'])) {
                     <form action="/result.php" method="POST">
                         <p class="second-size fw-bold text-center my-2 mt-md-2">タグで絞り込む<i class="bi bi-check-all"></i></p>
                         <ul class="tags row">
+                            <li class="tag col-6 fw-bold text-center pt-2">分野</li>
                             <?php //tagを取得する
                             $stmt = $db->query('SELECT id, name FROM tags');
                             $tags = $stmt->fetchAll(PDO::FETCH_ASSOC); ?>
                             <?php foreach ($tags as $key => $tag) : ?>
-                                <label for="<?= $tag["id"]; ?>" class="tag col-6">
+                                <label for="<?= $tag["id"]; ?>" class="tag col-6 pt-2">
                                     <li>
                                         <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
                                     </li>
