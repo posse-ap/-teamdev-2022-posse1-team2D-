@@ -16,7 +16,7 @@ if (isset($_POST['tag'])) {
     // 送信されたタグのidをカンマ区切りの文字列に変換する
     $str_tags = implode($arr_tag_id);
     // エージェントの情報を送信されたタグの数にヒットした順に取得する
-    $stmt = $db->prepare('SELECT agents.id, agent_name, agent_url, COUNT(*) AS count, representative, address, email, img
+    $stmt = $db->prepare('SELECT agents.id, agent_name, agent_url, COUNT(*) AS count, representative, address, appeal, email, img
     FROM agents
     INNER JOIN agents_tags ON agents.id = agents_tags.agent_id 
     WHERE FIND_IN_SET(agents_tags.tag_id, :tags) 
@@ -35,7 +35,7 @@ if (isset($_POST['tag'])) {
 if (empty($_SESSION['keep_count'])) {
   $keep_count = 0;
 } else {
-   $keep_count = $_SESSION['keep_count'];
+  $keep_count = $_SESSION['keep_count'];
 }
 
 
@@ -60,12 +60,14 @@ if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
   $keep_site = isset($_POST['official_site']) ? htmlspecialchars($_POST['official_site'], ENT_QUOTES, 'utf-8') : ' ';
   $keep_detail = isset($_POST['detail']) ? htmlspecialchars($_POST['detail'], ENT_QUOTES, 'utf-8') : ' ';
   $keep_logo = isset($_POST['logo']) ? htmlspecialchars($_POST['logo'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_industry = isset($_POST['industry']) ? htmlspecialchars($_POST['industry'], ENT_QUOTES, 'utf-8') : ' ';
+  $keep_students_count = isset($_POST['students_count']) ? htmlspecialchars($_POST['students_count'], ENT_QUOTES, 'utf-8') : ' ';
   // $keep_count = isset($_POST['count']) ? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
   // $keep_count = 0;
   // // もし、sessionにproductsがあったら
-  
-  
-  if ($keep_name != '' && $keep_id != '' && $keep_email != '' && $keep_tags != '' && $keep_site != '' && $keep_logo != '' && $keep_detail != '') {
+
+
+  if ($keep_name != '' && $keep_id != '' && $keep_email != '' && $keep_tags != '' && $keep_site != '' && $keep_logo != '' && $keep_detail != '' && $keep_industry != '' && $keep_students_count != '') {
     $_SESSION['agents'][$keep_name] = [
       'keep_id' => $keep_id,
       'keep_email' => $keep_email,
@@ -73,28 +75,28 @@ if (isset($_POST['name'], $_POST['keep_id'], $_POST['email'], $_POST['tags'])) {
       'keep_site' => $keep_site,
       'keep_detail' => $keep_detail,
       'keep_logo' => $keep_logo,
+      'keep_industry' => $keep_industry,
+      'keep_students_count' => $keep_students_count,
     ];
-    
   }
   $keep_count = null;
-  foreach($_SESSION['agents'] as $post_name){
-    $keep_count = $keep_count+1;
+  foreach ($_SESSION['agents'] as $post_name) {
+    $keep_count = $keep_count + 1;
   }
-  
+
   // var_dump($_POST['name']);
   // echo "<pre>";
   // var_dump(count($_SESSION['agents'])-1);
   // echo "</pre>";
   // exit();
-  
+
   $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
 }
-$_SESSION['keep_count']= $keep_count;
+$_SESSION['keep_count'] = $keep_count;
 ?>
 <?php
 // $_SESSION['agents'][$keep_name] = $count;
 // $array_count = count($count);
-
 ?>
 
 <!DOCTYPE html>
@@ -186,6 +188,17 @@ $_SESSION['keep_count']= $keep_count;
     <div class="row">
       <!-- ヒットしたエージェントの数だけ、以下のphp動作と、html要素をforeachさせる -->
       <?php foreach ($result_agents as $key => $result_agent) : ?>
+        <!-- 各エージェントのお問い合わせ数の取得 -->
+        <?
+        $stmt_month = $db->prepare("SELECT count(students.id) FROM students
+INNER JOIN students_agents ON students.id = students_agents.student_id
+INNER JOIN agents ON students_agents.agent_id = agents.id
+WHERE agents.agent_name = :agent_name
+");
+        $stmt_month->bindValue(":agent_name",  $result_agent['agent_name'], PDO::PARAM_STR);
+        $stmt_month->execute();
+        $students_count = $stmt_month->fetch(PDO::FETCH_COLUMN)?: 0;
+        ?>
         <!-- エージェント毎のタグを全て取得する -->
         <? $stmt = $db->prepare('SELECT name FROM tags inner join agents_tags on tags.id = agents_tags.tag_id inner join agents on agents_tags.agent_id = agents.id WHERE agents.agent_name = :agent_name');
         $stmt->bindValue(":agent_name",  $result_agent['agent_name'], PDO::PARAM_STR);
@@ -198,22 +211,24 @@ $_SESSION['keep_count']= $keep_count;
             <img src="public/images/<?php echo $result_agent['img']; ?>" class="" alt="企業ロゴ">
           </div>
           <div class="col-5 col-md-6 result-content ps-3 my-0">
-            <p class="second-size fw-bold"><?= $result_agent['agent_name']; ?></p>
-            <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
-            <p class="forth-size">
+            <p class="second-size fw-bold mb-1"><?= $result_agent['agent_name']; ?></p>
+            <p class="forth-size mb-0"><i class="bi bi-tags-fill pe-1"></i>タグ</p>
+            <p class="forth-size mb-1">
               <?php foreach ($result_agents_tags as $key => $result_agents_tag) {
                 echo $result_agents_tag, ' ';
-                // echo $key;
               } ?>
             </p>
-            <div class="mb-2">
-              <a href="<?= $result_agent['agent_url']; ?>" class="forth-size" target="_blank" rel="noopener noreferrer">・公式サイト</a>
+            <div class="mb-1">
+              <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1"></i>強みの業界</p>
+              <p class="forth-size mb-0"><?= $result_agent['appeal']; ?></p>
             </div>
+            <p class="forth-size mb-0"><i class="bi bi-envelope-fill pe-1"></i>お問い合わせ数</p>
+            <p class="forth-size mb-0"><?= $students_count; ?><span class="ps-1">件</span></p>
           </div>
           <div class="rounded-end col-3 col-md-2 result-content d-flex flex-column justify-content-around align-items-end pe-3">
             <a href="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {
                                                                                                                                     echo $result_agents_tag . ' ';
-                                                                                                                                  } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
+                                                                                                                                  } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&industry=<?= $result_agent['appeal']; ?>&img=<?= $result_agent['img']; ?>" target="_blank" rel="noopener noreferrer" class="link-success"><i class="bi bi-cursor"></i>詳細へ</a>
             <!-- キープした時にセッションでエージェントの情報を保持 -->
             <form action="" method="POST">
               <!-- tagのid -->
@@ -230,8 +245,10 @@ $_SESSION['keep_count']= $keep_count;
               <input type="hidden" name="official_site" value="<?= $result_agent['agent_url']; ?>">
               <input type="hidden" name="detail" value="agent-details/agent1.php?name=<?= $result_agent['agent_name']; ?>&url=<?= $result_agent['agent_url']; ?>&tag=<?php foreach ($result_agents_tags as $key => $result_agents_tag) {
                                                                                                                                                                         echo $result_agents_tag . ' ';
-                                                                                                                                                                      } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&img=<?= $result_agent['img']; ?>?>">
+                                                                                                                                                                      } ?>&representative=<?= $result_agent['representative']; ?>&address=<?= $result_agent['address']; ?>&industry=<?= $result_agent['appeal']; ?>&img=<?= $result_agent['img']; ?>?>">
               <input type="hidden" name="logo" value="<?= $result_agent['img']; ?>">
+              <input type="hidden" name="industry" value="<?= $result_agent['appeal']; ?>">
+              <input type="hidden" name="students_count" value="<?= $students_count; ?>">
               <input type="hidden" value="1" name="count">
               <button type="submit" class="keep-btn bi bi-star white-star">キープ</button>
             </form>
