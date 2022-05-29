@@ -161,12 +161,14 @@ if (empty($_SESSION['keep_count'])) {
                     <div class="text-center">
                         <p class="second-size fw-bold my-2 mt-md-2">就活エージェントとは<i class="ps-2 bi bi-question-diamond"></i></p>
                         <div class="mx-auto">
-                            <p class="third-size text-start lh-base">
-                                コンサルタントに相談し、プロフェッショナルな視点から、強みの引き出しや適職の紹介を受けることができるサービスです。
+                            <p class="third-size text-start lh-base m-0">
+                                自分で企業を探しエントリーするという一般のスタイルとは異なり、プロフェッショナルなコンサルタントの視点から、強みの引き出しや適職の紹介を受けることができるサービスです。
+                                応募書類や面接などに関する対策を、あなたの専任コンサルタントともに考えながら、
+                                “あなたにとってより望ましい就職”の実現に努めています。
                             </p>
                         </div>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success mt-md-4 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-success mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             クリックで詳細表示
                             <i class="bi bi-arrow-left-circle"></i>
                         </button>

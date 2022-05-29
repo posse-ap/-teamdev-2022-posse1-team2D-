@@ -16,12 +16,12 @@ if (isset($_POST['tag'])) {
     // 送信されたタグのidをカンマ区切りの文字列に変換する
     $str_tags = implode($arr_tag_id);
     // エージェントの情報を送信されたタグの数にヒットした順に取得する
-    $stmt = $db->prepare('SELECT agents.id, agent_name, agent_url, COUNT(*) AS count, representative, address, appeal, email, img
+    $stmt = $db->prepare("SELECT agents.id, agent_name, agent_url, COUNT(*) AS count, representative, address, appeal, email, img, post_period
     FROM agents
     INNER JOIN agents_tags ON agents.id = agents_tags.agent_id 
-    WHERE FIND_IN_SET(agents_tags.tag_id, :tags) 
+    WHERE FIND_IN_SET(agents_tags.tag_id, :tags) AND DATE_FORMAT(post_period, '%Y%m%d') >= DATE_FORMAT(now(), '%Y%m%d')
     GROUP BY agents.id
-    ORDER BY count DESC');
+    ORDER BY count DESC");
     $stmt->bindValue(":tags",  $str_tags, PDO::PARAM_STR);
     $stmt->execute();
     $result_agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -139,7 +139,7 @@ $_SESSION['keep_count'] = $keep_count;
             <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
           <!-- お問い合わせへの導線を表示 -->
-          <div id="popup" class="updown mx-auto card shadow text-light" style="position: absolute; right: 20px; width: 200px; background-color: rgba(70, 68, 68, 0.6);">
+          <div id="popup" class="updown mx-auto card shadow text-light p-1" style="position: absolute; right: 20px; width: 200px; background-color: rgba(70, 68, 68, 0.6);">
                         ★クリックで、キープしたエージェントへお問い合わせ
                         <button id="no" class="btn btn-danger py-0" onclick="nofunc()">OK</button>
                     </div>
