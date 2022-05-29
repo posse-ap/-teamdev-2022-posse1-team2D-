@@ -1,0 +1,783 @@
+li {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* body {
+  font-family: "Helvetica", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", YuGothic, "Yu Gothic", "メイリオ", Meiryo, sans-serif;
+} */
+
+
+
+/* -----------------------------------ヘッダー共通部分------------------------------------ */
+#header {
+  background-color: #52A49A;
+}
+
+.main-bg-color {
+  background-color: #52A49A;
+}
+.main-text-color {
+  color: #52A49A;
+}
+
+
+.corporation-link {
+  text-decoration: none;
+
+}
+
+.navbar-dark .navbar-toggler-icon {
+  /* 三本線 */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgb(236, 243, 243)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+.keep-star {
+  text-decoration: none;
+  /* display: inline-block; */
+}
+
+.circle {
+  display: inline-block;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.8rem;
+}
+
+/* ----------------------------------ヘッダー部分（fin)-------------------------------------------- */
+/* -----------------------------------フッター共通部分--------------------------------------------- */
+#footer {
+  background-color: #52A49A;
+  padding: 10px 0px;
+}
+.footer-logo {
+  text-align: center;
+}
+.footer-nav {
+  text-align: center;
+  padding-top: 10px;
+}
+.footer-nav li {
+  display: inline-block;
+  font-size: 10pt;
+  padding: 0 1rem;
+}
+.footer-nav li a{
+  color: black;
+}
+@media screen and (max-width: 480px) {
+  .footer-nav li {
+    /* display: block; */
+    font-size: 5pt;
+  }
+
+  
+}
+
+
+/* -----------------------------------フッター共通部分（fin）-------------------------------------------------- */
+/* --------------------------------------------------TOPページ--------------------------------------------------*/
+/* ---------------コンテンツ部分----------------- */
+
+/* コンテンツを囲う箱クラスwrapper */
+.wrapper {
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  padding-top: 120px;
+}
+
+.admin-wrapper {
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  padding-top: 90px;
+}
+
+/* レスポンシブな文字サイズを3種類用意 */
+
+/* 大デバイス（デスクトップ, 1200px 未満） */
+@media (min-width: 992px) {
+  .wrapper {
+    padding: 0 6rem;
+    padding-top: 140px;
+  }
+
+  .first-size {
+    font-size: 2.4rem;
+  }
+
+  .second-size {
+    font-size: 2.0rem;
+  }
+
+  .third-size {
+    font-size: 1.6rem;
+  }
+
+  .forth-size {
+    font-size: 1.0rem;
+  }
+}
+
+/* 中デバイス（タブレット, 992px 未満） */
+@media (max-width: 991.98px) {
+  .first-size {
+    font-size: 1.8rem;
+  }
+
+  .second-size {
+    font-size: 1.5rem;
+  }
+
+  .third-size {
+    font-size: 1.2rem;
+  }
+
+  .forth-size {
+    font-size: 0.75rem;
+  }
+}
+
+/* 小デバイス（横向きモバイル, 768px 未満） */
+@media (max-width: 767.98px) {
+  .first-size {
+    font-size: 1.5rem;
+  }
+
+  .second-size {
+    font-size: 1.25rem;
+  }
+
+  .third-size {
+    font-size: 1.0rem;
+  }
+
+  .forth-size {
+    font-size: 0.63rem;
+  }
+}
+
+/* @include media-breakpoint-up(sm) { */
+/*  極小デバイス（縦向きモバイル, 576px 未満） */
+@media (max-width: 575.98px) {
+  .first-size {
+    font-size: 1.2rem;
+  }
+
+  .second-size {
+    font-size: 1.0rem;
+  }
+
+  .third-size {
+    font-size: 0.8rem;
+  }
+
+  .forth-size {
+    font-size: 0.5rem;
+  }
+}
+
+.hero {
+  background-color: #EBEDF1;
+  background-size: cover;
+}
+/*==================================================
+じわっ
+===================================*/
+.outline {
+  background: linear-gradient(transparent 70%, #91e1db 70%);
+  text-shadow: 0px 0.5px 0.5px;
+}
+.blur{
+  animation-name:blurAnime;
+  animation-duration:1s;
+  animation-fill-mode:forwards;
+}
+
+@keyframes blurAnime{
+  from {
+  filter: blur(10px);
+  transform: scale(1.02);
+  opacity: 0;
+  }
+
+  to {
+  filter: blur(0);
+  transform: scale(1);
+  opacity: 1;
+  }
+}
+ 
+.blurTrigger{
+    opacity: 0;
+}
+/* SCROLLボタンをふわふわ動かす */
+.updown {
+  animation: updown 1s infinite ease-in-out alternate;
+}
+
+@keyframes updown {
+  0% {
+    transform: translateY(-5px)
+  }
+
+  100% {
+    transform: translateY(5px);
+  }
+}
+
+/* タグのレイアウト */
+.tags {
+  --bs-gutter-x: 0;
+  padding: 0;
+  height: 161px;
+  /* 4行分の高さ+borderの1px */
+  border-top: solid 1px gray;
+  border-left: solid 1px gray;
+  box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+  /* box-shadow: 0 0 8px 4px #ccc; */
+  flex-direction: column;
+  /* 並び順を縦方向に変更 */
+  flex-wrap: wrap;
+  /* box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22); */
+  /* 折返し */
+}
+.second_tags {
+  --bs-gutter-x: 0;
+  padding: 0;
+  height: 121px;
+  /* 4行分の高さ+borderの1px */
+  border-top: solid 1px gray;
+  border-left: solid 1px gray;
+  box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+  /* box-shadow: 0 0 8px 4px #ccc; */
+  flex-direction: column;
+  /* 並び順を縦方向に変更 */
+  flex-wrap: wrap;
+  /* box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22); */
+  /* 折返し */
+}
+
+ul .tag {
+  height: 40px;
+  border-bottom: solid 1px gray;
+  border-right: solid 1px gray;
+  box-sizing: border-box;
+  padding: 0 10px;
+  align-items: center;
+  /* 文字を上下中央にする */
+}
+
+ul .other-tag {
+  height: 40px;
+  border-bottom: solid 1px gray;
+  border-right: solid 1px gray;
+  box-sizing: border-box;
+  /* padding: 0 10px; */
+  display: flex;
+  align-items: center;
+  /* 文字を上下中央にする */
+}
+
+.dropdown .btn {
+  padding: 0 10px;
+}
+
+.dropdown-menu {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.tag input {
+  box-sizing: border-box;
+  /* visibility: hidden; */
+}
+
+.recommend-function {
+  background-color: #52A49A;
+}
+
+.service-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: blue;
+  /*背景色*/
+}
+
+@media (max-width: 768px) {
+  .service-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: blue;
+    /*背景色*/
+  }
+
+  .wrapper {
+    padding-top: 100px;
+  }
+}
+
+.btnx--outline {
+  color: var(--bs-orange);
+  background: var(--bs-white);
+  border: 2px solid #FFCC80;
+}
+
+
+/* ボタン色変更 */
+.search-agents {
+  background-color: #F3AF56;
+}
+
+.search-details {
+  background-color: #F3AF56;
+}
+
+/* 下部コンテンツ////////////////////////////////// */
+.use-craft {
+  background-color: #7DCBC4;
+}
+
+.image-trim {
+  position: relative;
+  overflow: hidden;
+  padding-top: 60%; /* 比率 */
+}
+.image-trim img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* --------------------------------------------------TOPページ(fin)--------------------------------------------------*/
+
+/* --------------------------------------------------boozer管理画面------------------------------------------------- */
+.content{
+  margin: 0 auto;
+  padding: 20px;
+}
+.modal{
+  display: none;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+.modal__bg{
+  background: rgba(0,0,0,0.8);
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+}
+.modal__content{
+  background: #fff;
+  left: 50%;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 40%;
+}
+
+.modal-top {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.75rem;
+  border-top: 1px solid #dee2e6;
+}
+
+a:link {text-decoration:none }
+a.page_number:visited {color: black; text-decoration:none }
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 15px;
+}
+.page_feed {
+  width: 30px;
+  margin: 0 10px;
+  padding: 5px 10px;
+  text-align: center;
+  background: #b8b8b8;
+  color: black;
+}
+.first_last_page {
+  width: 30px;
+  margin: 0 10px;
+  padding: 5px 10px;
+  text-align: center;
+  background: #f0f0f0;
+  color: black;
+}
+
+a:link {text-decoration:none }
+a.page_number:visited {color: black; text-decoration:none }
+.page_number {
+  width: 30px;
+  margin: 0 10px;
+  padding: 5px;
+  text-align: center;
+  background: #b8b8b8;
+  color: black;
+}
+.now_page_number {
+  width: 30px;
+  margin: 0 10px;
+  padding: 5px;
+  text-align: center;
+  background: #f0f0f0;
+  color: black;
+  font-weight: bold;
+}
+/* --------------------------------------------------boozer管理画面(fin)------------------------------------------------- */
+
+/*------------------------------------- 検索結果ページ------------------------------- */
+.result-contents {
+  --bs-gutter-x: 0;
+}
+.result-content {
+  background-color: #EBEDF1;
+}
+
+.keep-btn {
+  background-color: #F3AF56;
+  border-radius: 6px;
+}
+
+/*  極小デバイス（縦向きモバイル, 576px 未満） */
+@media (max-width: 575.98px) {
+
+
+}
+
+
+
+/*////////////////////////////////// キープ企業確認画面//////////////////////////////// */
+.delete-btn {
+  background-color: #F3AF56;
+  border-radius: 6px;
+}
+
+.contact-btn {
+  /* background-color: #F38456; */
+  background-color: #DD544D;
+}
+
+.continue-btn {
+  background-color: #F3AF56;
+}
+
+
+/*////////////////////////////////// エージェント詳細画面////////////////////////////////// */
+.container {
+  background-color: #EBEDF1;
+}
+
+
+/*////////////////////////////////// おもうしこみフォーム画面////////////////////////////////// */
+.Form {
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 720px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form {
+    margin-top: 20px;
+  }
+}
+
+.Form-Item {
+  border-top: 1px solid #ddd;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    flex-wrap: wrap;
+  }
+}
+.Form-Item:nth-child(5) {
+  border-bottom: 1px solid #ddd;
+}
+.Form-Item-Label {
+  width: 100%;
+  max-width: 248px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  font-size: 18px;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Label {
+    max-width: inherit;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+}
+.Form-Item-Label.isMsg {
+  margin-top: 8px;
+  margin-bottom: auto;
+}
+@media screen and (max-width: 480px) {
+  .Form-Item-Label.isMsg {
+    margin-top: 0;
+  }
+}
+.Form-Item-Label-Required {
+  border-radius: 6px;
+  margin-right: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 48px;
+  display: inline-block;
+  text-align: center;
+  background: #5bc8ac;
+  color: #fff;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item-Label-Required {
+    border-radius: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 32px;
+    font-size: 10px;
+  }
+}
+.Form-Item-Input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 48px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item-Input {
+    margin-left: 0;
+    margin-top: 18px;
+    height: 40px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+.Form-Item-Textarea {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 216px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 480px) {
+  .Form-Item-Textarea {
+    margin-top: 18px;
+    margin-left: 0;
+    height: 200px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+
+
+
+@media screen and (max-width: 480px) {
+  .Form-Btn {
+    margin-top: 24px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 160px;
+    font-size: 16px;
+  }
+}
+
+
+/* プライバシーポリシー */
+.Form-CheckItem {
+  margin-top: 24px;
+  }
+
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem {
+  margin-top: 18px;
+  }
+  }
+
+  .Form-CheckItem-Label {
+  margin-top: 20px;
+  position: relative;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  }
+
+  .Form-CheckItem-Label-Input {
+  display: none;
+  }
+
+  .Form-CheckItem-Label-SquareIcon {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  display: block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  background: #eaedf2;
+  }
+
+
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem-Label-SquareIcon {
+  width: 15px;
+  height: 15px;
+  }
+  }
+
+  .Form-CheckItem-Label-Text {
+  padding-left: 8px;
+  }
+
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem-Label-Text {
+  padding-left: 6px;
+  font-size: 3.6vw;
+  }
+  }
+
+  .Form-Btn {
+    border-radius: 6px;
+    margin: 32px auto;
+    /* margin-left: auto;
+    margin-right: auto; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 280px;
+    display: block;
+    letter-spacing: 0.05em;
+    background: #52A49A;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    opacity: 0.2;
+  pointer-events: none;
+  transition: all 0.2s;
+  }
+
+
+  @media screen and (max-width: 480px) {
+  .Form-Btn {
+  margin-top: 24px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 160px;
+  font-size: 16px;
+  }
+  }
+  .Form-Btn.isActive {
+  opacity: 1;
+  pointer-events: inherit;
+  }
+  .Form-CheckItem-Label-Input:checked + *:before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #5bc8ac;
+  transform-origin: bottom left;
+  transform: rotateZ(90deg);
+  }
+  .Form-CheckItem-Label-Input:checked + *:after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 2px;
+  background: #5bc8ac;
+  transform-origin: bottom left;
+  transform: rotateZ(0deg);
+  }
+  .Form-CheckItem-Label-Input:checked + * {
+  width: 0;
+  height: 0;
+  transform: translate(8px, 8px) rotateZ(-135deg) scale(1.5);
+  }
+  @media screen and (max-width: 480px) {
+  .Form-CheckItem-Label-Input:checked + * {
+  transform: translate(5px, 7px) rotateZ(-135deg) scale(1.5);
+  }
+  }
+
+
+/* プライバシーポリシーのドロップダウン */
+.box {
+  height: 150px;
+  border: 1px solid;
+  overflow-y: scroll;
+}
+
+
+  /*////////////////////////////////// サンクスページ////////////////////////////////// */
+  .thanks {
+    background-color: #EBEDF1;
+  }
+
+  .contact-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #F3AF56;
+    border: #ddd;
+    /*背景色*/
+  }
+
+
+  /*////////////////////////////////// boozerへの問い合わせフォーム////////////////////////////////// */
+  /* そのまま送信できるインプットタグ */
+  .unchecked {
+    opacity: 1;
+    pointer-events: inherit;
+  }
