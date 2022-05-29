@@ -51,7 +51,7 @@ if (empty($_SESSION['keep_count'])) {
                     <a href="/admin/agent-index.php" class="h5 text-light d-none d-md-inline corporation-link me-5">エージェントの方へ</a>
                     <a href="/admin/index.php" class="h5 text-light d-none d-md-inline corporation-link">CRAFT担当者へ</a>
                     <!-- キープマーク -->
-                    <a href="keep.php" class="keep-star ms-5">
+                    <a href="keep.php" class="keep-star ms-5" style="position: relative;">
                         <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
                         <span class="d-inline bg-danger px-2 py-1 text-white circle"><?= $keep_count; ?></span>
                     </a>
@@ -96,17 +96,62 @@ if (empty($_SESSION['keep_count'])) {
                     <form action="/result.php" method="POST">
                         <p class="second-size fw-bold text-center my-2 mt-md-2">タグで絞り込む<i class="bi bi-check-all"></i></p>
                         <ul class="tags row">
-                            <li class="tag col-6 fw-bold text-center pt-2">分野</li>
+                            <li class="tag col-6 fw-bold text-center pt-2">求人エリア</li>
                             <?php //tagを取得する
                             $stmt = $db->query('SELECT id, name FROM tags');
-                            $tags = $stmt->fetchAll(PDO::FETCH_ASSOC); ?>
-                            <?php foreach ($tags as $key => $tag) : ?>
+                            $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            ?>
+                            <?php for ($i = 0; $i <= 2; $i++) : ?>
+                                <label for="<?= $tags[$i]["id"]; ?>" class="tag col-6 pt-2">
+                                    <li>
+                                        <input id="<?= $tags[$i]["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tags[$i]["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tags[$i]["name"]; ?>
+                                    </li>
+                                </label>
+                            <?php endfor; ?>
+                            <li class="tag col-6 fw-bold text-center pt-2">紹介傾向</li>
+                            <?php for ($i = 3; $i <= 5; $i++) : ?>
+                                <label for="<?= $tags[$i]["id"]; ?>" class="tag col-6 pt-2">
+                                    <li>
+                                        <input id="<?= $tags[$i]["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tags[$i]["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tags[$i]["name"]; ?>
+                                    </li>
+                                </label>
+                            <?php endfor; ?>
+                            <!-- <?php foreach ($tags as $key => $tag) : ?>
                                 <label for="<?= $tag["id"]; ?>" class="tag col-6 pt-2">
                                     <li>
                                         <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
                                     </li>
                                 </label>
-                            <?php endforeach; ?>
+                            <?php endforeach; ?> -->
+                        </ul>
+                        <ul class="second_tags row">
+                            <li class="tag col-6 fw-bold text-center pt-2">学問分野</li>
+                            <?php //tagを取得する
+                            $stmt = $db->query('SELECT id, name FROM tags');
+                            $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            ?>
+                            <?php for ($i = 6; $i <= 7; $i++) : ?>
+                                <label for="<?= $tags[$i]["id"]; ?>" class="tag col-6 pt-2">
+                                    <li>
+                                        <input id="<?= $tags[$i]["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tags[$i]["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tags[$i]["name"]; ?>
+                                    </li>
+                                </label>
+                            <?php endfor; ?>
+                            <li class="tag col-6 fw-bold text-center pt-2">面談</li>
+                            <?php for ($i = 8; $i <= 9; $i++) : ?>
+                                <label for="<?= $tags[$i]["id"]; ?>" class="tag col-6 pt-2">
+                                    <li>
+                                        <input id="<?= $tags[$i]["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tags[$i]["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tags[$i]["name"]; ?>
+                                    </li>
+                                </label>
+                            <?php endfor; ?>
+                            <!-- <?php foreach ($tags as $key => $tag) : ?>
+                                <label for="<?= $tag["id"]; ?>" class="tag col-6 pt-2">
+                                    <li>
+                                        <input id="<?= $tag["id"]; ?>" type="checkbox" name="tag[]" value="<?= $tag["id"]; ?>" class="q2 form-check-input me-1" id="flexCheckDefault"><?= $tag["name"]; ?>
+                                    </li>
+                                </label>
+                            <?php endforeach; ?> -->
                         </ul>
                         <button type="submit" class="search-agents mb-3 btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
                     </form>
