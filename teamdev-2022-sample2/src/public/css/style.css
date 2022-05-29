@@ -10,6 +10,8 @@ img {
   font-family: "Helvetica", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", YuGothic, "Yu Gothic", "メイリオ", Meiryo, sans-serif;
 } */
 
+
+
 /* -----------------------------------ヘッダー共通部分------------------------------------ */
 #header {
   background-color: #52A49A;
@@ -314,6 +316,10 @@ ul .other-tag {
 
 
 /* 下部コンテンツ////////////////////////////////// */
+.use-craft {
+  background-color: #7DCBC4;
+}
+
 .image-trim {
   position: relative;
   overflow: hidden;
@@ -718,16 +724,26 @@ a.page_number:visited {color: black; text-decoration:none }
   }
   }
 
+
+/* プライバシーポリシーのドロップダウン */
+.box {
+  height: 150px;
+  border: 1px solid;
+  overflow-y: scroll;
+}
+
+
   /*////////////////////////////////// サンクスページ////////////////////////////////// */
   .thanks {
     background-color: #EBEDF1;
   }
 
   .contact-circle {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: #F3AF56;
+    border: #ddd;
     /*背景色*/
   }
 

@@ -41,7 +41,7 @@ if (empty($_SESSION['keep_count'])) {
         <nav class="navbar navbar-dark fixed-top py-1 px-4" id="header">
             <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+                <a class="navbar-brand fw-bold me-md-5 text-light" href="index.php#">
                     <h1 class="mb-0">CRAFT</h1>
                     <div class="h6">by 就活.com</div>
                 </a>
@@ -74,9 +74,6 @@ if (empty($_SESSION['keep_count'])) {
                         </li>
                         <li class="nav-item col-md-6">
                             <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
-                        </li>
-                        <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
                         </li>
                         <li class="nav-item col-md-6">
                             <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
@@ -114,7 +111,7 @@ if (empty($_SESSION['keep_count'])) {
                 <!-- 就活エージェント説明カード -->
                 <section class="col-md-4 mt-md-4 mb-4 bg-light bg-body rounded">
                     <div class="text-center">
-                        <p class="second-size fw-bold my-2 mt-md-2">就活エージェントとは<i class="ps-2 bi bi-question-diamond"></i></p>
+                        <p id="jobHuntingSec" class="second-size fw-bold my-2 mt-md-2">就活エージェントとは<i class="ps-2 bi bi-question-diamond"></i></p>
                         <div class="mx-auto">
                             <p class="third-size text-start lh-base">
                                 コンサルタントに相談し、プロフェッショナルな視点から、強みの引き出しや適職の紹介を受けることができるサービスです。
@@ -177,8 +174,8 @@ if (empty($_SESSION['keep_count'])) {
             </main>
         </div>
         <div class="wrapper pt-0">
-            <p id="CRAFTSec" class="second-size fw-bold text-center">CRAFTを利用した就活の流れ</p>
-            <div class="d-flex flex-wrap align-items-center justify-content-center my-3 my-md-5">
+            <p id="CRAFTSec" class="second-size fw-bold text-center p-1 text-light use-craft">CRAFTを利用した就活の流れ</p>
+            <div class="d-flex flex-wrap align-items-center justify-content-center my-1 py-1 my-md-5 bg-light">
                 <div class="text-center col-md-4 col-6">
                     <p class="third-size">①クラフト使用</p>
                     <img src="public/images/logo_4.png" alt="" class="w-25">
@@ -204,8 +201,8 @@ if (empty($_SESSION['keep_count'])) {
                     <img src="public/images/logo_6.png" alt="" class="w-25">
                 </div>
             </div>
-            <p class="second-size fw-bold text-center">CRAFTを利用するメリット</p>
-            <div class="d-flex flex-wrap align-items-center justify-content-center my-3 py-3 my-md-5 bg-light">
+            <p class="second-size fw-bold text-center p-1 text-light use-craft">CRAFTを利用するメリット</p>
+            <div class="d-flex flex-wrap align-items-center justify-content-center my-1 py-1 my-md-5 bg-light">
                 <div class="text-center col-md-5 col-6 px-2">
                     <p class="third-size">自分の希望に合った<br>エージェントが絞り込める</p>
                     <div class="image-trim">
@@ -236,7 +233,7 @@ if (empty($_SESSION['keep_count'])) {
         <!-- <button type="button" class="ps-3 btn btnx--outline"><i class="bi bi-pencil-square"></i>お問い合わせはこちら</button> -->
     </div>
     <!-- フッター -->
-    <footer>
+    <footer class="mt-3">
         <div id="footer">
             <div class="text-center">
                 <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
@@ -265,7 +262,6 @@ if (empty($_SESSION['keep_count'])) {
             </div>
         </div>
     </footer>
-
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- 私たちのJS -->

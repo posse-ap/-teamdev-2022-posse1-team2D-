@@ -70,7 +70,7 @@ if (!empty($_POST["btn_submit"])) {
         };
 
         // thanksページにリダイレクト
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . './thanks.php');
+        header('Location: http://' . $_SERVER['HTTP_HOST'] . '/thanks.php');
         exit();
     } catch (PDOException $e) {
         exit('データベースに接続できませんでした。' . $e->getMessage());

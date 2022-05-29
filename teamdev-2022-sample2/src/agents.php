@@ -37,6 +37,7 @@ $keep_count = intval($keep_count);
 </head>
 
 <body>
+<div class="all-wrapper">
   <!-- ヘッダー -->
   <header>
     <!-- ナヴィゲーション -->
@@ -163,7 +164,7 @@ $keep_count = intval($keep_count);
     </div>
   </footer>
 
-
+</div>
 
 
 

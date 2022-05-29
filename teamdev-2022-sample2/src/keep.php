@@ -76,7 +76,7 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
       <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
       <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+        <a class="navbar-brand fw-bold me-md-5 text-light" href="index.php">
           <h1 class="mb-0">CRAFT</h1>
           <div class="h6">by 就活.com</div>
         </a>
@@ -108,9 +108,6 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
@@ -167,17 +164,18 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
     </div>
     <div class="d-flex flex-column align-items-center">
       <a class="btn btn-danger" href="form.php"><i class="bi bi-pencil-square"></i>フォームでお問い合わせ</a>
-      <a class="btn continue-btn my-5 text-light" href="index.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
+      <p>※一社以上のキープが必要です。</p>
+      <a class="btn continue-btn my-3 text-light" href="index.php"><i class="bi bi-arrow-left-circle"></i>企業探しを続ける</a>
     </div>
   </div>
       <!-- フッター -->
-      <footer>
+      <footer class="mt-5">
         <div id="footer">
             <div class="text-center">
-                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+                <a class="h1 mb-0 me-md-5 text-light" href="index.php">CRAFT</a>
             </div>
             <div class="text-center">
-                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+                <a class="h6 me-md-5 text-light" href="index.php">by 就活.com</a>
             </div>
             <div class="footer-nav">
                 <ul class="ps-0">
@@ -192,9 +190,6 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
                     </li>
                     <li>
                         <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="#">よくあるご質問</a>
                     </li>
                     <li>
                         <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>

@@ -130,7 +130,7 @@ stars();
 // プライバシーポリシーに同意したらお申込み送信
 $(function(){
    $('.Form-CheckItem-Label').on('click', function(){
-   if ($('#JS_CheckItem').prop("checked") == true) {
+   if ($('#check').prop("checked") == true) {
    $('.send').addClass('isActive');
    } else {
    $('.send').removeClass('isActive');
@@ -151,5 +151,10 @@ let defaultWord = document.querySelector(".default-word");
   });
 
 
-
-
+// プライバシーポリシーのドロップダウン
+let box = document.getElementsByClassName('box');
+box[0].onscroll = (event) => {
+  if (event.target.clientHeight + event.target.scrollTop === event.target.scrollHeight) {
+    document.getElementById('check').disabled = false;
+  }       
+}

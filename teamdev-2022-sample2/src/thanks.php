@@ -26,7 +26,7 @@
             <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
             <div class="container-fluid">
 
-                <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+                <a class="navbar-brand fw-bold me-md-5 text-light" href="index.php">
                     <h1 class="mb-0">CRAFT</h1>
                     <div class="h6">by 就活.com</div>
                 </a>
@@ -55,9 +55,6 @@
                             <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
                         </li>
                         <li class="nav-item col-md-6">
-                            <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
-                        </li>
-                        <li class="nav-item col-md-6">
                             <a class="h6 nav-link text-dark" href="contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
                         </li>
                     </ul>
@@ -67,14 +64,14 @@
     </header>
     <div class="wrapper">
         <!-- サンクスページ -->
-        <div class="card thanks p-3 align-items-center justify-content-center">
+        <div class="card thanks p-3 align-items-center justify-content-center m-3">
             <h1>Thanks!!</h1>
             <p class="second-size">お問い合わせを受け付けました。</p>
-            <p>折り返し自動送信メール（確認メール）をお送りさせていただきました。？？？？</p>
+            <p>折り返し自動送信メール（確認メール）をお送りさせていただきました。</p>
             <p> お問い合わせ内容を確認のうえ、回答させて頂きます。 </p>
             <div class="d-flex">
-                <p>メールが届いていない場合<br>boozerへのお問い合わせ⇒</p>
-                <button onclick="location.href='contact.php'" class="contact-circle  align-items-center justify-content-center mx-2 text-light"><i class="bi bi-envelope"></i></button>
+                <p class="text-success">メールが届いていない場合<br>boozerへのお問い合わせ⇒</p>
+                <button onclick="location.href='contact.php'" class="contact-circle align-items-center justify-content-center mx-2 text-light"><i class="bi bi-envelope"></i></button>
             </div>
             <a href="index.php" class="my-2 link-success"><i class="bi bi-skip-backward-circle"></i>Topページに戻る</a>
         </div>
@@ -85,10 +82,10 @@
         <footer>
         <div id="footer">
             <div class="text-center">
-                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+                <a class="h1 mb-0 me-md-5 text-light" href="index.php">CRAFT</a>
             </div>
             <div class="text-center">
-                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+                <a class="h6 me-md-5 text-light" href="index.php">by 就活.com</a>
             </div>
             <div class="footer-nav">
                 <ul class="ps-0">
@@ -105,17 +102,13 @@
                         <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
                     </li>
                     <li>
-                        <a class="text-light" href="#">よくあるご質問</a>
-                    </li>
-                    <li>
                         <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
                     </li>
                 </ul>
             </div>
         </div>
-    </footer>
 
-
+</div>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
