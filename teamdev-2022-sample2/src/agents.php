@@ -103,7 +103,7 @@ $keep_count = intval($keep_count);
           </div>
           <div class="col-5 col-md-6 result-content ps-3 my-0">
             <p class="second-size fw-bold"><?= $all_agent['agent_name']; ?></p>
-            <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
+            <p class="forth-size mb-0"><i class="bi bi-tags-fill text-success"></i>タグ</p>
             <p class="forth-size">
               <?php foreach ($all_agents_tags as $key => $all_agents_tag) {
                 echo $all_agents_tag, ' ';

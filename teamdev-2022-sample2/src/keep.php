@@ -129,13 +129,13 @@ if ($agent['keep_id'] != '' && $agent['keep_email'] != '') {
           </div>
           <div class="col-4 result-content ps-3">
             <p class="first-size fw-bold"><?php echo $name; ?></p>
-            <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i>タグ</p>
+            <p class="forth-size mb-0"><i class="bi bi-tags-fill text-success"></i>タグ</p>
             <p class="forth-size mb-1"><?php foreach ($agent['keep_tags'] as $key => $agent_keep_tag) : ?><?php echo $agent_keep_tag . " "; ?><?php endforeach; ?></p>
             <div class="mb-1">
-              <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1"></i>強みの業界</p>
+              <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1 text-success"></i>強みの業界</p>
               <p class="forth-size mb-0"><?= $agent['keep_industry']; ?></p>
             </div>
-            <p class="forth-size mb-0"><i class="bi bi-envelope-fill pe-1"></i>お問い合わせ数</p>
+            <p class="forth-size mb-0"><i class="bi bi-envelope-fill pe-1 text-success"></i>お問い合わせ数</p>
             <p class="forth-size mb-0"><?= $agent["keep_students_count"]; ?><span class="ps-1">件</span></p>
           </div>
           <div class="rounded-end col-4 result-content d-flex flex-column justify-content-around align-items-end pe-3">

@@ -12,6 +12,13 @@ if (empty($_SESSION['keep_count'])) {
 } else {
     $keep_count = $_SESSION['keep_count'];
 }
+
+if (isset($_POST['remove'])) {
+    unset($_SESSION['agents']);
+    $keep_count = 0;
+    $_SESSION['keep_count'] = $keep_count;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -150,7 +157,7 @@ if (empty($_SESSION['keep_count'])) {
                                 </label>
                             <?php endforeach; ?> -->
                         </ul>
-                        <button type="submit" class="search-agents mb-3 btn btn-success d-block mx-auto">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
+                        <button type="submit" class="search-agents mb-3 btn d-block mx-auto text-light">チェック内容で検索<i class="bi bi-search ms-2"></i></button>
                     </form>
                 </section>
                 <!-- 就活エージェント説明カード -->
@@ -165,7 +172,7 @@ if (empty($_SESSION['keep_count'])) {
                             </p>
                         </div>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success mt-2 mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="search-details btn mt-md-4 mb-3 text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             クリックで詳細表示
                             <i class="bi bi-arrow-left-circle"></i>
                         </button>

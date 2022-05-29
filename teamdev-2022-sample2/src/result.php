@@ -170,6 +170,13 @@ $_SESSION['keep_count'] = $keep_count;
       </div>
     </nav>
   </header>
+  <?php $blackedStar = array();
+  if (isset($_SESSION['agents'])) {
+    foreach ($_SESSION['agents'] as $session_agents){
+      array_push($blackedStar, "black-star");
+      $_SESSION['blacked_Star'] = $blackedStar;
+    }
+  } ?>
   <!-- コンテンツ -->
   <div class="wrapper">
     <p class="h2 fw-bold text-center">検索結果一覧</p>
@@ -251,7 +258,25 @@ $_SESSION['keep_count'] = $keep_count;
               <input type="hidden" name="industry" value="<?= $result_agent['appeal']; ?>">
               <input type="hidden" name="students_count" value="<?= $students_count; ?>">
               <input type="hidden" value="1" name="count">
-              <button type="submit" class="keep-btn bi bi-star white-star keep">キープ</button>
+              <button type="submit" name="keep_change" class="keep-btn bi keep
+              <?php
+              if (!empty($_SESSION['agents']) && $result_agent['agent_name'] == $keep_name) {
+                echo " " . "bi-star-fill";
+                echo " " . "black-star";
+              } else if (isset($_SESSION['agents'][$result_agent['agent_name']])) {
+                echo " " . "bi-star-fill";
+                echo " " . "black-star";
+              } else if (empty($_SESSION['agents'])) {
+                echo " " . "bi-star";
+                echo " " . "white-star";
+              } else if (!empty($_SESSION['blacked_Star']) && $result_agent['agent_name'] !== $keep_name) {
+                echo " " . "bi-star";
+                echo " " . "white-star";
+              } else if (!empty($_SESSION['agents'][$result_agent['agent_name']])) {
+                echo " " . "bi-star";
+                echo " " . "white-star";
+              }
+              ?>">キープ</button>
             </form>
           </div>
         </div>

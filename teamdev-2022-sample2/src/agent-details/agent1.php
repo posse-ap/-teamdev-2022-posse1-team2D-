@@ -20,57 +20,6 @@ $keep_count = $_SESSION['keep_count'];
 $keep_count = intval($keep_count);
 ?>
 
-<!-- やばいここ↓、result.phpの詳細ページリンクもいじった -->
-<!-- <?php
-if (isset($_POST['name'], $_POST['keep_id'],$_POST['tags'])) {
-  $keep_name = isset($_POST['name']) ? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : ' ';
-  $keep_id = isset($_POST['keep_id']) ? htmlspecialchars($_POST['keep_id'], ENT_QUOTES, 'utf-8') : ' ';
-  $keep_tags = $_POST['tags'];
-
-  function myhtmlspecialchars($keep_tags)
-  {
-    if (is_array($keep_tags)) {
-      return array_map("myhtmlspecialchars", $keep_tags);
-    } else {
-      return htmlspecialchars($keep_tags, ENT_QUOTES, 'utf-8');
-    }
-  };
-
-  $keep_site = isset($_POST['official_site']) ? htmlspecialchars($_POST['official_site'], ENT_QUOTES, 'utf-8') : ' ';
-  $keep_detail = isset($_POST['detail']) ? htmlspecialchars($_POST['detail'], ENT_QUOTES, 'utf-8') : ' ';
-  $keep_logo = isset($_POST['logo']) ? htmlspecialchars($_POST['logo'], ENT_QUOTES, 'utf-8') : ' ';
- 
-  // // もし、sessionにproductsがあったら
-  if ($keep_name != '' && $keep_id != ''&& $keep_tags != '' && $keep_site != '' && $keep_logo != '' && $keep_detail != '') {
-    $_SESSION['agents'][$keep_name] = [
-      'keep_id' => $keep_id,
-      'keep_tags' => $keep_tags,
-      'keep_site' => $keep_site,
-      'keep_detail' => $keep_detail,
-      'keep_logo' => $keep_logo,
-    ];
-  }
-  $keep_count = null;
-  foreach ($_SESSION['agents'] as $post_name) {
-    $keep_count = $keep_count + 1;
-  }
-
-  $agents = isset($_SESSION['agents']) ? $_SESSION['agents'] : [];
-}
-
-if(isset($agents)){
-         foreach($agents as $key => $agent){
-             echo $key;      //商品名
-             echo "<br>";
-             echo $agent['keep_site'];  //商品の個数
-             echo "<br>";
-             echo $agent['keep_detail']; //商品の金額
-             echo "<br>";
-         }
-     }
-  
-$_SESSION['keep_count'] = $keep_count;
-?> -->
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -98,7 +47,7 @@ $_SESSION['keep_count'] = $keep_count;
       <!-- container-fluid・・・横幅はどのデバイスでも画面幅全体 -->
       <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold me-md-5 text-light" href="#">
+        <a class="navbar-brand fw-bold me-md-5 text-light" href="../index.php">
           <h1 class="mb-0">CRAFT</h1>
           <div class="h6">by 就活.com</div>
         </a>
@@ -120,19 +69,16 @@ $_SESSION['keep_count'] = $keep_count;
         <div class="collapse navbar-collapse bg-light navbar-expand-lg" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 ps-3 py-2 mb-lg-0 row">
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link active text-dark" aria-current="page" href="index.php">トップページ</a>
+              <a class="h6 nav-link active text-dark" aria-current="page" href="../index.php">トップページ</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="../agents.php">エージェント一覧</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+              <a class="h6 nav-link text-dark" href="../index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
             </li>
             <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="index.php#jobHuntingSec">就活エージェントとは</a>
-            </li>
-            <li class="nav-item col-md-6">
-              <a class="h6 nav-link text-dark" href="#">よくあるご質問</a>
+              <a class="h6 nav-link text-dark" href="../index.php#jobHuntingSec">就活エージェントとは</a>
             </li>
             <li class="nav-item col-md-6">
               <a class="h6 nav-link text-dark" href="../contact.php">boozerへのお問い合わせ<i class="bi bi-pencil-square"></i></a>
@@ -145,16 +91,16 @@ $_SESSION['keep_count'] = $keep_count;
   <!-- コンテンツ -->
   <div class="wrapper">
     <div class="first-size"><a href="../result.php"><i class="bi bi-arrow-left-circle link-dark" type="button" onclick="window.close();" value="window.close()" href="../result.php"></i></a>エージェント企業一覧に戻る</div>
-    <div class="container rounded">
-      <div class="row d-flex py-2">
+    <div class="container rounded col-10">
+      <div class="row d-flex py-2 my-3">
         <div class="col-md-5"><img src="../public/images/<?php echo $img; ?>" class="" alt="企業ロゴ"></div>
         <div class="col-md-7 ">
           <p class="h1 fw-bold py-2"><?= $name ?></p>
-          <p class="forth-size mb-0"><i class="bi bi-tags-fill"></i><span class="fw-bold">タグ</span></p>
+          <p class="forth-size mb-0"><i class="bi bi-tags-fill text-success"></i><span class="fw-bold">タグ</span></p>
           <p class="forth-size">
             <?= $tag; ?>
           </p>
-          <p class="forth-size mb-0"><i class="bi bi-megaphone-fill pe-1"></i>強みの業界</p>
+          <p class="forth-size mb-0 fw-bold"><i class="bi bi-megaphone-fill pe-1 text-success"></i>強みの業界</p>
           <p class="forth-size"><?= $industry; ?></p>
           <p class="forth-size"><span class="fw-bold">・代表者：</span><?= $representative ?></p>
           <p class="forth-size"><span class="fw-bold">・所在地：</span><?= $address ?></p>
@@ -175,9 +121,8 @@ $_SESSION['keep_count'] = $keep_count;
         <input type="hidden" name="official_site" value="<?= $url; ?>">
         <input type="hidden" name="detail" value="agent-details/agent1.php?name=<?= $name; ?>&url=<?= $url; ?>&tag=<?php foreach ($tags as $key => $tag) {
                                                                                                                                                                         echo $tag . ' ';
-                                                                                                                                                                    } ?>&representative=<?= $representative; ?>&address=<?= $address; ?>&img=<?= $img; ?>?>">
+                                                                                                                                                             } ?>&representative=<?= $representative; ?>&address=<?= $address; ?>&img=<?= $img; ?>?>">
         <input type="hidden" name="logo" value="<?= $img; ?>">
-        <button type="submit" class="keep-btn bi bi-star white-star my-5 px-5">キープする</button>
       </form>
     </div>
   </div>
@@ -185,30 +130,27 @@ $_SESSION['keep_count'] = $keep_count;
    <footer>
         <div id="footer">
             <div class="text-center">
-                <a class="h1 mb-0 me-md-5 text-light" href="#">CRAFT</a>
+                <a class="h1 mb-0 me-md-5 text-light" href="../index.php">CRAFT</a>
             </div>
             <div class="text-center">
-                <a class="h6 me-md-5 text-light" href="#">by 就活.com</a>
+                <a class="h6 me-md-5 text-light" href="../index.php">by 就活.com</a>
             </div>
             <div class="footer-nav">
                 <ul class="ps-0">
                     <li>
-                        <a class="text-light" href="index.php">トップページ</a>
+                        <a class="text-light" href="../index.php">トップページ</a>
                     </li>
                     <li>
-                        <a class="text-light" href="agents.php">エージェント一覧</a>
+                        <a class="text-light" href="../agents.php">エージェント一覧</a>
                     </li>
                     <li>
-                        <a class="text-light" href="index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
+                        <a class="text-light" href="../index.php#CRAFTSec">CRAFTを利用した就活の流れ</a>
                     </li>
                     <li>
-                        <a class="text-light" href="index.php#jobHuntingSec">就活エージェントとは</a>
+                        <a class="text-light" href="../index.php#jobHuntingSec">就活エージェントとは</a>
                     </li>
                     <li>
-                        <a class="text-light" href="#">よくあるご質問</a>
-                    </li>
-                    <li>
-                        <a class="text-light" href="contact.php">boozerへのお問い合わせ</a>
+                        <a class="text-light" href="../contact.php">boozerへのお問い合わせ</a>
                     </li>
                 </ul>
             </div>
