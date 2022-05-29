@@ -138,6 +138,11 @@ $_SESSION['keep_count'] = $keep_count;
             <i class="bi bi-star text-light" style="font-size: 1.6rem;"></i>
             <span class="d-inline bg-danger px-2 py-1 text-white circle"><?php echo $keep_count; ?></span>
           </a>
+          <!-- お問い合わせへの導線を表示 -->
+          <div id="popup" class="updown mx-auto card shadow text-light" style="position: absolute; right: 20px; width: 200px; background-color: rgba(70, 68, 68, 0.6);">
+                        ★クリックで、キープしたエージェントへお問い合わせ
+                        <button id="no" class="btn btn-danger py-0" onclick="nofunc()">OK</button>
+                    </div>
           <!-- ハンバーガーメニューボタン -->
           <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -262,6 +267,15 @@ WHERE agents.agent_name = :agent_name
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- 私たちのJS -->
   <script src="public/js/app.js"></script>
+  <script>
+    let confirm = document.getElementById("confirm")
+    window.onload = function (){
+        document.getElementById('popup').style.display = 'block';
+    }
+    function nofunc() { // キャンセルをクリックした場合
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
 </body>
 
 </html>

@@ -212,7 +212,7 @@ img {
     opacity: 0;
 }
 /* SCROLLボタンをふわふわ動かす */
-/* .updown {
+.updown {
   animation: updown 1s infinite ease-in-out alternate;
 }
 
@@ -224,13 +224,28 @@ img {
   100% {
     transform: translateY(5px);
   }
-} */
+}
 
 /* タグのレイアウト */
 .tags {
   --bs-gutter-x: 0;
   padding: 0;
   height: 161px;
+  /* 4行分の高さ+borderの1px */
+  border-top: solid 1px gray;
+  border-left: solid 1px gray;
+  box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+  /* box-shadow: 0 0 8px 4px #ccc; */
+  flex-direction: column;
+  /* 並び順を縦方向に変更 */
+  flex-wrap: wrap;
+  /* box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22); */
+  /* 折返し */
+}
+.second_tags {
+  --bs-gutter-x: 0;
+  padding: 0;
+  height: 121px;
   /* 4行分の高さ+borderの1px */
   border-top: solid 1px gray;
   border-left: solid 1px gray;
