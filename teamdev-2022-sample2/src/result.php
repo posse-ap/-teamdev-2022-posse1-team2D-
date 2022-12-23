@@ -19,7 +19,7 @@ if (isset($_POST['tag'])) {
     $stmt = $db->prepare("SELECT agents.id, agent_name, agent_url, COUNT(*) AS count, representative, address, appeal, email, img, post_period
     FROM agents
     INNER JOIN agents_tags ON agents.id = agents_tags.agent_id 
-    WHERE FIND_IN_SET(agents_tags.tag_id, :tags) AND DATE_FORMAT(post_period, '%Y%m%d') >= DATE_FORMAT(now(), '%Y%m%d')
+    WHERE FIND_IN_SET(agents_tags.tag_id, :tags) AND DATE_FORMAT(post_period, '%Y%m%d') <= DATE_FORMAT(now(), '%Y%m%d')
     GROUP BY agents.id
     ORDER BY count DESC");
     $stmt->bindValue(":tags",  $str_tags, PDO::PARAM_STR);

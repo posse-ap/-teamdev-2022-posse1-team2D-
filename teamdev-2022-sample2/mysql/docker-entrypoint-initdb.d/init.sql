@@ -141,27 +141,27 @@ INSERT INTO
 SET
     email = 'test@employee2.com',
     password = sha1('employee2'),
-    agent_id = 2;
+    agent_id = 3;
 
 INSERT INTO
     employees
 SET
     email = 'test@employer.com',
     password = sha1('employer'),
-    agent_id = 1;
+    agent_id = 4;
 
 INSERT INTO
     employees
 SET
     email = 'test@boss.com',
     password = sha1('boss'),
-    agent_id = 3;
+    agent_id = 5;
 INSERT INTO
     employees
 SET
     email = 'test@agent4.com',
     password = sha1('agent4'),
-    agent_id = 4;
+    agent_id = 6;
 
 DROP TABLE IF EXISTS students;
 
