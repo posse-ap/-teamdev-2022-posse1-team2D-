@@ -231,7 +231,7 @@ if (isset($_POST['remove'])) {
                     <img src="public/images/logo_2.png" alt="" class="w-25">
                 </div>
                 <div class="text-center col-md-4 col-6">
-                    <p class="third-size">③エンジェンシーに問い合わせ</p>
+                    <p class="third-size">③エージェントに問い合わせ</p>
                     <img src="public/images/logo_3.png" alt="" class="w-25">
                 </div>
                 <div class="text-center col-md-4 col-6">
